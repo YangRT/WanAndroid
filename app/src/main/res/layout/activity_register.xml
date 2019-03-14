@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    tools:context=".register.view.RegisterActivity">
+
+    <EditText
+        android:id="@+id/edit_register_username"
+        android:hint="@string/username"
+        android:textColor="#ffffff"
+        android:textColorHint="#ffffff"
+        android:inputType="text"
+        android:background="@drawable/bound"
+        android:layout_marginTop="120dp"
+        android:layout_gravity="center"
+        android:layout_width="250dp"
+        android:layout_height="60dp" />
+    <EditText
+        android:id="@+id/edit_register_password"
+        android:hint="@string/password"
+        android:textColor="#ffffff"
+        android:textColorHint="#ffffff"
+        android:inputType="textPassword"
+        android:background="@drawable/bound"
+        android:layout_marginTop="10dp"
+        android:layout_gravity="center"
+        android:layout_width="250dp"
+        android:layout_height="60dp" />
+    <EditText
+        android:id="@+id/edit_register_repassword"
+        android:hint="@string/repeat_password"
+        android:textColor="#ffffff"
+        android:textColorHint="#ffffff"
+        android:inputType="textPassword"
+        android:background="@drawable/bound"
+        android:layout_marginTop="10dp"
+        android:layout_gravity="center"
+        android:layout_width="250dp"
+        android:layout_height="60dp" />
+    <Button
+        android:id="@+id/button_register"
+        android:text="@string/sign_up"
+        android:layout_gravity="center"
+        android:layout_marginTop="18dp"
+        android:background="@drawable/bound2"
+        android:layout_width="120dp"
+        android:layout_height="30dp" />
+
+</LinearLayout>

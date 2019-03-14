@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".home.HomeActivity"
+    tools:showIn="@layout/app_bar_home">
+    <android.support.v4.view.ViewPager
+        android:id="@+id/home_view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </android.support.v4.view.ViewPager>
+    <LinearLayout
+        android:background="#ffffff"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:id="@+id/home_navigation_bar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+        <TextView
+            android:id="@+id/home_main_page"
+            android:background="@drawable/choiced_bound"
+            android:text="@string/main_page"
+            android:textColor="@color/colorPrimary"
+            android:textSize="17sp"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent" />
+        <TextView
+            android:id="@+id/home_knowlege"
+            android:background="@drawable/bar_bound"
+            android:text="@string/knowledge"
+            android:textColor="@color/colorPrimary"
+            android:textSize="15sp"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent" />
+        <TextView
+            android:id="@+id/home_navigation"
+            android:background="@drawable/bar_bound"
+            android:text="@string/navigtion"
+            android:textColor="@color/colorPrimary"
+            android:gravity="center"
+            android:textSize="17sp"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent" />
+        <TextView
+            android:id="@+id/home_projects"
+            android:background="@drawable/bar_bound"
+            android:text="@string/projects"
+            android:textColor="@color/colorPrimary"
+            android:textSize="17sp"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+</RelativeLayout>
