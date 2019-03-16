@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.example.administrator.wanandroid.MyApplication;
 
@@ -27,7 +28,7 @@ public class SaveCookiesInterceptor implements Interceptor {
         if (!response.headers("Set-Cookie").isEmpty()) {
             List<String> cookies = response.headers("Set-Cookie");
             String cookie = encodeCookie(cookies);
-//            Log.e("SaveCookie", cookie);
+            Log.e("SaveCookie", cookie);
             saveCookie(request.url().toString(), request.url().host(), cookie);
         }
         return response;

@@ -22,6 +22,7 @@ import com.example.administrator.wanandroid.home.homepage.GetBannerInfoTask;
 import com.example.administrator.wanandroid.home.homepage.HomePageContract;
 import com.example.administrator.wanandroid.home.homepage.adapter.ArticlesAdapter;
 import com.example.administrator.wanandroid.home.homepage.adapter.BannerAdapter;
+import com.example.administrator.wanandroid.home.homepage.adapter.RecyclerViewLines;
 import com.example.administrator.wanandroid.home.homepage.model.ArticleInfo;
 import com.example.administrator.wanandroid.home.homepage.model.BannerInfo;
 import com.example.administrator.wanandroid.home.homepage.presenter.HomePagePresenter;
@@ -43,6 +44,7 @@ public class HomePageFragment extends Fragment implements HomePageContract.View 
     private View mView;
     private Integer page;
     private Context mContext;
+    private RecyclerViewLines lines;
     private List<BannerFragment> bannerList = new ArrayList<>();
     private BannerAdapter bannerAdapter;
     @Nullable
@@ -68,8 +70,10 @@ public class HomePageFragment extends Fragment implements HomePageContract.View 
         viewPager = mView.findViewById(R.id.main_page_view_pager);
         recyclerView = mView.findViewById(R.id.article_recycler_view);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext);
+        lines = new RecyclerViewLines(mContext);
         mArticleAdapter = new ArticlesAdapter(mList);
         recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.addItemDecoration(lines);
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {

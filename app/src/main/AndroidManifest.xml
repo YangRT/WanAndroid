@@ -13,7 +13,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".base.BaseActivity" />
-        <activity android:name=".login.view.LoginActivity"/>
+        <activity android:name=".login.view.LoginActivity">
+        </activity>
         <activity android:name=".register.view.RegisterActivity" />
         <activity android:name=".collect.view.CollectActivity" />
         <activity

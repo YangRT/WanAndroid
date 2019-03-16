@@ -12,16 +12,21 @@ import com.example.administrator.wanandroid.R;
 import com.example.administrator.wanandroid.home.homepage.model.ArticleInfo;
 
 import java.util.List;
+import java.util.Random;
 
 public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.ViewHolder> {
     List<ArticleInfo> mList;
+    private static int b;
+    final static int[] images = {R.drawable.p1,R.drawable.p2,R.drawable.p3,R.drawable.p4,R.drawable.p5,R.drawable.p6,R.drawable.p7,R.drawable.p8,R.drawable.p9,R.drawable.p10,R.drawable.p11,R.drawable.p12,R.drawable.p13,R.drawable.p14,R.drawable.p15,R.drawable.p16,R.drawable.p17,R.drawable.p18,R.drawable.p19,R.drawable.p20};
     public ArticlesAdapter(List<ArticleInfo> list){
         mList = list;
+        Random random = new Random();
+        b = random.nextInt(20);
     }
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.article_item,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.main_page_recyclerview_item,parent,false);
         return new ViewHolder(view);
     }
 
@@ -29,15 +34,10 @@ public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.ViewHo
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         int p = position / 20;
         int n = position % 20;
-        holder.tvAuthor.setText(mList.get(p).getData().getDatas().get(n).getAuthor());
-        holder.tvClass.setText(String.format("%s/%s", mList.get(p).getData().getDatas().get(n).getSuperChapterName(), mList.get(p).getData().getDatas().get(n).getChapterName()));
         holder.tvTitle.setText(mList.get(p).getData().getDatas().get(n).getTitle());
         holder.tvTime.setText(mList.get(p).getData().getDatas().get(n).getNiceDate());
-        if(mList.get(p).getData().getDatas().get(n).isCollect()){
-            holder.imageCollect.setImageResource(R.drawable.article_collected);
-        }else {
-            holder.imageCollect.setImageResource(R.drawable.article_not_collect);
-        }
+        holder.image.setImageResource(images[b++]);
+        b %= 20;
     }
 
     @Override
@@ -46,19 +46,14 @@ public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.ViewHo
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder{
-        TextView tvAuthor;
-        TextView tvClass;
         TextView tvTitle;
         TextView tvTime;
-        ImageView imageCollect;
+        ImageView image;
         public ViewHolder(View itemView) {
             super(itemView);
-            tvAuthor = itemView.findViewById(R.id.article_item_author);
-            tvClass = itemView.findViewById(R.id.article_item_class);
-            tvTitle = itemView.findViewById(R.id.article_item_title);
-            tvTime = itemView.findViewById(R.id.article_item_time);
-            imageCollect = itemView.findViewById(R.id.article_item_collect_image);
-
+            tvTitle = itemView.findViewById(R.id.main_page_recyclerview_item_title);
+            tvTime = itemView.findViewById(R.id.main_page_recyclerview_item_time);
+            image = itemView.findViewById(R.id.main_page_recyclerview_item_image);
         }
     }
 }
