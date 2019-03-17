@@ -16,12 +16,10 @@ import java.util.Random;
 
 public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.ViewHolder> {
     List<ArticleInfo> mList;
-    private static int b;
     final static int[] images = {R.drawable.p1,R.drawable.p2,R.drawable.p3,R.drawable.p4,R.drawable.p5,R.drawable.p6,R.drawable.p7,R.drawable.p8,R.drawable.p9,R.drawable.p10,R.drawable.p11,R.drawable.p12,R.drawable.p13,R.drawable.p14,R.drawable.p15,R.drawable.p16,R.drawable.p17,R.drawable.p18,R.drawable.p19,R.drawable.p20};
     public ArticlesAdapter(List<ArticleInfo> list){
         mList = list;
-        Random random = new Random();
-        b = random.nextInt(20);
+
     }
     @NonNull
     @Override
@@ -36,8 +34,8 @@ public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.ViewHo
         int n = position % 20;
         holder.tvTitle.setText(mList.get(p).getData().getDatas().get(n).getTitle());
         holder.tvTime.setText(mList.get(p).getData().getDatas().get(n).getNiceDate());
-        holder.image.setImageResource(images[b++]);
-        b %= 20;
+        holder.image.setImageResource(images[n]);
+
     }
 
     @Override

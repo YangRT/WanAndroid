@@ -12,8 +12,8 @@
     <EditText
         android:id="@+id/edit_register_username"
         android:hint="@string/username"
-        android:textColor="#ffffff"
-        android:textColorHint="#ffffff"
+        android:textColor="#000000"
+        android:textColorHint="#000000"
         android:inputType="text"
         android:background="@drawable/bound"
         android:layout_marginTop="120dp"
@@ -23,8 +23,8 @@
     <EditText
         android:id="@+id/edit_register_password"
         android:hint="@string/password"
-        android:textColor="#ffffff"
-        android:textColorHint="#ffffff"
+        android:textColor="#000000"
+        android:textColorHint="#000000"
         android:inputType="textPassword"
         android:background="@drawable/bound"
         android:layout_marginTop="10dp"
@@ -34,8 +34,8 @@
     <EditText
         android:id="@+id/edit_register_repassword"
         android:hint="@string/repeat_password"
-        android:textColor="#ffffff"
-        android:textColorHint="#ffffff"
+        android:textColor="#000000"
+        android:textColorHint="#000000"
         android:inputType="textPassword"
         android:background="@drawable/bound"
         android:layout_marginTop="10dp"

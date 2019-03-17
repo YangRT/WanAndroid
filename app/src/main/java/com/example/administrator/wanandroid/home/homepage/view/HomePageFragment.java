@@ -6,8 +6,11 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -30,7 +33,7 @@ import com.example.administrator.wanandroid.home.homepage.presenter.HomePagePres
 import java.util.ArrayList;
 import java.util.List;
 
-public class HomePageFragment extends Fragment implements HomePageContract.View {
+public class HomePageFragment extends Fragment implements HomePageContract.View,SwipeRefreshLayout.OnRefreshListener {
     private final static String TAG = "HomePageFragment";
     private RecyclerView recyclerView;
     private ViewPager viewPager;
@@ -42,11 +45,13 @@ public class HomePageFragment extends Fragment implements HomePageContract.View 
     private GetArticleInfoTask articleInfoTask;
     private Dialog mDialog;
     private View mView;
+    private FloatingActionButton topButton;
     private Integer page;
     private Context mContext;
     private RecyclerViewLines lines;
     private List<BannerFragment> bannerList = new ArrayList<>();
     private BannerAdapter bannerAdapter;
+    private SwipeRefreshLayout refreshLayout;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -55,6 +60,12 @@ public class HomePageFragment extends Fragment implements HomePageContract.View 
         return mView;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        mPresenter.getBannerInfo();
+
+    }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -69,15 +80,32 @@ public class HomePageFragment extends Fragment implements HomePageContract.View 
         homePagePresenter = new HomePagePresenter(articleInfoTask,bannerInfoTask);
         viewPager = mView.findViewById(R.id.main_page_view_pager);
         recyclerView = mView.findViewById(R.id.article_recycler_view);
+        refreshLayout = mView.findViewById(R.id.main_page_refresh_layout);
+        topButton = mView.findViewById(R.id.main_page_float_button);
+        refreshLayout.setOnRefreshListener(this);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext);
         lines = new RecyclerViewLines(mContext);
         mArticleAdapter = new ArticlesAdapter(mList);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.addItemDecoration(lines);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        topButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                recyclerView.scrollToPosition(0);
+            }
+        });
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
+                if(dy>0){
+                    topButton.setVisibility(View.GONE);
+                }else {
+                    if(topButton.getVisibility() == View.GONE){
+                        topButton.setVisibility(View.VISIBLE);
+                    }
+                }
                 View view = getActivity().findViewById(R.id.home_navigation_bar);
                 if(!recyclerView.canScrollVertically(1)){
                     view.setVisibility(View.GONE);
@@ -144,6 +172,18 @@ public class HomePageFragment extends Fragment implements HomePageContract.View 
     public void hideLoading() {
         if (mDialog.isShowing()){
             mDialog.dismiss();
+        }
+        if (refreshLayout.isRefreshing()){
+            refreshLayout.setRefreshing(false);
+        }
+    }
+
+
+    @Override
+    public void onRefresh() {
+        if(refreshLayout.isRefreshing()){
+            page = 0;
+            mPresenter.getArticleInfo(page);
         }
     }
 }

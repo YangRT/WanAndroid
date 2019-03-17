@@ -34,6 +34,7 @@ public class HomeActivity extends AppCompatActivity
     TextView tvKnowledge;
     TextView tvNavigation;
     TextView tvProjects;
+    TextView tvUsername;
     Toolbar toolbar;
     DrawerLayout drawer;
     NavigationView navigationView;

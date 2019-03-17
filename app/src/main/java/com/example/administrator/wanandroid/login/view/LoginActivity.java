@@ -22,6 +22,7 @@ import com.example.administrator.wanandroid.login.model.LoginInfo;
 import com.example.administrator.wanandroid.login.model.LoginModel;
 import com.example.administrator.wanandroid.login.presenter.LoginPresenter;
 import com.example.administrator.wanandroid.register.view.RegisterActivity;
+import com.example.administrator.wanandroid.utils.ConfigUtil;
 
 public class LoginActivity extends AppCompatActivity implements LoginContract.View,View.OnClickListener {
     GetLoginInfoTask task;
@@ -62,7 +63,9 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
     public void setLoginInfo(LoginInfo info) {
         if(info.getErrorCode() == 0){
             Log.d("Login","Success");
+            ConfigUtil.cacheUsername(this,editUsername.getText().toString());
             Intent intent = new Intent(LoginActivity.this,HomeActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
             finish();
         }else{

@@ -5,17 +5,25 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <android.support.design.widget.AppBarLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_width="match_parent"
+        android:layout_height="160dp">
         <android.support.v4.view.ViewPager
             android:id="@+id/main_page_view_pager"
             android:layout_margin="5dp"
             android:layout_marginTop="20dp"
             android:layout_width="match_parent"
             android:layout_height="160dp"
-            app:layout_scrollFlags="scroll|enterAlways|snap"/>
+            app:layout_scrollFlags="scroll|enterAlways|snap">
+        </android.support.v4.view.ViewPager>
+        <android.support.design.widget.FloatingActionButton
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            app:elevation="6dp"
+            android:layout_marginTop="100dp"
+            android:layout_gravity="end"/>
     </android.support.design.widget.AppBarLayout>
     <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/main_page_refresh_layout"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
@@ -25,4 +33,12 @@
             android:layout_height="wrap_content">
         </android.support.v7.widget.RecyclerView>
     </android.support.v4.widget.SwipeRefreshLayout>
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/main_page_float_button"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        app:elevation="6dp"
+        android:src="@drawable/arrows"
+        android:layout_marginBottom="54dp"
+        android:layout_gravity="end|bottom"/>
 </android.support.design.widget.CoordinatorLayout>
