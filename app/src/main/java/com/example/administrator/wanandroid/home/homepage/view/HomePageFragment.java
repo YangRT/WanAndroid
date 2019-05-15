@@ -1,7 +1,5 @@
 package com.example.administrator.wanandroid.home.homepage.view;
 
-import android.app.Dialog;
-import android.app.FragmentManager;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -10,15 +8,14 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
-
 import com.example.administrator.wanandroid.R;
 import com.example.administrator.wanandroid.home.homepage.GetArticleInfoTask;
 import com.example.administrator.wanandroid.home.homepage.GetBannerInfoTask;
@@ -37,13 +34,13 @@ public class HomePageFragment extends Fragment implements HomePageContract.View,
     private final static String TAG = "HomePageFragment";
     private RecyclerView recyclerView;
     private ViewPager viewPager;
-    private List<ArticleInfo> mList = new ArrayList<>();
+    private List<ArticleInfo.DataBean.DatasBean> mList = new ArrayList<>();
     private ArticlesAdapter mArticleAdapter;
     private HomePageContract.Presenter mPresenter;
     private HomePagePresenter homePagePresenter;
     private GetBannerInfoTask bannerInfoTask;
     private GetArticleInfoTask articleInfoTask;
-    private Dialog mDialog;
+    private AlertDialog mDialog;
     private View mView;
     private FloatingActionButton topButton;
     private Integer page;
@@ -52,10 +49,11 @@ public class HomePageFragment extends Fragment implements HomePageContract.View,
     private List<BannerFragment> bannerList = new ArrayList<>();
     private BannerAdapter bannerAdapter;
     private SwipeRefreshLayout refreshLayout;
+    Boolean isRefresh = false;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mContext = container.getContext();
+        mContext = getActivity();
         mView = inflater.inflate(R.layout.fragment_main_page,container,false);
         return mView;
     }
@@ -85,9 +83,10 @@ public class HomePageFragment extends Fragment implements HomePageContract.View,
         refreshLayout.setOnRefreshListener(this);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext);
         lines = new RecyclerViewLines(mContext);
-        mArticleAdapter = new ArticlesAdapter(mList);
+        mArticleAdapter = new ArticlesAdapter(mList,mContext);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.addItemDecoration(lines);
+        recyclerView.setHasFixedSize(true);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         topButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -100,10 +99,10 @@ public class HomePageFragment extends Fragment implements HomePageContract.View,
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 if(dy>0){
-                    topButton.setVisibility(View.GONE);
+                    topButton.hide();
                 }else {
                     if(topButton.getVisibility() == View.GONE){
-                        topButton.setVisibility(View.VISIBLE);
+                        topButton.show();
                     }
                 }
                 View view = getActivity().findViewById(R.id.home_navigation_bar);
@@ -111,7 +110,8 @@ public class HomePageFragment extends Fragment implements HomePageContract.View,
                     view.setVisibility(View.GONE);
                     page++;
                     mPresenter.getArticleInfo(page);
-                }else {
+                }
+                else {
                     if (view.getVisibility() == View.GONE){
                         view.setVisibility(View.VISIBLE);
                     }
@@ -119,8 +119,9 @@ public class HomePageFragment extends Fragment implements HomePageContract.View,
             }
         });
         recyclerView.setAdapter(mArticleAdapter);
-        mDialog = new Dialog(mContext);
-        mDialog.setTitle("加载中...");
+        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+        builder.setMessage("正在加载...");
+        mDialog = builder.create();
         setPresenter(homePagePresenter);
         mPresenter.attachView(this);
         mPresenter.getArticleInfo(0);
@@ -129,8 +130,18 @@ public class HomePageFragment extends Fragment implements HomePageContract.View,
 
     @Override
     public void setArticleInfo(ArticleInfo info) {
-        mList.add(info);
-        mArticleAdapter.notifyDataSetChanged();
+        if(isRefresh){
+            mList.clear();
+        }
+        int l = mList.size();
+        for(int i = 0;i < info.getData().getDatas().size();i++)
+            mList.add(info.getData().getDatas().get(i));
+        if(isRefresh){
+            mArticleAdapter.notifyDataSetChanged();
+            isRefresh = false;
+        }else{
+            mArticleAdapter.notifyItemRangeInserted(l,20);
+        }
     }
 
     @Override
@@ -140,7 +151,8 @@ public class HomePageFragment extends Fragment implements HomePageContract.View,
             for(int i = 0;i < num;i++){
                 BannerFragment bannerFragment = new BannerFragment();
                 Bundle bundle = new Bundle();
-                bundle.putString("url",info.getData().get(i).getImagePath());
+                bundle.putString("imageUrl",info.getData().get(i).getImagePath());
+                bundle.putString("articleUrl",info.getData().get(i).getUrl());
                 bannerFragment.setArguments(bundle);
                 bannerList.add(bannerFragment);
             }
@@ -183,7 +195,9 @@ public class HomePageFragment extends Fragment implements HomePageContract.View,
     public void onRefresh() {
         if(refreshLayout.isRefreshing()){
             page = 0;
+            isRefresh = true;
             mPresenter.getArticleInfo(page);
+
         }
     }
 }
