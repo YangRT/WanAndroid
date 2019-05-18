@@ -22,7 +22,7 @@
         android:layout_height="50dp">
         <TextView
             android:id="@+id/home_main_page"
-            android:background="@drawable/choiced_bound"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
             android:text="@string/main_page"
             android:textColor="@color/colorPrimary"
             android:textSize="17sp"
@@ -32,7 +32,7 @@
             android:layout_height="match_parent" />
         <TextView
             android:id="@+id/home_knowlege"
-            android:background="@drawable/bar_bound"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
             android:text="@string/knowledge"
             android:textColor="@color/colorPrimary"
             android:textSize="15sp"
@@ -42,7 +42,7 @@
             android:layout_height="match_parent" />
         <TextView
             android:id="@+id/home_navigation"
-            android:background="@drawable/bar_bound"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
             android:text="@string/navigtion"
             android:textColor="@color/colorPrimary"
             android:gravity="center"
@@ -52,7 +52,7 @@
             android:layout_height="match_parent" />
         <TextView
             android:id="@+id/home_projects"
-            android:background="@drawable/bar_bound"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
             android:text="@string/projects"
             android:textColor="@color/colorPrimary"
             android:textSize="17sp"

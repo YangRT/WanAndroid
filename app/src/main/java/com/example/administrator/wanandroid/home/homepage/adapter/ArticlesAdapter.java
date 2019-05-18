@@ -35,8 +35,9 @@ public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.ViewHo
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         final int n = position % 20;
+        final int p = position;
         holder.tvTitle.setText(mList.get(position).getTitle());
         holder.tvTime.setText(mList.get(position).getNiceDate());
         holder.image.setImageResource(images[n]);
@@ -44,7 +45,8 @@ public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.ViewHo
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mContext,ArticleActivity.class);
-                intent.putExtra("url",mList.get(position).getLink());
+                intent.putExtra("url",mList.get(p).getLink());
+                intent.putExtra("title",mList.get(p).getTitle());
                 mContext.startActivity(intent);
             }
         });

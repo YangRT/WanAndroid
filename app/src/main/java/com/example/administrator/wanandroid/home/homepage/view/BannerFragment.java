@@ -23,6 +23,7 @@ public class BannerFragment extends Fragment {
     View view;
     String articleUrl;
     String imageUrl;
+    String title;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -30,6 +31,7 @@ public class BannerFragment extends Fragment {
         image = view.findViewById(R.id.banner_image);
         imageUrl = getArguments().getString("imageUrl");
         articleUrl = getArguments().getString("articleUrl");
+        title = getArguments().getString("title");
         Glide.with(view.getContext()).load(imageUrl).into(image);
         return view;
     }
@@ -42,6 +44,8 @@ public class BannerFragment extends Fragment {
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), ArticleActivity.class);
                 intent.putExtra("url",articleUrl);
+                intent.putExtra("title",title);
+                startActivity(intent);
             }
         });
     }

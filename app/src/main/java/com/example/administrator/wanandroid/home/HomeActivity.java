@@ -83,6 +83,7 @@ public class HomeActivity extends AppCompatActivity
         adapter = new ViewPagerAdapter(getSupportFragmentManager(),mList);
         mViewPager.setAdapter(adapter);
         mViewPager.setCurrentItem(0);
+        mViewPager.setOffscreenPageLimit(4);
         mViewPager.addOnPageChangeListener(new ViewPagerChangeListener());
     }
 
@@ -174,31 +175,15 @@ public class HomeActivity extends AppCompatActivity
         switch (position) {
             case 0:
                 toolbar.setTitle(R.string.main_page);
-                tvMainPage.setBackgroundResource(R.drawable.choiced_bound);
-                tvKnowledge.setBackgroundResource(R.drawable.bar_bound);
-                tvNavigation.setBackgroundResource(R.drawable.bar_bound);
-                tvProjects.setBackgroundResource(R.drawable.bar_bound);
                 break;
             case 1:
                 toolbar.setTitle(R.string.knowledge);
-                tvMainPage.setBackgroundResource(R.drawable.bar_bound);
-                tvKnowledge.setBackgroundResource(R.drawable.choiced_bound);
-                tvNavigation.setBackgroundResource(R.drawable.bar_bound);
-                tvProjects.setBackgroundResource(R.drawable.bar_bound);
                 break;
             case 2:
                 toolbar.setTitle(R.string.navigtion);
-                tvMainPage.setBackgroundResource(R.drawable.bar_bound);
-                tvKnowledge.setBackgroundResource(R.drawable.bar_bound);
-                tvNavigation.setBackgroundResource(R.drawable.choiced_bound);
-                tvProjects.setBackgroundResource(R.drawable.bar_bound);
                 break;
             case 3:
                 toolbar.setTitle(R.string.projects);
-                tvMainPage.setBackgroundResource(R.drawable.bar_bound);
-                tvKnowledge.setBackgroundResource(R.drawable.bar_bound);
-                tvNavigation.setBackgroundResource(R.drawable.bar_bound);
-                tvProjects.setBackgroundResource(R.drawable.choiced_bound);
                 break;
         }
     }

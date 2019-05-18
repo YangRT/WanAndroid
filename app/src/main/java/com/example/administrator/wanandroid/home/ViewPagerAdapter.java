@@ -9,7 +9,7 @@ import android.view.View;
 
 import java.util.List;
 
-public class ViewPagerAdapter extends FragmentPagerAdapter {
+public class ViewPagerAdapter extends FragmentStatePagerAdapter {
     List<Fragment> mList;
     public ViewPagerAdapter(FragmentManager fm,List<Fragment> list) {
         super(fm);
