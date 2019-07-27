@@ -277,6 +277,7 @@ public class HomePageFragment extends Fragment implements HomePageContract.View,
 
     @Override
     public void onDestroy() {
+        mPresenter.detachView();
         super.onDestroy();
         Log.e("FragmentHome","onDestroy()");
     }
