@@ -24,7 +24,7 @@ public class HomePagePresenter implements HomePageContract.Presenter {
     }
     @Override
     public void getArticleInfo(Integer integer) {
-        articleInfoTask.execute(integer, new TaskCallback<ArticleInfo>() {
+        Disposable d =articleInfoTask.execute(integer, new TaskCallback<ArticleInfo>() {
 
             @Override
             public void onSuccess(ArticleInfo articleInfo) {
@@ -47,11 +47,12 @@ public class HomePagePresenter implements HomePageContract.Presenter {
                 mView.hideLoading();
             }
         });
+        subscribe(d);
     }
 
     @Override
     public void getBannerInfo() {
-        bannerInfoTask.execute(null, new TaskCallback<BannerInfo>() {
+        Disposable d = bannerInfoTask.execute(null, new TaskCallback<BannerInfo>() {
 
             @Override
             public void onSuccess(BannerInfo bannerInfo) {
@@ -74,6 +75,7 @@ public class HomePagePresenter implements HomePageContract.Presenter {
                 mView.hideLoading();
             }
         });
+        subscribe(d);
     }
 
     @Override
@@ -98,7 +100,7 @@ public class HomePagePresenter implements HomePageContract.Presenter {
     @Override
     public void unSubscribe() {
         if(compositeDisposable != null){
-            compositeDisposable.clear();
+            compositeDisposable.dispose();
         }
     }
 
