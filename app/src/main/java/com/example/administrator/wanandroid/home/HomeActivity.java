@@ -1,190 +1,256 @@
 package com.example.administrator.wanandroid.home;
 
-import android.os.Bundle;
+import android.content.Intent;
+import android.databinding.DataBindingUtil;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
-import android.view.View;
-import android.support.design.widget.NavigationView;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
+
 
 import com.example.administrator.wanandroid.R;
-import com.example.administrator.wanandroid.home.homepage.view.HomePageFragment;
-import com.example.administrator.wanandroid.home.knowledge.view.KnowledgeFragment;
-import com.example.administrator.wanandroid.home.navigation.view.NavigationFragment;
-import com.example.administrator.wanandroid.home.projects.view.ProjectsFragment;
+import com.example.administrator.wanandroid.login.LoginActivity;
+import com.example.administrator.wanandroid.login.LoginInfo;
+import com.example.administrator.wanandroid.mainpage.MainPageFragment;
+import com.example.administrator.wanandroid.databinding.ActivityHomeBinding;
+import com.example.administrator.wanandroid.mine.MineFragment;
+import com.example.administrator.wanandroid.net.NetUtil;
+import com.example.administrator.wanandroid.net.UrlUtil;
+import com.example.administrator.wanandroid.register.RegisterActivity;
+import com.example.administrator.wanandroid.square.SquareFragment;
+import com.example.administrator.wanandroid.project.ProjectFragment;
+import com.example.administrator.wanandroid.utils.BaseDataPreferenceUtil;
 
-import java.util.ArrayList;
-import java.util.List;
+import io.reactivex.Observer;
+import io.reactivex.Scheduler;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
+
+public class HomeActivity extends AppCompatActivity {
+
+    ActivityHomeBinding binding;
+    MineFragment mineFragment = new MineFragment();
+    ProjectFragment projectFragment = new ProjectFragment();
+    SquareFragment squareFragment = new SquareFragment();
+    MainPageFragment mainPageFragment = new MainPageFragment();
+    Fragment from;
+    private int choseFragmentId = R.id.main;
+    private Disposable disposable;
 
 
-public class HomeActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener,View.OnClickListener {
-
-    ViewPager mViewPager;
-    List<Fragment> mList = new ArrayList<>();
-    TextView tvMainPage;
-    TextView tvKnowledge;
-    TextView tvNavigation;
-    TextView tvProjects;
-    TextView tvUsername;
-    Toolbar toolbar;
-    DrawerLayout drawer;
-    NavigationView navigationView;
-    ActionBarDrawerToggle toggle;
-    ViewPagerAdapter adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
-        init();
-        setSupportActionBar(toolbar);
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
+        binding = DataBindingUtil.setContentView(this,R.layout.activity_home);
+        setSupportActionBar(binding.toolbar);
+        getSupportActionBar().setTitle("首页");
+        setTitleCenter("首页");
+        binding.toolbar.setTitleTextAppearance(this,R.style.Toolbar_TitleText_low);
+        binding.toolbar.setBackgroundColor(Color.parseColor("#FCA019"));
+        getWindow().setStatusBarColor(Color.parseColor("#FCA019"));
 
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
-        navigationView.setNavigationItemSelectedListener(this);
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.add(R.id.fragment, mainPageFragment).commit();
+        from = mainPageFragment;
+
+        binding.bottomView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                Fragment fragment = null;
+                choseFragmentId = item.getItemId();
+                switch (item.getItemId()){
+                    case R.id.main:
+                        fragment = mainPageFragment;
+                        break;
+                    case R.id.square:
+                        fragment = squareFragment;
+                        break;
+                    case R.id.project:
+                        fragment = projectFragment;
+                        break;
+                    case R.id.mine:
+                        fragment = mineFragment;
+                        break;
+                }
+                if(fragment == from){
+                    Log.e("HomeActivity","same fragment");
+                    return true;
+                }
+                switchFragment(from,fragment);
+                if(getSupportActionBar() != null){
+                    setTitleCenter(item.getTitle().toString());
+                }
+                from = fragment;
+                invalidateOptionsMenu();
+                return true;
+            }
+        });
     }
 
-    private void init(){
-        toolbar = findViewById(R.id.toolbar);
-        toolbar.setTitle(R.string.main_page);
-        mViewPager = findViewById(R.id.home_view_pager);
-        drawer = findViewById(R.id.drawer_layout);
-        navigationView = findViewById(R.id.nav_view);
-        toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        tvMainPage = findViewById(R.id.home_main_page);
-        tvKnowledge = findViewById(R.id.home_knowlege);
-        tvNavigation = findViewById(R.id.home_navigation);
-        tvProjects = findViewById(R.id.home_projects);
-        tvMainPage.setOnClickListener(this);
-        tvKnowledge.setOnClickListener(this);
-        tvNavigation.setOnClickListener(this);
-        tvProjects.setOnClickListener(this);
-        mList.add(new HomePageFragment());
-        mList.add(new KnowledgeFragment());
-        mList.add(new NavigationFragment());
-        mList.add(new ProjectsFragment());
-        adapter = new ViewPagerAdapter(getSupportFragmentManager(),mList);
-        mViewPager.setAdapter(adapter);
-        mViewPager.setCurrentItem(0);
-        mViewPager.setOffscreenPageLimit(4);
-        mViewPager.addOnPageChangeListener(new ViewPagerChangeListener());
+    private void switchFragment(Fragment from,Fragment to){
+        if(from != to){
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            FragmentTransaction transaction = fragmentManager.beginTransaction();
+            if(!to.isAdded()){
+                if(from != null){
+                    transaction.hide(from);
+                }
+                if(to != null){
+                    transaction.add(R.id.fragment,to).commit();
+                }
+            }else {
+                if(from != null){
+                    transaction.hide(from);
+                }
+                if(to != null){
+                    transaction.show(to).commit();
+                }
+
+            }
+
+        }
     }
 
-    @Override
-    public void onBackPressed() {
-        drawer.openDrawer(GravityCompat.START);
+    public void setTitleCenter(String text) {
+        binding.toolbar.setTitle("title");
+        for (int i = 0; i < binding.toolbar.getChildCount(); i++) {
+            View view = binding.toolbar.getChildAt(i);
+            if (view instanceof TextView) {
+                TextView textView = (TextView) view;
+                if ("title".equals(textView.getText())) {
+                    textView.setGravity(Gravity.CENTER);
+                    Toolbar.LayoutParams params = new Toolbar.LayoutParams(Toolbar.LayoutParams.WRAP_CONTENT, Toolbar.LayoutParams.MATCH_PARENT);
+                    params.gravity = Gravity.CENTER;
+                    textView.setLayoutParams(params);
+                }
+            }
+            binding.toolbar.setTitle(text);
+        }
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.home, menu);
+        getMenuInflater().inflate(R.menu.home_menu,menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch(item.getItemId()){
+            case R.id.action_search:
+                Log.e("HomeActivity","Search");
+                break;
+            case R.id.action_add:
+                Log.e("HomeActivity","Add");
+                break;
+            case R.id.action_project:
+                Log.e("HomeActivity","Project");
+                break;
+            case R.id.action_mine:
+                Intent intent = new Intent(HomeActivity.this,LoginActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.action_exit:
+                exit();
+                break;
         }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    @SuppressWarnings("StatementWithEmptyBody")
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
-
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
-        }
-        drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 
     @Override
-    public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.home_main_page:
-                changeBackground(0);
-                mViewPager.setCurrentItem(0);
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        switch (choseFragmentId){
+            case R.id.main:
+               menu.findItem(R.id.action_search).setVisible(true);
+               menu.findItem(R.id.action_add).setVisible(false);
+               menu.findItem(R.id.action_project).setVisible(false);
+               menu.findItem(R.id.action_mine).setVisible(false);
+               menu.findItem(R.id.action_exit).setVisible(false);
                 break;
-            case R.id.home_knowlege:
-                changeBackground(1);
-                mViewPager.setCurrentItem(1);
+            case R.id.square:
+                menu.findItem(R.id.action_search).setVisible(false);
+                menu.findItem(R.id.action_add).setVisible(true);
+                menu.findItem(R.id.action_project).setVisible(false);
+                menu.findItem(R.id.action_mine).setVisible(false);
+                menu.findItem(R.id.action_exit).setVisible(false);
                 break;
-            case R.id.home_navigation:
-                changeBackground(2);
-                mViewPager.setCurrentItem(2);
+            case R.id.project:
+                menu.findItem(R.id.action_search).setVisible(false);
+                menu.findItem(R.id.action_add).setVisible(false);
+                menu.findItem(R.id.action_project).setVisible(true);
+                menu.findItem(R.id.action_mine).setVisible(false);
+                menu.findItem(R.id.action_exit).setVisible(false);
                 break;
-            case R.id.home_projects:
-                changeBackground(3);
-                mViewPager.setCurrentItem(3);
+            case R.id.mine:
+                menu.findItem(R.id.action_search).setVisible(false);
+                menu.findItem(R.id.action_add).setVisible(false);
+                menu.findItem(R.id.action_project).setVisible(false);
+                if(BaseDataPreferenceUtil.getInstance().getLoginStatus() != null){
+                    menu.findItem(R.id.action_exit).setVisible(true);
+                    menu.findItem(R.id.action_mine).setVisible(false);
+                }else {
+                    menu.findItem(R.id.action_exit).setVisible(false);
+                    menu.findItem(R.id.action_mine).setVisible(true);
+                }
                 break;
-
         }
+        return super.onPrepareOptionsMenu(menu);
     }
 
-    class ViewPagerChangeListener implements ViewPager.OnPageChangeListener {
-        @Override
-        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) { }
+    private void exit(){
+        NetUtil.getInstance().getLoginRetrofitInstance(UrlUtil.baseUrl)
+                .create(ExitService.class)
+                .getExitInfo()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<LoginInfo>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        disposable = d;
+                    }
 
-        @Override
-        public void onPageSelected(int position) { changeBackground(position); }
+                    @Override
+                    public void onNext(LoginInfo loginInfo) {
+                        if(loginInfo.getErrorCode() == 0){
+                            Toast.makeText(HomeActivity.this,"退出成功！",Toast.LENGTH_SHORT).show();
+                            BaseDataPreferenceUtil.getInstance().saveLoginStatus(null);
+                            invalidateOptionsMenu();
+                            mineFragment.refresh();
+                        }
+                    }
 
-        @Override
-        public void onPageScrollStateChanged(int state) {}
+                    @Override
+                    public void onError(Throwable e) {
+                        Toast.makeText(HomeActivity.this,"请求失败！",Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
     }
 
-    private void changeBackground(int position) {
-        switch (position) {
-            case 0:
-                toolbar.setTitle(R.string.main_page);
-                break;
-            case 1:
-                toolbar.setTitle(R.string.knowledge);
-                break;
-            case 2:
-                toolbar.setTitle(R.string.navigtion);
-                break;
-            case 3:
-                toolbar.setTitle(R.string.projects);
-                break;
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(disposable != null){
+            disposable.dispose();
         }
     }
 }
