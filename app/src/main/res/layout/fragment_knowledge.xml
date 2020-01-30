@@ -1,8 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
-    <android.support.constraint.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    <android.support.constraint.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:paddingTop="10dp"
+        android:layout_width="match_parent"
         android:layout_height="match_parent">
-
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/knowledge_recyclerview"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintWidth_percent=".90"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"/>
     </android.support.constraint.ConstraintLayout>
 </layout>

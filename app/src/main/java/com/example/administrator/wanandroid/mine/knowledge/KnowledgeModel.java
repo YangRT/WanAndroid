@@ -8,6 +8,7 @@ import com.example.administrator.wanandroid.base.MvvmBaseModel;
 import com.example.administrator.wanandroid.base.PagingResult;
 import com.example.administrator.wanandroid.net.NetUtil;
 import com.example.administrator.wanandroid.net.UrlUtil;
+import com.example.administrator.wanandroid.utils.BaseDataPreferenceUtil;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
@@ -76,5 +77,12 @@ public class KnowledgeModel extends MvvmBaseModel<List<KnowledgeInfo.Data>> {
     protected Type getTClass() {
         return new TypeToken<List<KnowledgeInfo.Data>>() {
         }.getType();
+    }
+
+    @Override
+    protected boolean isNeedToUpdate() {
+        long time = System.currentTimeMillis() - BaseDataPreferenceUtil.getInstance().getLong(mCachedPreferenceKey);
+        if(time/(24*3600*1000) > 7) return true;;
+        return false;
     }
 }
