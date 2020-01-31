@@ -1,29 +1,22 @@
 package com.example.administrator.wanandroid.mine;
 
-import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.databinding.ObservableArrayList;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.example.administrator.wanandroid.R;
-import com.example.administrator.wanandroid.base.BaseCustomViewModel;
+import com.example.administrator.wanandroid.base.BaseListActivity;
 import com.example.administrator.wanandroid.base.MvvmFragment;
 import com.example.administrator.wanandroid.databinding.FragmentMineBinding;
-import com.example.administrator.wanandroid.mainpage.ArticleActivity;
-import com.example.administrator.wanandroid.mainpage.MainPageViewModel;
 import com.example.administrator.wanandroid.utils.BaseDataPreferenceUtil;
 
 import java.util.ArrayList;
@@ -85,6 +78,7 @@ public class MineFragment extends MvvmFragment<FragmentMineBinding,MineViewModel
         viewDataBinding.mineRecyclerview.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
         mineAdapter = new MineAdapter(R.layout.mine_item,itemInfos);
         viewDataBinding.mineRecyclerview.setAdapter(mineAdapter);
+        viewDataBinding.mineRecyclerview.setNestedScrollingEnabled(false);
         mineAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
@@ -94,7 +88,7 @@ public class MineFragment extends MvvmFragment<FragmentMineBinding,MineViewModel
                         return;
                     }
                 }
-                Intent intent = new Intent(getActivity(),ListActivity.class);
+                Intent intent = new Intent(getActivity(), BaseListActivity.class);
                 intent.putExtra("type",((MineItemInfo)adapter.getData().get(position)).getTitle());
                 if(position == 2){
                     intent.putExtra("count",viewDataBinding.minePoint.getText().toString());

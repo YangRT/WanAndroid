@@ -1,4 +1,4 @@
-package com.example.administrator.wanandroid.mine;
+package com.example.administrator.wanandroid.mine.article;
 
 import com.example.administrator.wanandroid.base.BaseArticleInfo;
 

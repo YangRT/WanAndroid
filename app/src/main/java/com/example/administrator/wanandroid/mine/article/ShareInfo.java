@@ -1,6 +1,7 @@
-package com.example.administrator.wanandroid.mine;
+package com.example.administrator.wanandroid.mine.article;
 
 import com.example.administrator.wanandroid.base.BaseArticleInfo;
+import com.example.administrator.wanandroid.mine.MineInfo;
 
 public class ShareInfo {
 

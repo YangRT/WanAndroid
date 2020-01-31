@@ -26,7 +26,7 @@ public class KnowledgeAdapter extends BaseQuickAdapter<KnowledgeInfo.Data, BaseV
         helper.setText(R.id.knowledge_item_title,item.getName());
         RecyclerView recyclerView = helper.getView(R.id.knowledge_item_recycler);
         List<KnowledgeInfo.Children> datas = item.getChildren();
-        FlexBoxLayoutManagerAdapter adapter = new FlexBoxLayoutManagerAdapter(mContext,datas);
+        KnowledgeItemAdapter adapter = new KnowledgeItemAdapter(mContext,datas);
         recyclerView.setLayoutManager(new FlexboxLayoutManager(mContext));
         recyclerView.setAdapter(adapter);
     }

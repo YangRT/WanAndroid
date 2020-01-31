@@ -1,4 +1,4 @@
-package com.example.administrator.wanandroid.mine.knowledge;
+package com.example.administrator.wanandroid.mine;
 
 import android.graphics.Rect;
 import android.support.annotation.NonNull;

@@ -27,6 +27,14 @@ public class MainPageViewModel extends MvvmBaseViewModel<ArticleModel, BaseCusto
         model.getCachedDataAndLoad();
     }
 
+    @Override
+    public void tryToRefresh() {
+        super.tryToRefresh();
+        if(bannerModel != null){
+            bannerModel.refresh();
+        }
+    }
+
     public void tryToLoadNextPage(){
         model.loadNextPage();
     }

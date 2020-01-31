@@ -1,4 +1,4 @@
-package com.example.administrator.wanandroid.mine;
+package com.example.administrator.wanandroid.mine.article;
 
 import android.util.Log;
 
@@ -8,17 +8,20 @@ import com.example.administrator.wanandroid.base.MvvmBaseModel;
 import com.example.administrator.wanandroid.base.PagingResult;
 import com.example.administrator.wanandroid.net.NetUtil;
 import com.example.administrator.wanandroid.net.UrlUtil;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Observer;
-import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
 public class MyArticleModel extends MvvmBaseModel<List<BaseCustomViewModel>> {
+
+    private boolean isFirst = true;
 
     public MyArticleModel(String key) {
         super(true, key,null);
@@ -39,13 +42,17 @@ public class MyArticleModel extends MvvmBaseModel<List<BaseCustomViewModel>> {
     }
 
     public void loadNextPage(){
+        if(isFirst){
+            return;
+        }
         isRefreshing = false;
         Log.e("LoadNextPage","load:"+pageNum);
         load();
     }
 
     @Override
-    protected void load() {
+    protected synchronized void load() {
+        Log.e("MyArticleModel","load-"+pageNum);
         MyArticleService service = NetUtil.getInstance().getRetrofitInstance(UrlUtil.baseUrl)
                 .create(MyArticleService.class);
         if(mCachedPreferenceKey.equals("collect")){
@@ -72,15 +79,11 @@ public class MyArticleModel extends MvvmBaseModel<List<BaseCustomViewModel>> {
                                     }else {
                                         model = new BaseCustomViewModel(BaseCustomViewModel.NORMAL);
                                     }
-                                    if(dataBean.getAuthor().equals("")){
-                                        model.setAuthor(dataBean.getShareUser());
-                                    }else {
-                                        model.setAuthor(dataBean.getAuthor());
-                                    }
+                                    model.setAuthor(dataBean.getAuthor());
                                     model.setCollect(true);
                                     model.setTime(dataBean.getNiceDate());
                                     model.setTitle(dataBean.getTitle());
-                                    model.setClassic(dataBean.getSuperChapterName()+"/"+dataBean.getChapterName());
+                                    model.setClassic(dataBean.getChapterName());
                                     list.add(model);
                                 }
                                 boolean isEmpty = list.size() == 0;
@@ -100,7 +103,7 @@ public class MyArticleModel extends MvvmBaseModel<List<BaseCustomViewModel>> {
 
                         @Override
                         public void onComplete() {
-
+                            isFirst =false;
                         }
                     });
         }else {
@@ -133,6 +136,8 @@ public class MyArticleModel extends MvvmBaseModel<List<BaseCustomViewModel>> {
                                     model.setClassic(datasBean.getSuperChapterName()+"/"+datasBean.getChapterName());
                                     list.add(model);
                                 }
+                                Log.e("MyArticleModel",list.size()+"");
+                                Log.e("MyArticleModel","success-"+pageNum);
                                 boolean isEmpty = list.size() == 0;
                                 boolean isFirst = pageNum == 2;
                                 boolean hasNextPage = shareInfo.getData().getShareArticles().getCurPage() != shareInfo.getData().getShareArticles().getPageCount();
@@ -146,13 +151,22 @@ public class MyArticleModel extends MvvmBaseModel<List<BaseCustomViewModel>> {
                                 boolean isFirst = pageNum == 1;
                                 loadFail(e.getMessage(),new PagingResult(true,isFirst,true));
                             }
+                            isFirst = false;
+                            e.printStackTrace();
                         }
 
                         @Override
                         public void onComplete() {
-
+                            Log.e("MyArticle","finish");
+                            isFirst = false;
                         }
                     });
         }
+    }
+
+    @Override
+    protected Type getTClass() {
+        return new TypeToken<List<BaseCustomViewModel>>() {
+        }.getType();
     }
 }

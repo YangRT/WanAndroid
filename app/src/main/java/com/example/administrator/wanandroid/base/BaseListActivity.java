@@ -1,4 +1,4 @@
-package com.example.administrator.wanandroid.mine;
+package com.example.administrator.wanandroid.base;
 
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
@@ -16,11 +16,15 @@ import android.widget.TextView;
 
 import com.example.administrator.wanandroid.R;
 import com.example.administrator.wanandroid.databinding.ActivityListBinding;
+import com.example.administrator.wanandroid.mine.article.MyArticleFragment;
+import com.example.administrator.wanandroid.mine.gzh.GzhFragment;
 import com.example.administrator.wanandroid.mine.knowledge.KnowledgeFragment;
+import com.example.administrator.wanandroid.mine.navigation.NavigationFragment;
 import com.example.administrator.wanandroid.mine.point.PointFragment;
 import com.example.administrator.wanandroid.mine.rank.RankFragment;
+import com.example.administrator.wanandroid.tab.TabFragment;
 
-public class ListActivity extends AppCompatActivity {
+public class BaseListActivity extends AppCompatActivity {
 
     private ActivityListBinding binding;
     private String title;
@@ -54,6 +58,12 @@ public class ListActivity extends AppCompatActivity {
             bundle.putString("count",intent.getStringExtra("count"));
         }else if(title.equals("知识体系")){
             fragment = new KnowledgeFragment();
+        }else if(title.equals("导航")){
+            fragment = new NavigationFragment();
+        }else if(title.equals("公众号文章")){
+            fragment = new TabFragment();
+            bundle.putString("type","gzh");
+            setTitleCenter("公众号");
         }
         fragment.setArguments(bundle);
         FragmentManager fragmentManager = getSupportFragmentManager();

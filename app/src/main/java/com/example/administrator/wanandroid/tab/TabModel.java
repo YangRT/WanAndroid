@@ -1,17 +1,17 @@
-package com.example.administrator.wanandroid.mine.knowledge;
+package com.example.administrator.wanandroid.tab;
 
-import android.util.Log;
-
-import com.example.administrator.wanandroid.base.BaseArticleInfo;
 import com.example.administrator.wanandroid.base.BaseCustomViewModel;
 import com.example.administrator.wanandroid.base.MvvmBaseModel;
 import com.example.administrator.wanandroid.base.PagingResult;
+import com.example.administrator.wanandroid.mine.article.MyArticleService;
+import com.example.administrator.wanandroid.mine.gzh.GzhListInfo;
 import com.example.administrator.wanandroid.net.NetUtil;
 import com.example.administrator.wanandroid.net.UrlUtil;
 import com.example.administrator.wanandroid.utils.BaseDataPreferenceUtil;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Observer;
@@ -20,10 +20,11 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
-public class KnowledgeModel extends MvvmBaseModel<List<KnowledgeInfo.Data>> {
+public class TabModel extends MvvmBaseModel<List<TabTitleInfo>> {
 
-    public KnowledgeModel() {
-        super(false,"knowledge",null);
+
+    public TabModel(String type) {
+        super(false,type,null);
     }
 
     @Override
@@ -33,33 +34,44 @@ public class KnowledgeModel extends MvvmBaseModel<List<KnowledgeInfo.Data>> {
 
     @Override
     protected void load() {
-        NetUtil.getInstance().getRetrofitInstance(UrlUtil.baseUrl)
-                .create(KnowledgeService.class)
-                .getKnowledgeInfo()
+        TabService tabService = NetUtil.getInstance().getRetrofitInstance(UrlUtil.baseUrl)
+                .create(TabService.class);
+        if(mCachedPreferenceKey.equals("gzh")){
+            loadGzhTitles(tabService);
+        }
+
+    }
+
+    private void loadGzhTitles(TabService tabService){
+        tabService.getGzhListInfo()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<KnowledgeInfo>() {
+                .subscribe(new Observer<GzhListInfo>() {
                     @Override
                     public void onSubscribe(Disposable d) {
                         compositeDisposable.add(d);
                     }
 
                     @Override
-                    public void onNext(KnowledgeInfo knowledgeInfo) {
-                        if(knowledgeInfo.getErrorCode() == 0){
-                            List<KnowledgeInfo.Data> list = knowledgeInfo.getData();
-                            boolean isEmpty = list.size() == 0;
-                            boolean isFirst = pageNum == 1;
+                    public void onNext(GzhListInfo gzhListInfo) {
+                        if(gzhListInfo.getErrorCode() == 0){
+                            List<TabTitleInfo> list = new ArrayList<>();
+                            for(GzhListInfo.Data data:gzhListInfo.getData()){
+                                TabTitleInfo tabTitleInfo = new TabTitleInfo();
+                                tabTitleInfo.setTitle(data.getName());
+                                tabTitleInfo.setId(data.getId());
+                                list.add(tabTitleInfo);
+                            }
                             loadSuccess(list,null);
-                        }else {
-                            loadFail(knowledgeInfo.getErrorMsg(),new PagingResult(true,true,false));
                         }
                     }
 
                     @Override
                     public void onError(Throwable e) {
+                        e.printStackTrace();
                         if (e.getMessage() !=null && !e.getMessage().isEmpty()){
-                            loadFail(e.getMessage(),new PagingResult(true,true,false));
+                            boolean isFirst = pageNum == 0;
+                            loadFail(e.getMessage(),new PagingResult(true,isFirst,true));
                         }
                     }
 
@@ -71,15 +83,15 @@ public class KnowledgeModel extends MvvmBaseModel<List<KnowledgeInfo.Data>> {
     }
 
     @Override
-    protected Type getTClass() {
-        return new TypeToken<List<KnowledgeInfo.Data>>() {
-        }.getType();
-    }
-
-    @Override
     protected boolean isNeedToUpdate() {
         long time = System.currentTimeMillis() - BaseDataPreferenceUtil.getInstance().getLong(mCachedPreferenceKey);
         if(time/(24*3600*1000) > 7) return true;;
         return false;
+    }
+
+    @Override
+    protected Type getTClass() {
+        return new TypeToken<List<TabTitleInfo>>() {
+        }.getType();
     }
 }

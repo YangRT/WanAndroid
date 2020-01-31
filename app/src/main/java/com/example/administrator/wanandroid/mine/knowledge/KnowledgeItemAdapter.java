@@ -12,13 +12,13 @@ import com.example.administrator.wanandroid.R;
 
 import java.util.List;
 
-public class FlexBoxLayoutManagerAdapter extends RecyclerView.Adapter<FlexBoxLayoutManagerAdapter.ViewHolder> {
+public class KnowledgeItemAdapter extends RecyclerView.Adapter<KnowledgeItemAdapter.ViewHolder> {
 
     private List<KnowledgeInfo.Children> mDatas;
     private Context mContext;
     private LayoutInflater mInflater;
 
-    public FlexBoxLayoutManagerAdapter(Context context, List<KnowledgeInfo.Children> datas){
+    public KnowledgeItemAdapter(Context context, List<KnowledgeInfo.Children> datas){
         mContext = context;
         mDatas = datas;
         mInflater = LayoutInflater.from(context);
