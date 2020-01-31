@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<layout>
 <LinearLayout
     android:background="#FFFFFF"
     android:orientation="vertical"
@@ -82,3 +83,4 @@
         android:layout_width="320dp"
         android:layout_height="40dp"/>
 </LinearLayout>
+</layout>

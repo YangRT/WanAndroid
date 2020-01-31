@@ -2,8 +2,6 @@ package com.example.administrator.wanandroid.login;
 
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
-import android.os.Handler;
-import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,6 +10,7 @@ import android.widget.Toast;
 
 
 import com.example.administrator.wanandroid.R;
+import com.example.administrator.wanandroid.base.BaseResponseInfo;
 import com.example.administrator.wanandroid.databinding.ActivityLoginBinding;
 import com.example.administrator.wanandroid.home.HomeActivity;
 import com.example.administrator.wanandroid.net.NetUtil;
@@ -20,7 +19,6 @@ import com.example.administrator.wanandroid.register.RegisterActivity;
 import com.example.administrator.wanandroid.utils.BaseDataPreferenceUtil;
 
 import io.reactivex.Observer;
-import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
@@ -63,21 +61,21 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 .getLoginInfo(username,password)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<LoginInfo>() {
+                .subscribe(new Observer<BaseResponseInfo>() {
                     @Override
                     public void onSubscribe(Disposable d) {
                         disposable = d;
                     }
 
                     @Override
-                    public void onNext(LoginInfo loginInfo) {
-                        if(loginInfo.getErrorCode() == 0){
+                    public void onNext(BaseResponseInfo baseResponseInfo) {
+                        if(baseResponseInfo.getErrorCode() == 0){
                                Toast.makeText(LoginActivity.this,"登录成功！",Toast.LENGTH_LONG).show();
                                 BaseDataPreferenceUtil.getInstance().saveLoginStatus(username);
                                 loginSuccess();
 
                         }else {
-                            Toast.makeText(LoginActivity.this,loginInfo.getErrorMsg(),Toast.LENGTH_LONG).show();
+                            Toast.makeText(LoginActivity.this, baseResponseInfo.getErrorMsg(),Toast.LENGTH_LONG).show();
                         }
                     }
 

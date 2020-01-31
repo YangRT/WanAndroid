@@ -22,19 +22,17 @@ import android.widget.Toast;
 
 import com.example.administrator.wanandroid.R;
 import com.example.administrator.wanandroid.login.LoginActivity;
-import com.example.administrator.wanandroid.login.LoginInfo;
+import com.example.administrator.wanandroid.base.BaseResponseInfo;
 import com.example.administrator.wanandroid.mainpage.MainPageFragment;
 import com.example.administrator.wanandroid.databinding.ActivityHomeBinding;
 import com.example.administrator.wanandroid.mine.MineFragment;
 import com.example.administrator.wanandroid.net.NetUtil;
 import com.example.administrator.wanandroid.net.UrlUtil;
-import com.example.administrator.wanandroid.register.RegisterActivity;
 import com.example.administrator.wanandroid.square.SquareFragment;
 import com.example.administrator.wanandroid.project.ProjectFragment;
 import com.example.administrator.wanandroid.utils.BaseDataPreferenceUtil;
 
 import io.reactivex.Observer;
-import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
@@ -218,15 +216,15 @@ public class HomeActivity extends AppCompatActivity {
                 .getExitInfo()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<LoginInfo>() {
+                .subscribe(new Observer<BaseResponseInfo>() {
                     @Override
                     public void onSubscribe(Disposable d) {
                         disposable = d;
                     }
 
                     @Override
-                    public void onNext(LoginInfo loginInfo) {
-                        if(loginInfo.getErrorCode() == 0){
+                    public void onNext(BaseResponseInfo baseResponseInfo) {
+                        if(baseResponseInfo.getErrorCode() == 0){
                             Toast.makeText(HomeActivity.this,"退出成功！",Toast.LENGTH_SHORT).show();
                             BaseDataPreferenceUtil.getInstance().saveLoginStatus(null);
                             invalidateOptionsMenu();

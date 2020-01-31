@@ -1,4 +1,4 @@
-package com.example.administrator.wanandroid.login;
+package com.example.administrator.wanandroid.register;
 
 import com.example.administrator.wanandroid.base.BaseResponseInfo;
 import com.example.administrator.wanandroid.net.UrlUtil;
@@ -8,9 +8,9 @@ import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
 
-public interface LoginService {
+public interface RegisterService {
 
     @FormUrlEncoded
-    @POST(UrlUtil.loginUrl)
-    Observable<BaseResponseInfo> getLoginInfo(@Field("username")String username, @Field("password")String password);
+    @POST(UrlUtil.registerUrl)
+    Observable<BaseResponseInfo> getLoginInfo(@Field("username")String username, @Field("password")String password, @Field("repassword")String repassword);
 }

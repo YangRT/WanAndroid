@@ -1,6 +1,6 @@
-package com.example.administrator.wanandroid.login;
+package com.example.administrator.wanandroid.base;
 
-public class LoginInfo {
+public class BaseResponseInfo {
 
     private Object data;
 
