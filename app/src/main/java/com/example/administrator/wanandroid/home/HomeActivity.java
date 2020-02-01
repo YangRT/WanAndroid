@@ -21,11 +21,13 @@ import android.widget.Toast;
 
 
 import com.example.administrator.wanandroid.R;
+import com.example.administrator.wanandroid.base.BaseListActivity;
 import com.example.administrator.wanandroid.login.LoginActivity;
 import com.example.administrator.wanandroid.base.BaseResponseInfo;
 import com.example.administrator.wanandroid.mainpage.MainPageFragment;
 import com.example.administrator.wanandroid.databinding.ActivityHomeBinding;
 import com.example.administrator.wanandroid.mine.MineFragment;
+import com.example.administrator.wanandroid.mine.MineItemInfo;
 import com.example.administrator.wanandroid.net.NetUtil;
 import com.example.administrator.wanandroid.net.UrlUtil;
 import com.example.administrator.wanandroid.square.SquareFragment;
@@ -157,7 +159,9 @@ public class HomeActivity extends AppCompatActivity {
                 Log.e("HomeActivity","Add");
                 break;
             case R.id.action_project:
-                Log.e("HomeActivity","Project");
+                Intent intent1 = new Intent(HomeActivity.this,BaseListActivity.class);
+                intent1.putExtra("type","项目分类");
+                startActivity(intent1);
                 break;
             case R.id.action_mine:
                 Intent intent = new Intent(HomeActivity.this,LoginActivity.class);

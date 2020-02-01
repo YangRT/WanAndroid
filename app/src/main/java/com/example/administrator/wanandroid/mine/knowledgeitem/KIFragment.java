@@ -1,4 +1,4 @@
-package com.example.administrator.wanandroid.mine.gzh;
+package com.example.administrator.wanandroid.mine.knowledgeitem;
 
 import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
@@ -7,7 +7,6 @@ import android.databinding.ObservableArrayList;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -21,19 +20,19 @@ import com.example.administrator.wanandroid.R;
 import com.example.administrator.wanandroid.base.BaseArticleAdapter;
 import com.example.administrator.wanandroid.base.BaseCustomViewModel;
 import com.example.administrator.wanandroid.base.BaseLazyFragment;
-import com.example.administrator.wanandroid.base.MvvmBaseViewModel;
 import com.example.administrator.wanandroid.databinding.FragmentListBinding;
 import com.example.administrator.wanandroid.mainpage.ArticleActivity;
-import com.example.administrator.wanandroid.tab.TabFragment;
-import com.example.administrator.wanandroid.tab.TabViewModel;
+import com.example.administrator.wanandroid.project.classic.ClassicFragment;
+import com.example.administrator.wanandroid.project.classic.ClassicViewModel;
 
 import java.util.ArrayList;
 
-public class GzhFragment extends BaseLazyFragment<FragmentListBinding,GzhViewModel, BaseCustomViewModel> {
+public class KIFragment extends BaseLazyFragment<FragmentListBinding, KIViewModel, BaseCustomViewModel> {
+
 
     private String key;
-    private BaseArticleAdapter adapter;
     private int id;
+    private BaseArticleAdapter articleAdapter;
 
     @Nullable
     @Override
@@ -45,6 +44,7 @@ public class GzhFragment extends BaseLazyFragment<FragmentListBinding,GzhViewMod
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
+
     @Override
     protected void dispatchUserVisible(boolean visible) {
         isFragmentVisible = visible;
@@ -53,13 +53,14 @@ public class GzhFragment extends BaseLazyFragment<FragmentListBinding,GzhViewMod
         }else {
             onFragmentLoadStop();
         }
+
     }
 
     @Override
     protected void initView() {
         viewDataBinding.articleRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new BaseArticleAdapter(getContext(),new ArrayList<BaseCustomViewModel>());
-        adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+        articleAdapter = new BaseArticleAdapter(getContext(),new ArrayList<BaseCustomViewModel>());
+        articleAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 Log.e("ItemClick","test");
@@ -69,7 +70,7 @@ public class GzhFragment extends BaseLazyFragment<FragmentListBinding,GzhViewMod
                 getActivity().startActivity(intent);
             }
         });
-        adapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
+        articleAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
             public void onLoadMoreRequested() {
                 getViewModel().tryToLoadNextPage();
@@ -81,11 +82,9 @@ public class GzhFragment extends BaseLazyFragment<FragmentListBinding,GzhViewMod
                 getViewModel().tryToRefresh();
             }
         });
-        viewDataBinding.articleRecyclerView.setAdapter(adapter);
+        viewDataBinding.articleRecyclerView.setAdapter(articleAdapter);
         viewDataBinding.articleRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(),DividerItemDecoration.VERTICAL));
     }
-
-
 
     @Override
     public int getBindingVariable() {
@@ -98,17 +97,17 @@ public class GzhFragment extends BaseLazyFragment<FragmentListBinding,GzhViewMod
     }
 
     @Override
-    public GzhViewModel getViewModel() {
+    public KIViewModel getViewModel() {
         if(viewModel == null){
-            GzhFragment.MyViewModelFactory factory = new GzhFragment.MyViewModelFactory(key,id);
-            viewModel = factory.create(GzhViewModel.class);
+            KIFragment.MyViewModelFactory factory = new KIFragment.MyViewModelFactory(key,id);
+            viewModel = factory.create(KIViewModel.class);
         }
         return viewModel;
     }
 
     @Override
-    public void onListItemInserted(ObservableArrayList sender) {
-        adapter.setNewData(sender);
+    public void onListItemInserted(ObservableArrayList<BaseCustomViewModel> sender) {
+        articleAdapter.setNewData(sender);
     }
 
     @Override
@@ -124,36 +123,13 @@ public class GzhFragment extends BaseLazyFragment<FragmentListBinding,GzhViewMod
     }
 
     @Override
-    protected boolean isRefreshing() {
-        return viewDataBinding.mainPageRefreshLayout.isRefreshing();
-    }
-
-    @Override
     protected void onRetryBtnBack() {
 
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        if(!isFragmentVisible && getUserVisibleHint()){
-            dispatchUserVisible(true);
-        }
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        if(isFragmentVisible && getUserVisibleHint()){
-            dispatchUserVisible(false);
-        }
-    }
-
-    @Override
     public void onFragmentLoading() {
-        if(viewModel != null){
-            viewModel.beginLoading();
-        }
+        viewModel.beginLoading();
     }
 
     @Override
@@ -174,7 +150,7 @@ public class GzhFragment extends BaseLazyFragment<FragmentListBinding,GzhViewMod
         @NonNull
         @Override
         public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
-            return (T)new GzhViewModel(key,id);
+            return (T)new KIViewModel(key,id);
         }
     }
 }

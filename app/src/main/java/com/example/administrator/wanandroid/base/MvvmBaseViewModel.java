@@ -46,6 +46,9 @@ public abstract class MvvmBaseViewModel<T extends MvvmBaseModel,S> extends ViewM
     public void loadFinish(MvvmBaseModel viewModel, List<S> data, PagingResult... results) {
         Log.e("MvvmBaseViewModel","finish");
         if(viewModel == model){
+            if (viewModel.isFirst()){
+                viewModel.setFirst(false);
+            }
             if(viewModel.isPaging()){
                 if(results[0].isFirst()){
                     dataList.getValue().clear();
@@ -102,6 +105,9 @@ public abstract class MvvmBaseViewModel<T extends MvvmBaseModel,S> extends ViewM
         }else if(results[0].isFirst() && dataList.getValue().size() == 0){
             Log.e("MvvmBaseViewModel","fail 数据错误");
             viewStatusLiveData.setValue(ViewStatus.REQUEST_ERROR);
+        }else if(results[0].isFirst()){
+            Log.e("MvvmBaseViewModel","fail 重新加载错误");
+            viewStatusLiveData.setValue(ViewStatus.REFRESH_ERROR);
         }
     }
 }

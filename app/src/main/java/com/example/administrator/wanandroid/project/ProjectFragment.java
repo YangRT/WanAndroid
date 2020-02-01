@@ -93,6 +93,12 @@ public class ProjectFragment extends MvvmFragment<FragmentProjectBinding,Project
     }
 
     @Override
+    protected boolean isRefreshing() {
+        return viewDataBinding.mainPageRefreshLayout.isRefreshing();
+    }
+
+
+    @Override
     protected void onRetryBtnBack() {
 
     }

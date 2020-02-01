@@ -85,6 +85,11 @@ public class RankFragment extends MvvmFragment<FragmentListBinding,RankViewModel
     }
 
     @Override
+    protected boolean isRefreshing() {
+        return viewDataBinding.mainPageRefreshLayout.isRefreshing();
+    }
+
+    @Override
     protected void onRetryBtnBack() {
 
     }

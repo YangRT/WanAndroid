@@ -93,6 +93,11 @@ public class SquareFragment extends MvvmFragment<FragmentSquareBinding,SquareVie
     }
 
     @Override
+    protected boolean isRefreshing() {
+        return viewDataBinding.mainPageRefreshLayout.isRefreshing();
+    }
+
+    @Override
     protected void onRetryBtnBack() {
 
     }

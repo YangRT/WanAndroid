@@ -126,6 +126,9 @@ public abstract class MvvmFragment<V extends ViewDataBinding,VM extends MvvmBase
                     mLoadService.showCallback(LoadingCallback.class);
                     break;
                 case SHOW_CONTENT:
+                    if(isRefreshing()){
+                        Toast.makeText(getContext(),"刷新成功！",Toast.LENGTH_SHORT).show();
+                    }
                     mLoadService.showSuccess();
                     refreshCancel();
                     break;
@@ -149,7 +152,10 @@ public abstract class MvvmFragment<V extends ViewDataBinding,VM extends MvvmBase
             }
         }
 
+    }
 
+    protected boolean isRefreshing(){
+        return false;
     }
 
     protected abstract void refreshCancel();

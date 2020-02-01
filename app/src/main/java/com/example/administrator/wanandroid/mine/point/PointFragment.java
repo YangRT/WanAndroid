@@ -104,6 +104,11 @@ public class PointFragment extends MvvmFragment<FragmentListBinding,PointViewMod
     }
 
     @Override
+    protected boolean isRefreshing() {
+        return viewDataBinding.mainPageRefreshLayout.isRefreshing();
+    }
+
+    @Override
     protected void onRetryBtnBack() {
 
     }

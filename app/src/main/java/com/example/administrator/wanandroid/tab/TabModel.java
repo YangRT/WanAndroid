@@ -7,6 +7,7 @@ import com.example.administrator.wanandroid.mine.article.MyArticleService;
 import com.example.administrator.wanandroid.mine.gzh.GzhListInfo;
 import com.example.administrator.wanandroid.net.NetUtil;
 import com.example.administrator.wanandroid.net.UrlUtil;
+import com.example.administrator.wanandroid.project.classic.ClassicListInfo;
 import com.example.administrator.wanandroid.utils.BaseDataPreferenceUtil;
 import com.google.gson.reflect.TypeToken;
 
@@ -38,8 +39,51 @@ public class TabModel extends MvvmBaseModel<List<TabTitleInfo>> {
                 .create(TabService.class);
         if(mCachedPreferenceKey.equals("gzh")){
             loadGzhTitles(tabService);
+        }else if(mCachedPreferenceKey.equals("classic")){
+            loadClassicTitles(tabService);
         }
 
+    }
+
+    private void loadClassicTitles(TabService service){
+        service.getClassicListInfo()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<ClassicListInfo>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        compositeDisposable.add(d);
+                    }
+
+                    @Override
+                    public void onNext(ClassicListInfo classicListInfo) {
+                        if(classicListInfo.getErrorCode() == 0){
+                            List<TabTitleInfo> list = new ArrayList<>();
+                            for(ClassicListInfo.Data data:classicListInfo.getData()){
+                                TabTitleInfo tabTitleInfo = new TabTitleInfo();
+                                tabTitleInfo.setTitle(data.getName());
+                                tabTitleInfo.setId(data.getId());
+                                list.add(tabTitleInfo);
+                            }
+                            loadSuccess(list,null);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                        if (e.getMessage() !=null && !e.getMessage().isEmpty()){
+                            boolean isFirst = pageNum == 0;
+                            loadFail(e.getMessage(),new PagingResult(true,isFirst,true));
+                        }
+                        setFirst(false);
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        setFirst(false);
+                    }
+                });
     }
 
     private void loadGzhTitles(TabService tabService){

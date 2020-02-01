@@ -64,6 +64,14 @@ public class BaseListActivity extends AppCompatActivity {
             fragment = new TabFragment();
             bundle.putString("type","gzh");
             setTitleCenter("公众号");
+        }else if(title.equals("项目分类")){
+            fragment = new TabFragment();
+            bundle.putString("type","classic");
+        }else {
+            fragment = new TabFragment();
+            bundle.putString("type",title);
+            bundle.putStringArrayList("tabTitle",intent.getStringArrayListExtra("tabTitle"));
+            bundle.putIntegerArrayList("tabId",intent.getIntegerArrayListExtra("tabId"));
         }
         fragment.setArguments(bundle);
         FragmentManager fragmentManager = getSupportFragmentManager();

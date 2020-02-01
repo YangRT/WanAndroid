@@ -1,11 +1,10 @@
-package com.example.administrator.wanandroid.mine.gzh;
+package com.example.administrator.wanandroid.project.classic;
 
 import android.util.Log;
 
 import com.example.administrator.wanandroid.base.BaseArticleInfo;
 import com.example.administrator.wanandroid.base.BaseCustomViewModel;
 import com.example.administrator.wanandroid.base.MvvmBaseModel;
-import com.example.administrator.wanandroid.base.MvvmBaseViewModel;
 import com.example.administrator.wanandroid.base.PagingResult;
 import com.example.administrator.wanandroid.net.NetUtil;
 import com.example.administrator.wanandroid.net.UrlUtil;
@@ -22,13 +21,13 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
-public class GzhModel extends MvvmBaseModel<List<BaseCustomViewModel>> {
+public class ClassicModel extends MvvmBaseModel<List<BaseCustomViewModel>> {
 
-    private int id;
+    private String id;
 
-    public GzhModel(String key,int id) {
+    public ClassicModel(String key, int id) {
         super(true,key,null);
-        this.id = id;
+        this.id = Integer.toString(id);
         pageNum = 1;
     }
 
@@ -48,12 +47,11 @@ public class GzhModel extends MvvmBaseModel<List<BaseCustomViewModel>> {
         load();
     }
 
-
     @Override
     protected void load() {
         NetUtil.getInstance().getRetrofitInstance(UrlUtil.baseUrl)
-                .create(GzhService.class)
-                .getGzhInfo(id,pageNum)
+                .create(ProjectClassicService.class)
+                .getClassicInfo(pageNum,id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<BaseArticleInfo>() {
@@ -68,13 +66,18 @@ public class GzhModel extends MvvmBaseModel<List<BaseCustomViewModel>> {
                             pageNum = isRefreshing ? 2 : pageNum+1;
                             ArrayList<BaseCustomViewModel> list = new ArrayList<>();
                             for(BaseArticleInfo.DataBean.DatasBean datasBean: baseArticleInfo.getData().getDatas()){
-                                BaseCustomViewModel model = new BaseCustomViewModel(BaseCustomViewModel.NORMAL);
+                                BaseCustomViewModel model = new BaseCustomViewModel(BaseCustomViewModel.PROJECT);
+                                model.setPath(datasBean.getEnvelopePic());
                                 model.setJumpUrl(datasBean.getLink());
-                                model.setAuthor(datasBean.getShareUser());
+                                if(datasBean.getAuthor().equals("")){
+                                    model.setAuthor(datasBean.getShareUser());
+                                }else {
+                                    model.setAuthor(datasBean.getAuthor());
+                                }
+                                model.setDescription(datasBean.getDesc());
                                 model.setCollect(datasBean.getCollect());
                                 model.setTime(datasBean.getNiceDate());
                                 model.setTitle(datasBean.getTitle());
-                                model.setClassic(datasBean.getSuperChapterName()+"/"+datasBean.getChapterName());
                                 list.add(model);
                             }
                             boolean isEmpty = list.size() == 0;
@@ -101,7 +104,6 @@ public class GzhModel extends MvvmBaseModel<List<BaseCustomViewModel>> {
                     @Override
                     public void onComplete() {
                         setFirst(false);
-
                     }
                 });
     }
@@ -118,4 +120,5 @@ public class GzhModel extends MvvmBaseModel<List<BaseCustomViewModel>> {
         if(time > 300000) return true;;
         return false;
     }
+
 }

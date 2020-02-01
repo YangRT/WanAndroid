@@ -1,11 +1,10 @@
-package com.example.administrator.wanandroid.mine.gzh;
+package com.example.administrator.wanandroid.mine.knowledgeitem;
 
 import android.util.Log;
 
 import com.example.administrator.wanandroid.base.BaseArticleInfo;
 import com.example.administrator.wanandroid.base.BaseCustomViewModel;
 import com.example.administrator.wanandroid.base.MvvmBaseModel;
-import com.example.administrator.wanandroid.base.MvvmBaseViewModel;
 import com.example.administrator.wanandroid.base.PagingResult;
 import com.example.administrator.wanandroid.net.NetUtil;
 import com.example.administrator.wanandroid.net.UrlUtil;
@@ -17,19 +16,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Observer;
-import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
-public class GzhModel extends MvvmBaseModel<List<BaseCustomViewModel>> {
+public class KIModel extends MvvmBaseModel<List<BaseCustomViewModel>> {
 
-    private int id;
+    private String id;
 
-    public GzhModel(String key,int id) {
-        super(true,key,null);
-        this.id = id;
-        pageNum = 1;
+    public KIModel(String key, int id) {
+        super(true, key,null);
+        this.id = Integer.toString(id);
     }
 
     @Override
@@ -52,8 +49,8 @@ public class GzhModel extends MvvmBaseModel<List<BaseCustomViewModel>> {
     @Override
     protected void load() {
         NetUtil.getInstance().getRetrofitInstance(UrlUtil.baseUrl)
-                .create(GzhService.class)
-                .getGzhInfo(id,pageNum)
+                .create(KIService.class)
+                .getClassicInfo(pageNum,id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<BaseArticleInfo>() {
@@ -65,12 +62,23 @@ public class GzhModel extends MvvmBaseModel<List<BaseCustomViewModel>> {
                     @Override
                     public void onNext(BaseArticleInfo baseArticleInfo) {
                         if(baseArticleInfo.getErrorCode() == 0){
-                            pageNum = isRefreshing ? 2 : pageNum+1;
+                            pageNum = isRefreshing ? 1 : pageNum+1;
                             ArrayList<BaseCustomViewModel> list = new ArrayList<>();
                             for(BaseArticleInfo.DataBean.DatasBean datasBean: baseArticleInfo.getData().getDatas()){
-                                BaseCustomViewModel model = new BaseCustomViewModel(BaseCustomViewModel.NORMAL);
+                                BaseCustomViewModel model = null;
+                                if(datasBean.getEnvelopePic() != null && datasBean.getEnvelopePic().length()>0){
+                                    model = new BaseCustomViewModel(BaseCustomViewModel.PROJECT);
+                                    model.setPath(datasBean.getEnvelopePic());
+                                    model.setDescription(datasBean.getDesc());
+                                }else {
+                                    model = new BaseCustomViewModel(BaseCustomViewModel.NORMAL);
+                                }
                                 model.setJumpUrl(datasBean.getLink());
-                                model.setAuthor(datasBean.getShareUser());
+                                if(datasBean.getAuthor().equals("")){
+                                    model.setAuthor(datasBean.getShareUser());
+                                }else {
+                                    model.setAuthor(datasBean.getAuthor());
+                                }
                                 model.setCollect(datasBean.getCollect());
                                 model.setTime(datasBean.getNiceDate());
                                 model.setTitle(datasBean.getTitle());
@@ -78,11 +86,11 @@ public class GzhModel extends MvvmBaseModel<List<BaseCustomViewModel>> {
                                 list.add(model);
                             }
                             boolean isEmpty = list.size() == 0;
-                            boolean isFirst = pageNum == 2;
+                            boolean isFirst = pageNum == 1;
                             boolean hasNextPage = baseArticleInfo.getData().getCurPage() != baseArticleInfo.getData().getPageCount();
                             loadSuccess(list,new PagingResult(isEmpty,isFirst,hasNextPage));
                         }else {
-                            boolean isFirst = pageNum == 1;
+                            boolean isFirst = pageNum == 0;
                             boolean hasNextPage = baseArticleInfo.getData().getCurPage() != baseArticleInfo.getData().getPageCount();
                             loadFail(baseArticleInfo.getErrorMsg(),new PagingResult(true,isFirst,hasNextPage));
                         }
@@ -101,7 +109,6 @@ public class GzhModel extends MvvmBaseModel<List<BaseCustomViewModel>> {
                     @Override
                     public void onComplete() {
                         setFirst(false);
-
                     }
                 });
     }

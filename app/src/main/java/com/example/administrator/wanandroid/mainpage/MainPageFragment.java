@@ -114,6 +114,12 @@ public class MainPageFragment extends MvvmFragment<FragmentArticleBinding, MainP
     }
 
     @Override
+    protected boolean isRefreshing() {
+        return viewDataBinding.mainPageRefreshLayout.isRefreshing();
+    }
+
+
+    @Override
     public void onListItemInserted(ObservableArrayList<BaseCustomViewModel> sender) {
             adapter.setNewData(sender);
 
