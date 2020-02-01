@@ -127,6 +127,27 @@ public class ClassicFragment extends BaseLazyFragment<FragmentListBinding,Classi
     }
 
     @Override
+    protected void loadMoreFinish() {
+        if(articleAdapter.isLoading()){
+            articleAdapter.loadMoreComplete();
+        }
+    }
+
+    @Override
+    protected void loadMoreEmpty() {
+        if(articleAdapter.isLoading()){
+            articleAdapter.loadMoreEnd();
+        }
+    }
+
+    @Override
+    protected void loadMoreFail() {
+        if(articleAdapter.isLoading()){
+            articleAdapter.loadMoreFail();
+        }
+    }
+
+    @Override
     protected void onRetryBtnBack() {}
 
     @Override

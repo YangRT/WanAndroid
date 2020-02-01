@@ -1,29 +1,24 @@
-package com.example.administrator.wanandroid.mine.knowledge;
+package com.example.administrator.wanandroid.mainpage.banner;
 
 import android.util.Log;
 
-import com.example.administrator.wanandroid.base.BaseArticleInfo;
-import com.example.administrator.wanandroid.base.BaseCustomViewModel;
 import com.example.administrator.wanandroid.base.MvvmBaseModel;
 import com.example.administrator.wanandroid.base.PagingResult;
 import com.example.administrator.wanandroid.net.NetUtil;
 import com.example.administrator.wanandroid.net.UrlUtil;
 import com.example.administrator.wanandroid.utils.BaseDataPreferenceUtil;
-import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
-import java.util.List;
 
 import io.reactivex.Observer;
-import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
-public class KnowledgeModel extends MvvmBaseModel<List<KnowledgeInfo.Data>> {
+public class BannerModel extends MvvmBaseModel<BannerInfo> {
 
-    public KnowledgeModel() {
-        super(false,"knowledge",null);
+    public BannerModel() {
+        super(false, "banner",null);
     }
 
     @Override
@@ -33,55 +28,52 @@ public class KnowledgeModel extends MvvmBaseModel<List<KnowledgeInfo.Data>> {
 
     @Override
     protected void load() {
-        NetUtil.getInstance().getRetrofitInstance(UrlUtil.baseUrl)
-                .create(KnowledgeService.class)
-                .getKnowledgeInfo()
+        Log.e("Banner","load");
+        NetUtil.getInstance()
+                .getRetrofitInstance(UrlUtil.baseUrl)
+                .create(BannerService.class)
+                .getBannerInfo()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<KnowledgeInfo>() {
+                .subscribe(new Observer<BannerInfo>() {
                     @Override
                     public void onSubscribe(Disposable d) {
                         compositeDisposable.add(d);
                     }
 
                     @Override
-                    public void onNext(KnowledgeInfo knowledgeInfo) {
-                        if(knowledgeInfo.getErrorCode() == 0){
-                            List<KnowledgeInfo.Data> list = knowledgeInfo.getData();
-                            boolean isEmpty = list.size() == 0;
-                            loadSuccess(list,new PagingResult(isEmpty,true,false));
+                    public void onNext(BannerInfo bannerInfo) {
+                        Log.e("Banner","onNext");
+                        if(bannerInfo.getErrorCode() == 0){
+                            loadSuccess(bannerInfo);
                         }else {
-                            loadFail(knowledgeInfo.getErrorMsg(),new PagingResult(true,true,false));
+                            loadFail(bannerInfo.getErrorMsg());
                         }
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        if (e.getMessage() !=null && !e.getMessage().isEmpty()){
-                            loadFail(e.getMessage(),new PagingResult(true,true,false));
-                        }
+                        Log.e("Banner","onError");
                         setFirst(false);
-
+                        loadFail(e.getMessage(),new PagingResult(true,true,false));
                     }
 
                     @Override
                     public void onComplete() {
                         setFirst(false);
-
                     }
                 });
     }
 
     @Override
-    protected Type getTClass() {
-        return new TypeToken<List<KnowledgeInfo.Data>>() {
-        }.getType();
+    protected boolean isNeedToUpdate() {
+        long time = System.currentTimeMillis() - BaseDataPreferenceUtil.getInstance().getLong(mCachedPreferenceKey);
+        if(time/(24*3600*1000) > 1) return true;
+        return false;
     }
 
     @Override
-    protected boolean isNeedToUpdate() {
-        long time = System.currentTimeMillis() - BaseDataPreferenceUtil.getInstance().getLong(mCachedPreferenceKey);
-        if(time/(24*3600*1000) > 7) return true;;
-        return false;
+    protected Type getTClass() {
+        return BannerInfo.class;
     }
 }

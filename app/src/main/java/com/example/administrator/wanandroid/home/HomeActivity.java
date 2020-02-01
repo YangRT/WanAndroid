@@ -26,6 +26,7 @@ import com.example.administrator.wanandroid.login.LoginActivity;
 import com.example.administrator.wanandroid.base.BaseResponseInfo;
 import com.example.administrator.wanandroid.mainpage.MainPageFragment;
 import com.example.administrator.wanandroid.databinding.ActivityHomeBinding;
+import com.example.administrator.wanandroid.mainpage.search.SearchActivity;
 import com.example.administrator.wanandroid.mine.MineFragment;
 import com.example.administrator.wanandroid.mine.MineItemInfo;
 import com.example.administrator.wanandroid.net.NetUtil;
@@ -154,6 +155,8 @@ public class HomeActivity extends AppCompatActivity {
         switch(item.getItemId()){
             case R.id.action_search:
                 Log.e("HomeActivity","Search");
+                Intent intent2 = new Intent(HomeActivity.this, SearchActivity.class);
+                startActivity(intent2);
                 break;
             case R.id.action_add:
                 Log.e("HomeActivity","Add");

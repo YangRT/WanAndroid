@@ -1,4 +1,4 @@
-package com.example.administrator.wanandroid.mainpage;
+package com.example.administrator.wanandroid.mainpage.banner;
 
 import java.util.List;
 

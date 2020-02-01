@@ -117,6 +117,27 @@ public class GzhFragment extends BaseLazyFragment<FragmentListBinding,GzhViewMod
     }
 
     @Override
+    protected void loadMoreFinish() {
+        if(adapter.isLoading()){
+            adapter.loadMoreComplete();
+        }
+    }
+
+    @Override
+    protected void loadMoreEmpty() {
+        if(adapter.isLoading()){
+            adapter.loadMoreEnd();
+        }
+    }
+
+    @Override
+    protected void loadMoreFail() {
+        if(adapter.isLoading()){
+            adapter.loadMoreFail();
+        }
+    }
+
+    @Override
     protected void refreshCancel() {
         if(viewDataBinding.mainPageRefreshLayout.isRefreshing()){
             viewDataBinding.mainPageRefreshLayout.setRefreshing(false);

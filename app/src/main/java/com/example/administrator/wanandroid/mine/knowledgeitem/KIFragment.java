@@ -128,6 +128,27 @@ public class KIFragment extends BaseLazyFragment<FragmentListBinding, KIViewMode
     }
 
     @Override
+    protected void loadMoreFinish() {
+        if(articleAdapter.isLoading()){
+            articleAdapter.loadMoreComplete();
+        }
+    }
+
+    @Override
+    protected void loadMoreEmpty() {
+        if(articleAdapter.isLoading()){
+            articleAdapter.loadMoreEnd();
+        }
+    }
+
+    @Override
+    protected void loadMoreFail() {
+        if(articleAdapter.isLoading()){
+            articleAdapter.loadMoreFail();
+        }
+    }
+
+    @Override
     public void onFragmentLoading() {
         viewModel.beginLoading();
     }

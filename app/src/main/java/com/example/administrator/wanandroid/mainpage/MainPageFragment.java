@@ -24,7 +24,7 @@ import com.example.administrator.wanandroid.base.BaseArticleAdapter;
 import com.example.administrator.wanandroid.base.BaseCustomViewModel;
 import com.example.administrator.wanandroid.base.MvvmFragment;
 import com.example.administrator.wanandroid.databinding.FragmentArticleBinding;
-
+import com.example.administrator.wanandroid.mainpage.banner.BannerInfo;
 
 
 import java.util.ArrayList;
@@ -116,6 +116,27 @@ public class MainPageFragment extends MvvmFragment<FragmentArticleBinding, MainP
     @Override
     protected boolean isRefreshing() {
         return viewDataBinding.mainPageRefreshLayout.isRefreshing();
+    }
+
+    @Override
+    protected void loadMoreFinish() {
+        if(adapter.isLoading()){
+            adapter.loadMoreComplete();
+        }
+    }
+
+    @Override
+    protected void loadMoreEmpty() {
+        if(adapter.isLoading()){
+            adapter.loadMoreEnd();
+        }
+    }
+
+    @Override
+    protected void loadMoreFail() {
+        if(adapter.isLoading()){
+            adapter.loadMoreFail();
+        }
     }
 
 

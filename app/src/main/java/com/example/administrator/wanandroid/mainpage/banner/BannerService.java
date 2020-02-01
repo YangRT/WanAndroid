@@ -1,4 +1,6 @@
-package com.example.administrator.wanandroid.mainpage;
+package com.example.administrator.wanandroid.mainpage.banner;
+
+import com.example.administrator.wanandroid.mainpage.banner.BannerInfo;
 
 import io.reactivex.Observable;
 import retrofit2.http.GET;

@@ -8,6 +8,8 @@ import com.example.administrator.wanandroid.base.IBaseModelListener;
 import com.example.administrator.wanandroid.base.MvvmBaseModel;
 import com.example.administrator.wanandroid.base.MvvmBaseViewModel;
 import com.example.administrator.wanandroid.base.PagingResult;
+import com.example.administrator.wanandroid.mainpage.banner.BannerInfo;
+import com.example.administrator.wanandroid.mainpage.banner.BannerModel;
 
 public class MainPageViewModel extends MvvmBaseViewModel<ArticleModel, BaseCustomViewModel> {
 

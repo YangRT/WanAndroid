@@ -104,6 +104,27 @@ public class PointFragment extends MvvmFragment<FragmentListBinding,PointViewMod
     }
 
     @Override
+    protected void loadMoreFinish() {
+        if(pointAdapter.isLoading()){
+            pointAdapter.loadMoreComplete();
+        }
+    }
+
+    @Override
+    protected void loadMoreEmpty() {
+        if(pointAdapter.isLoading()){
+            pointAdapter.loadMoreEnd();
+        }
+    }
+
+    @Override
+    protected void loadMoreFail() {
+        if(pointAdapter.isLoading()){
+            pointAdapter.loadMoreFail();
+        }
+    }
+
+    @Override
     protected boolean isRefreshing() {
         return viewDataBinding.mainPageRefreshLayout.isRefreshing();
     }

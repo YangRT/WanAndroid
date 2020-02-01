@@ -98,6 +98,27 @@ public class SquareFragment extends MvvmFragment<FragmentSquareBinding,SquareVie
     }
 
     @Override
+    protected void loadMoreFinish() {
+        if(adapter.isLoading()){
+            adapter.loadMoreComplete();
+        }
+    }
+
+    @Override
+    protected void loadMoreEmpty() {
+        if(adapter.isLoading()){
+            adapter.loadMoreEnd();
+        }
+    }
+
+    @Override
+    protected void loadMoreFail() {
+        if(adapter.isLoading()){
+            adapter.loadMoreFail();
+        }
+    }
+
+    @Override
     protected void onRetryBtnBack() {
 
     }

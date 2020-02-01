@@ -95,25 +95,9 @@ public class MyArticleFragment extends MvvmFragment<FragmentListBinding, MyArtic
     @Override
     public void onListItemInserted(ObservableArrayList<BaseCustomViewModel> sender) {
         Log.e("MyArticle",sender.size()+"");
-        if(adapter.isLoading()){
-            adapter.loadMoreComplete();
-        }
         adapter.setNewData(sender);
     }
 
-    @Override
-    public void onChanged(@Nullable Object o) {
-        super.onChanged(o);
-        if(viewModel.viewStatusLiveData.getValue() == ViewStatus.NO_MORE_DATA){
-            if(adapter.isLoading()){
-                adapter.loadMoreEnd();
-            }
-        }else if(viewModel.viewStatusLiveData.getValue() == ViewStatus.LOAD_MORE_FAILED || viewModel.viewStatusLiveData.getValue() == ViewStatus.REFRESH_ERROR){
-            if(adapter.isLoading()){
-                adapter.loadMoreFail();
-            }
-        }
-    }
 
     @Override
     protected String getFragmentTag() {
@@ -135,6 +119,27 @@ public class MyArticleFragment extends MvvmFragment<FragmentListBinding, MyArtic
     @Override
     protected void onRetryBtnBack() {
 
+    }
+
+    @Override
+    protected void loadMoreFinish() {
+        if(adapter.isLoading()){
+            adapter.loadMoreComplete();
+        }
+    }
+
+    @Override
+    protected void loadMoreEmpty() {
+        if(adapter.isLoading()){
+            adapter.loadMoreEnd();
+        }
+    }
+
+    @Override
+    protected void loadMoreFail() {
+        if(adapter.isLoading()){
+            adapter.loadMoreFail();
+        }
     }
 
     class MyViewModelFactory implements ViewModelProvider.Factory{

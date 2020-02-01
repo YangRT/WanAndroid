@@ -129,13 +129,16 @@ public abstract class MvvmFragment<V extends ViewDataBinding,VM extends MvvmBase
                     if(isRefreshing()){
                         Toast.makeText(getContext(),"刷新成功！",Toast.LENGTH_SHORT).show();
                     }
+                    loadMoreFinish();
                     mLoadService.showSuccess();
                     refreshCancel();
                     break;
                 case NO_MORE_DATA:
+                    loadMoreEmpty();
                     Toast.makeText(getContext(),"没有更多数据！",Toast.LENGTH_SHORT).show();
                     break;
                 case LOAD_MORE_FAILED:
+                    loadMoreFail();
                     Toast.makeText(getContext(),"加载数据失败,请检查网络！",Toast.LENGTH_SHORT).show();
                     break;
                 case EMPTY:
@@ -157,6 +160,13 @@ public abstract class MvvmFragment<V extends ViewDataBinding,VM extends MvvmBase
     protected boolean isRefreshing(){
         return false;
     }
+
+    protected void loadMoreFail(){};
+
+    protected void loadMoreFinish(){}
+
+    protected void loadMoreEmpty(){};
+
 
     protected abstract void refreshCancel();
 
