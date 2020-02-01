@@ -1,5 +1,6 @@
 package com.example.administrator.wanandroid.mine;
 
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.databinding.ObservableArrayList;
@@ -18,6 +19,10 @@ import com.example.administrator.wanandroid.base.BaseListActivity;
 import com.example.administrator.wanandroid.base.MvvmFragment;
 import com.example.administrator.wanandroid.databinding.FragmentMineBinding;
 import com.example.administrator.wanandroid.utils.BaseDataPreferenceUtil;
+import com.example.administrator.wanandroid.viewstatus.EmptyCallBack;
+import com.example.administrator.wanandroid.viewstatus.LoadingCallback;
+import com.example.administrator.wanandroid.viewstatus.NetworkErrorCallback;
+import com.example.administrator.wanandroid.viewstatus.ViewStatus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,7 +77,7 @@ public class MineFragment extends MvvmFragment<FragmentMineBinding,MineViewModel
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+        super.onViewCreated(view,savedInstanceState);
         setItemInfos();
         viewDataBinding.mineRecyclerview.setLayoutManager(new LinearLayoutManager(getContext()));
         viewDataBinding.mineRecyclerview.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
@@ -102,6 +107,28 @@ public class MineFragment extends MvvmFragment<FragmentMineBinding,MineViewModel
         Log.e("mine","refresh");
         viewModel.tryToRefresh();
     }
+
+    @Override
+    public void onChanged(@Nullable Object o) {
+        if(o instanceof ViewStatus && mLoadService != null){
+            Log.e("mine","begin");
+            switch ((ViewStatus) o){
+                case LOADING:
+                    mLoadService.showCallback(LoadingCallback.class);
+                    break;
+                case SHOW_CONTENT:
+                    mLoadService.showSuccess();
+                    refreshCancel();
+                    break;
+                case REQUEST_ERROR:
+                    Log.e("mine","数据错误");
+                    mLoadService.showSuccess();
+                    Toast.makeText(getContext(),"请求失败,请检查网络！",Toast.LENGTH_SHORT).show();
+                    break;
+            }
+        }
+    }
+
     @Override
     protected void refreshCancel() {
 

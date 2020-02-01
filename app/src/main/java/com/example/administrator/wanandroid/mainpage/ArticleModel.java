@@ -36,6 +36,9 @@ public class ArticleModel extends MvvmBaseModel<List<BaseCustomViewModel>> {
     }
 
     public void loadNextPage(){
+        if(isFirst()){
+            return;
+        }
         isRefreshing = false;
         Log.e("LoadNextPage","load:"+pageNum);
         load();
@@ -97,12 +100,16 @@ public class ArticleModel extends MvvmBaseModel<List<BaseCustomViewModel>> {
                         Log.e("onError:load",e.getMessage());
                         if (e.getMessage() !=null && !e.getMessage().isEmpty()){
                             boolean isFirst = pageNum == 0;
+                            Log.e("onError:load","isFirst:"+isFirst);
                             loadFail(e.getMessage(),new PagingResult(true,isFirst,true));
                         }
+                        setFirst(false);
+
                     }
 
                     @Override
                     public void onComplete() {
+                        setFirst(false);
                     }
                 });
     }

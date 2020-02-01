@@ -16,8 +16,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.example.administrator.wanandroid.viewstatus.LoadErrorCallBack;
+import com.example.administrator.wanandroid.viewstatus.EmptyCallBack;
 import com.example.administrator.wanandroid.viewstatus.LoadingCallback;
+import com.example.administrator.wanandroid.viewstatus.NetworkErrorCallback;
 import com.example.administrator.wanandroid.viewstatus.ViewStatus;
 import com.kingja.loadsir.callback.Callback;
 import com.kingja.loadsir.core.LoadService;
@@ -135,11 +136,15 @@ public abstract class MvvmFragment<V extends ViewDataBinding,VM extends MvvmBase
                     Toast.makeText(getContext(),"加载数据失败,请检查网络！",Toast.LENGTH_SHORT).show();
                     break;
                 case EMPTY:
-                    mLoadService.showCallback(LoadErrorCallBack.class);
+                    mLoadService.showCallback(EmptyCallBack.class);
                     break;
                 case REFRESH_ERROR:
                     Toast.makeText(getContext(),"刷新失败,请检查网络！",Toast.LENGTH_SHORT).show();
                     refreshCancel();
+                    break;
+                case REQUEST_ERROR:
+                    mLoadService.showCallback(NetworkErrorCallback.class);
+                    Toast.makeText(getContext(),"请求失败,请检查网络！",Toast.LENGTH_SHORT).show();
                     break;
             }
         }

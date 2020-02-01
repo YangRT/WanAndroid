@@ -34,6 +34,9 @@ public class RankModel extends MvvmBaseModel<List<RankInfo.Datas>> {
     }
 
     public void loadNextPage(){
+        if(isFirst()){
+            return;
+        }
         isRefreshing = false;
         Log.e("LoadNextPage","load:"+pageNum);
         load();
@@ -75,10 +78,13 @@ public class RankModel extends MvvmBaseModel<List<RankInfo.Datas>> {
                             boolean isFirst = pageNum == 1;
                             loadFail(e.getMessage(),new PagingResult(true,isFirst,true));
                         }
+                        setFirst(false);
+
                     }
 
                     @Override
                     public void onComplete() {
+                        setFirst(false);
 
                     }
                 });

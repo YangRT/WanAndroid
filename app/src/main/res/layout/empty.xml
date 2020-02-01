@@ -15,7 +15,7 @@
         android:layout_width="180dp"
         android:layout_height="180dp"/>
     <TextView
-        android:text="加载数据错误，点击重试"
+        android:text="加载数据为空"
         android:textSize="14sp"
         android:textColor="#B6B3B3"
         app:layout_constraintTop_toBottomOf="@id/load_error_image"

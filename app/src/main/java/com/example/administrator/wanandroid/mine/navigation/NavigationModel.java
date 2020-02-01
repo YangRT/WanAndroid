@@ -60,10 +60,13 @@ public class NavigationModel extends MvvmBaseModel<List<NavigationInfo.Data>> {
                         if (e.getMessage() !=null && !e.getMessage().isEmpty()){
                             loadFail(e.getMessage(),new PagingResult(true,true,false));
                         }
+                        setFirst(false);
+
                     }
 
                     @Override
                     public void onComplete() {
+                        setFirst(false);
 
                     }
                 });

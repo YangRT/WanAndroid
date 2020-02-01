@@ -50,7 +50,7 @@ public class KnowledgeModel extends MvvmBaseModel<List<KnowledgeInfo.Data>> {
                             List<KnowledgeInfo.Data> list = knowledgeInfo.getData();
                             boolean isEmpty = list.size() == 0;
                             boolean isFirst = pageNum == 1;
-                            loadSuccess(list,null);
+                            loadSuccess(list,new PagingResult(isEmpty,true,false));
                         }else {
                             loadFail(knowledgeInfo.getErrorMsg(),new PagingResult(true,true,false));
                         }
@@ -61,10 +61,13 @@ public class KnowledgeModel extends MvvmBaseModel<List<KnowledgeInfo.Data>> {
                         if (e.getMessage() !=null && !e.getMessage().isEmpty()){
                             loadFail(e.getMessage(),new PagingResult(true,true,false));
                         }
+                        setFirst(false);
+
                     }
 
                     @Override
                     public void onComplete() {
+                        setFirst(false);
 
                     }
                 });

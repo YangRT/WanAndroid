@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.example.administrator.wanandroid.base.BaseCustomViewModel;
 import com.example.administrator.wanandroid.base.MvvmBaseModel;
+import com.example.administrator.wanandroid.base.PagingResult;
 import com.example.administrator.wanandroid.net.NetUtil;
 import com.example.administrator.wanandroid.net.UrlUtil;
 import com.google.gson.reflect.TypeToken;
@@ -48,17 +49,19 @@ public class MineModel extends MvvmBaseModel<List<MineInfo>> {
                         Log.e("Mine Load:",mineInfo.getErrorCode()+"");
                         List<MineInfo> data = new ArrayList<>();
                         data.add(mineInfo);
-                        loadSuccess(data,null);
+                        loadSuccess(data,new PagingResult(false,true,false));
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        loadFail(e.getMessage(),null);
+                        setFirst(false);
+                        Log.e("Mine Load:",e.getMessage()+"");
+                        loadFail(e.getMessage(),new PagingResult(true,true,false));
                     }
 
                     @Override
                     public void onComplete() {
-
+                        setFirst(false);
                     }
                 });
     }

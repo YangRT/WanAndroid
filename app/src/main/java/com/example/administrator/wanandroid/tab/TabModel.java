@@ -73,10 +73,12 @@ public class TabModel extends MvvmBaseModel<List<TabTitleInfo>> {
                             boolean isFirst = pageNum == 0;
                             loadFail(e.getMessage(),new PagingResult(true,isFirst,true));
                         }
+                        setFirst(false);
                     }
 
                     @Override
                     public void onComplete() {
+                        setFirst(false);
 
                     }
                 });

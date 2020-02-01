@@ -14,6 +14,7 @@ import java.util.List;
 public abstract class MvvmBaseViewModel<T extends MvvmBaseModel,S> extends ViewModel implements LifecycleObserver, IBaseModelListener<List<S>> {
 
     protected T model;
+    private boolean isRefreshing = false;
 
     public MutableLiveData<ObservableList<S>> dataList = new MutableLiveData<>();
     public MutableLiveData<ViewStatus> viewStatusLiveData = new MutableLiveData<>();
@@ -27,6 +28,9 @@ public abstract class MvvmBaseViewModel<T extends MvvmBaseModel,S> extends ViewM
 
     public void tryToRefresh(){
         if(model != null){
+            if(!model.isFirst()){
+                isRefreshing = true;
+            }
             model.refresh();
         }
     }
@@ -70,13 +74,34 @@ public abstract class MvvmBaseViewModel<T extends MvvmBaseModel,S> extends ViewM
     public void loadFail(MvvmBaseModel viewModel, String msg, PagingResult... results) {
         Log.e("MvvmBaseViewModel","fail");
         errorMsg.postValue(msg);
+        if(model.isFirst()){
+            model.setFirst(false);
+            Log.e("MvvmBaseViewModel","fail 没缓存");
+            return;
+        }
+        if(results == null){
+            return;
+        }
+        if (isRefreshing){
+
+            if(dataList.getValue().size() > 0){
+                Log.e("MvvmBaseViewModel","fail 刷新失败");
+                viewStatusLiveData.setValue(ViewStatus.REFRESH_ERROR);
+            }else {
+                Log.e("MvvmBaseViewModel","fail 请求重试失败");
+                viewStatusLiveData.setValue(ViewStatus.REQUEST_ERROR);
+            }
+
+            isRefreshing = false;
+            return;
+        }
         //viewStatusLiveData.postValue(ViewStatus.REFRESH_ERROR);
         if(viewModel.isPaging() && !results[0].isFirst() && dataList.getValue().size()>0){
+            Log.e("MvvmBaseViewModel","fail 加载更多失败");
             viewStatusLiveData.setValue(ViewStatus.LOAD_MORE_FAILED);
-        }else if(dataList.getValue().size()>0){
-            viewStatusLiveData.setValue(ViewStatus.REFRESH_ERROR);
-        } else if(dataList.getValue().size() == 0){
-            viewStatusLiveData.setValue(ViewStatus.EMPTY);
+        }else if(results[0].isFirst() && dataList.getValue().size() == 0){
+            Log.e("MvvmBaseViewModel","fail 数据错误");
+            viewStatusLiveData.setValue(ViewStatus.REQUEST_ERROR);
         }
     }
 }

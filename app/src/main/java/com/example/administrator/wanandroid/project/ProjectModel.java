@@ -34,6 +34,9 @@ public class ProjectModel extends MvvmBaseModel<List<BaseCustomViewModel>> {
     }
 
     public void loadNextPage(){
+        if(isFirst()){
+            return;
+        }
         isRefreshing = false;
         Log.e("LoadNextPage","load:"+pageNum);
         load();
@@ -91,10 +94,13 @@ public class ProjectModel extends MvvmBaseModel<List<BaseCustomViewModel>> {
                             boolean isFirst = pageNum == 0;
                             loadFail(e.getMessage(),new PagingResult(true,isFirst,true));
                         }
+                        setFirst(false);
                     }
 
                     @Override
                     public void onComplete() {
+                        setFirst(false);
+
                     }
                 });
     }

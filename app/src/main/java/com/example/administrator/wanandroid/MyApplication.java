@@ -3,7 +3,7 @@ package com.example.administrator.wanandroid;
 import android.app.Application;
 import android.content.Context;
 
-import com.example.administrator.wanandroid.viewstatus.LoadErrorCallBack;
+import com.example.administrator.wanandroid.viewstatus.EmptyCallBack;
 import com.example.administrator.wanandroid.viewstatus.LoadingCallback;
 import com.example.administrator.wanandroid.viewstatus.NetworkErrorCallback;
 import com.kingja.loadsir.core.LoadSir;
@@ -16,7 +16,7 @@ public class MyApplication extends Application {
         context = getApplicationContext();
         LoadSir.beginBuilder()
                 .addCallback(new LoadingCallback())
-                .addCallback(new LoadErrorCallBack())
+                .addCallback(new EmptyCallBack())
                 .addCallback(new NetworkErrorCallback())
                 .setDefaultCallback(LoadingCallback.class)
                 .commit();

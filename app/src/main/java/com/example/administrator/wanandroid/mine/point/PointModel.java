@@ -33,6 +33,9 @@ public class PointModel extends MvvmBaseModel<List<PointInfo.Datas>> {
     }
 
     public void loadNextPage(){
+        if(isFirst()){
+            return;
+        }
         isRefreshing = false;
         Log.e("LoadNextPage","load:"+pageNum);
         load();
@@ -74,10 +77,12 @@ public class PointModel extends MvvmBaseModel<List<PointInfo.Datas>> {
                             boolean isFirst = pageNum == 1;
                             loadFail(e.getMessage(),new PagingResult(true,isFirst,true));
                         }
+                        setFirst(false);
                     }
 
                     @Override
                     public void onComplete() {
+                        setFirst(false);
 
                     }
                 });

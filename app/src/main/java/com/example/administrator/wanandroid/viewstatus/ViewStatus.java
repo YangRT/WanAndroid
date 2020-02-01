@@ -7,5 +7,6 @@ public enum ViewStatus {
     SHOW_CONTENT,
     NO_MORE_DATA,
     REFRESH_ERROR,
-    LOAD_MORE_FAILED
+    LOAD_MORE_FAILED,
+    REQUEST_ERROR
 }

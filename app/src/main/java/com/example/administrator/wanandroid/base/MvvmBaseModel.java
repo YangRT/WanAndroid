@@ -28,6 +28,7 @@ public abstract class MvvmBaseModel<T> {
     private String mApkPreferenceData;
     protected int pageNum = 0;
     protected boolean mIsPaging;
+    private boolean isFirst = true;
 
     public MvvmBaseModel(boolean isPaging,String key,String data){
         this.mIsPaging = isPaging;
@@ -129,6 +130,7 @@ public abstract class MvvmBaseModel<T> {
                 if(weakListener.get() instanceof IBaseModelListener){
                     IBaseModelListener item = weakListener.get();
                     if(item != null){
+                        Log.e(TAG,"item.loadFail");
                             item.loadFail(this,errorMsg,results);
 
                     }
@@ -200,4 +202,11 @@ public abstract class MvvmBaseModel<T> {
         }
     }
 
+    public boolean isFirst() {
+        return isFirst;
+    }
+
+    public void setFirst(boolean first) {
+        isFirst = first;
+    }
 }

@@ -21,7 +21,6 @@ import io.reactivex.schedulers.Schedulers;
 
 public class MyArticleModel extends MvvmBaseModel<List<BaseCustomViewModel>> {
 
-    private boolean isFirst = true;
 
     public MyArticleModel(String key) {
         super(true, key,null);
@@ -42,7 +41,7 @@ public class MyArticleModel extends MvvmBaseModel<List<BaseCustomViewModel>> {
     }
 
     public void loadNextPage(){
-        if(isFirst){
+        if(isFirst()){
             return;
         }
         isRefreshing = false;
@@ -99,11 +98,12 @@ public class MyArticleModel extends MvvmBaseModel<List<BaseCustomViewModel>> {
                                 boolean isFirst = pageNum == 0;
                                 loadFail(e.getMessage(),new PagingResult(true,isFirst,true));
                             }
+                            setFirst(false);
                         }
 
                         @Override
                         public void onComplete() {
-                            isFirst =false;
+                            setFirst(false);
                         }
                     });
         }else {
@@ -151,14 +151,14 @@ public class MyArticleModel extends MvvmBaseModel<List<BaseCustomViewModel>> {
                                 boolean isFirst = pageNum == 1;
                                 loadFail(e.getMessage(),new PagingResult(true,isFirst,true));
                             }
-                            isFirst = false;
+                            setFirst(false);
                             e.printStackTrace();
                         }
 
                         @Override
                         public void onComplete() {
                             Log.e("MyArticle","finish");
-                            isFirst = false;
+                            setFirst(false);
                         }
                     });
         }

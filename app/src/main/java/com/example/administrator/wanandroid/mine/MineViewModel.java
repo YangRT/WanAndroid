@@ -17,10 +17,4 @@ public class MineViewModel extends MvvmBaseViewModel<MineModel,MineInfo> {
 
 
 
-
-    @Override
-    public void loadFail(MvvmBaseModel viewModel, String msg, PagingResult... results) {
-        errorMsg.postValue(msg);
-        viewStatusLiveData.setValue(ViewStatus.LOAD_MORE_FAILED);
-    }
 }

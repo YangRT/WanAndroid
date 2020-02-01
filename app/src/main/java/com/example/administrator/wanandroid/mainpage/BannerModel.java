@@ -3,6 +3,7 @@ package com.example.administrator.wanandroid.mainpage;
 import android.util.Log;
 
 import com.example.administrator.wanandroid.base.MvvmBaseModel;
+import com.example.administrator.wanandroid.base.PagingResult;
 import com.example.administrator.wanandroid.net.NetUtil;
 import com.example.administrator.wanandroid.net.UrlUtil;
 import com.example.administrator.wanandroid.utils.BaseDataPreferenceUtil;
@@ -53,12 +54,13 @@ public class BannerModel extends MvvmBaseModel<BannerInfo> {
                     @Override
                     public void onError(Throwable e) {
                         Log.e("Banner","onError");
-                        loadFail(e.getMessage());
+                        setFirst(false);
+                        loadFail(e.getMessage(),new PagingResult(true,true,false));
                     }
 
                     @Override
                     public void onComplete() {
-
+                        setFirst(false);
                     }
                 });
     }
