@@ -83,7 +83,6 @@ public class KIModel extends MvvmBaseModel<List<BaseCustomViewModel>> {
                                 model.setTime(datasBean.getNiceDate());
                                 model.setTitle(datasBean.getTitle());
                                 model.setId(datasBean.getId());
-                                model.setClassic(datasBean.getSuperChapterName()+"/"+datasBean.getChapterName());
                                 list.add(model);
                             }
                             boolean isEmpty = list.size() == 0;

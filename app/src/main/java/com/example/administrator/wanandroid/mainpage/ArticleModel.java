@@ -67,10 +67,12 @@ public class ArticleModel extends MvvmBaseModel<List<BaseCustomViewModel>> {
                             for(BaseArticleInfo.DataBean.DatasBean datasBean: baseArticleInfo.getData().getDatas()){
                                 BaseCustomViewModel model = null;
                                 if(datasBean.getEnvelopePic() != null && datasBean.getEnvelopePic().length()>0){
-                                    model = new BaseCustomViewModel(BaseCustomViewModel.WITH_PIC);
+                                    model = new BaseCustomViewModel(BaseCustomViewModel.PROJECT);
                                     model.setPath(datasBean.getEnvelopePic());
+                                    model.setDescription(datasBean.getDesc());
                                 }else {
                                     model = new BaseCustomViewModel(BaseCustomViewModel.NORMAL);
+                                    model.setClassic(datasBean.getSuperChapterName()+"/"+datasBean.getChapterName());
                                 }
                                 model.setJumpUrl(datasBean.getLink());
                                 if(datasBean.getAuthor().equals("")){
@@ -82,7 +84,6 @@ public class ArticleModel extends MvvmBaseModel<List<BaseCustomViewModel>> {
                                 model.setTime(datasBean.getNiceDate());
                                 model.setTitle(datasBean.getTitle());
                                 model.setId(datasBean.getId());
-                                model.setClassic(datasBean.getSuperChapterName()+"/"+datasBean.getChapterName());
                                 list.add(model);
                             }
                             boolean isEmpty = list.size() == 0;

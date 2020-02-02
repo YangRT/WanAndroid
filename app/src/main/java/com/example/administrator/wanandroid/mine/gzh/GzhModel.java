@@ -70,7 +70,11 @@ public class GzhModel extends MvvmBaseModel<List<BaseCustomViewModel>> {
                             for(BaseArticleInfo.DataBean.DatasBean datasBean: baseArticleInfo.getData().getDatas()){
                                 BaseCustomViewModel model = new BaseCustomViewModel(BaseCustomViewModel.NORMAL);
                                 model.setJumpUrl(datasBean.getLink());
-                                model.setAuthor(datasBean.getShareUser());
+                                if(datasBean.getAuthor().equals("")){
+                                    model.setAuthor(datasBean.getShareUser());
+                                }else {
+                                    model.setAuthor(datasBean.getAuthor());
+                                }
                                 model.setCollect(datasBean.getCollect());
                                 model.setTime(datasBean.getNiceDate());
                                 model.setTitle(datasBean.getTitle());

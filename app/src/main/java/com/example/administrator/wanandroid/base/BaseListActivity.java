@@ -42,31 +42,37 @@ public class BaseListActivity extends AppCompatActivity {
         getSupportActionBar().setTitle(title);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        setTitleCenter(title);
         binding.toolbar.setTitleTextAppearance(this,R.style.Toolbar_TitleText_low);
         binding.toolbar.setBackgroundColor(Color.parseColor("#FCA019"));
-        getWindow().setStatusBarColor(Color.parseColor("#FCA019"));
+        getWindow().setStatusBarColor(getResources().getColor(R.color.colorTheme));
         Bundle bundle = new Bundle();
         if(title.equals("我的收藏")){
+            setTitleCenter(title);
             fragment = new MyArticleFragment();
             bundle.putString("type","collect");
         }else if(title.equals("我的分享")){
+            setTitleCenter(title);
             fragment = new MyArticleFragment();
             bundle.putString("type","share");
         }else if(title.equals("积分排行")){
+            setTitleCenter(title);
             fragment = new RankFragment();
         }else if(title.equals("积分明细")){
+            setTitleCenter(title);
             fragment = new PointFragment();
             bundle.putString("count",intent.getStringExtra("count"));
         }else if(title.equals("知识体系")){
+            setTitleCenter(title);
             fragment = new KnowledgeFragment();
         }else if(title.equals("导航")){
+            setTitleCenter(title);
             fragment = new NavigationFragment();
         }else if(title.equals("公众号文章")){
             fragment = new TabFragment();
             bundle.putString("type","gzh");
             setTitleCenter("公众号");
         }else if(title.equals("项目分类")){
+            setTitleCenter(title);
             fragment = new TabFragment();
             bundle.putString("type","classic");
         }else if(title.equals("search")){
@@ -74,6 +80,7 @@ public class BaseListActivity extends AppCompatActivity {
             setTitleCenter(intent.getStringExtra("key"));
             bundle.putString("key",intent.getStringExtra("key"));
         }else if(title.equals("分享文章")){
+            setTitleCenter(title);
             fragment = new ShareFragment();
         }else {
             fragment = new TabFragment();

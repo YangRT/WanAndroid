@@ -1,12 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
+<layout>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorTheme"
     tools:context=".MainActivity">
-   <FrameLayout
-       android:id="@+id/fragment_container"
-       android:layout_width="match_parent"
-       android:layout_height="match_parent"/>
+   <com.airbnb.lottie.LottieAnimationView
+       android:id="@+id/animation_view"
+       app:layout_constraintBottom_toBottomOf="parent"
+       app:layout_constraintTop_toTopOf="parent"
+       app:layout_constraintStart_toStartOf="parent"
+       app:layout_constraintEnd_toEndOf="parent"
+       app:layout_constraintWidth_percent=".80"
+       app:layout_constraintHeight_percent=".40"
+       android:layout_width="0dp"
+       android:layout_height="0dp"
+       app:lottie_autoPlay="true"
+       app:lottie_fileName="flash.json"/>
 </android.support.constraint.ConstraintLayout>
+</layout>

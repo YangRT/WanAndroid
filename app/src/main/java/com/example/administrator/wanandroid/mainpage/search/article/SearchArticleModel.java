@@ -110,7 +110,7 @@ public class SearchArticleModel extends MvvmBaseModel<List<BaseCustomViewModel>>
 
                     @Override
                     public void onComplete() {
-
+                        setFirst(false);
                     }
                 });
     }

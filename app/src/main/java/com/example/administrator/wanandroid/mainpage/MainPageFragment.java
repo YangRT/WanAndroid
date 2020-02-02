@@ -188,6 +188,9 @@ public class MainPageFragment extends MvvmFragment<FragmentArticleBinding, MainP
     }
 
     public void getBannerData(BannerInfo data){
+        bannerTitle.clear();
+        bannerPath.clear();
+        bannerUrl.clear();
         for(BannerInfo.Data item:data.getData()) {
             bannerTitle.add(item.getTitle());
             bannerPath.add(item.getImagePath());

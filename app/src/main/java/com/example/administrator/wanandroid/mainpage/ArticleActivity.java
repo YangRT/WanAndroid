@@ -1,6 +1,7 @@
 package com.example.administrator.wanandroid.mainpage;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.http.SslError;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -19,8 +20,10 @@ public class ArticleActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_article);
+        getWindow().setStatusBarColor(getResources().getColor(R.color.colorTheme));
         Toolbar toolbar = findViewById(R.id.article_toolbar);
         setSupportActionBar(toolbar);
+        toolbar.setBackgroundColor(Color.parseColor("#FCA019"));;
         WebView webView = findViewById(R.id.article_web_view);
         Intent intent = getIntent();
         String url = intent.getStringExtra("url");
