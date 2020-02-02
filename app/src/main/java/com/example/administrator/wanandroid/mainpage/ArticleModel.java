@@ -81,6 +81,7 @@ public class ArticleModel extends MvvmBaseModel<List<BaseCustomViewModel>> {
                                 model.setCollect(datasBean.getCollect());
                                 model.setTime(datasBean.getNiceDate());
                                 model.setTitle(datasBean.getTitle());
+                                model.setId(datasBean.getId());
                                 model.setClassic(datasBean.getSuperChapterName()+"/"+datasBean.getChapterName());
                                 list.add(model);
                             }

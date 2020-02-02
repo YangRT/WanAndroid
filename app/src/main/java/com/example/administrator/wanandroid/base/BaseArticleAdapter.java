@@ -39,6 +39,7 @@ public class BaseArticleAdapter extends BaseMultiItemQuickAdapter<BaseCustomView
                 .setText(R.id.main_page_recyclerview_item_time,item.getTime())
                 .setText(R.id.main_page_recyclerview_item_author,item.getAuthor())
                 .setText(R.id.main_page_recyclerview_item_type,item.getClassic());
+        helper.addOnClickListener(R.id.main_page_recyclerview_item_collect);
         if(item.isCollect()){
             helper.setImageResource(R.id.main_page_recyclerview_item_collect,R.drawable.like);
         }else {

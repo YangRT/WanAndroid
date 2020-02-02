@@ -78,6 +78,7 @@ public class ClassicModel extends MvvmBaseModel<List<BaseCustomViewModel>> {
                                 model.setCollect(datasBean.getCollect());
                                 model.setTime(datasBean.getNiceDate());
                                 model.setTitle(datasBean.getTitle());
+                                model.setId(datasBean.getId());
                                 list.add(model);
                             }
                             boolean isEmpty = list.size() == 0;
@@ -114,11 +115,5 @@ public class ClassicModel extends MvvmBaseModel<List<BaseCustomViewModel>> {
         }.getType();
     }
 
-    @Override
-    protected boolean isNeedToUpdate() {
-        long time = System.currentTimeMillis() - BaseDataPreferenceUtil.getInstance().getLong(mCachedPreferenceKey);
-        if(time > 300000) return true;;
-        return false;
-    }
 
 }

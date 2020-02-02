@@ -23,6 +23,7 @@ import com.example.administrator.wanandroid.mine.knowledge.KnowledgeFragment;
 import com.example.administrator.wanandroid.mine.navigation.NavigationFragment;
 import com.example.administrator.wanandroid.mine.point.PointFragment;
 import com.example.administrator.wanandroid.mine.rank.RankFragment;
+import com.example.administrator.wanandroid.square.share.ShareFragment;
 import com.example.administrator.wanandroid.tab.TabFragment;
 
 public class BaseListActivity extends AppCompatActivity {
@@ -72,6 +73,8 @@ public class BaseListActivity extends AppCompatActivity {
             fragment = new SearchArticleFragment();
             setTitleCenter(intent.getStringExtra("key"));
             bundle.putString("key",intent.getStringExtra("key"));
+        }else if(title.equals("分享文章")){
+            fragment = new ShareFragment();
         }else {
             fragment = new TabFragment();
             bundle.putString("type",title);

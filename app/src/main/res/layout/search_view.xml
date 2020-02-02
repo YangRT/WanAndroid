@@ -12,7 +12,7 @@
         <com.example.administrator.wanandroid.customview.searchview.SearchEditText
             android:background="@color/colorTheme"
             android:id="@+id/edit_search"
-            android:paddingStart="4dp"
+            android:paddingStart="12dp"
             android:layout_width="0dp"
             android:layout_weight="7"
             android:layout_height="45dp" />

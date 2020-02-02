@@ -14,25 +14,26 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.example.administrator.wanandroid.R;
 import com.example.administrator.wanandroid.base.BaseArticleAdapter;
 import com.example.administrator.wanandroid.base.BaseCustomViewModel;
 import com.example.administrator.wanandroid.base.BaseLazyFragment;
+import com.example.administrator.wanandroid.collect.CollectHelper;
 import com.example.administrator.wanandroid.databinding.FragmentListBinding;
 import com.example.administrator.wanandroid.mainpage.ArticleActivity;
-import com.example.administrator.wanandroid.project.classic.ClassicFragment;
-import com.example.administrator.wanandroid.project.classic.ClassicViewModel;
 
 import java.util.ArrayList;
 
-public class KIFragment extends BaseLazyFragment<FragmentListBinding, KIViewModel, BaseCustomViewModel> {
+public class KIFragment extends BaseLazyFragment<FragmentListBinding, KIViewModel, BaseCustomViewModel> implements CollectHelper.CollectCallBackListener{
 
 
     private String key;
     private int id;
-    private BaseArticleAdapter articleAdapter;
+    private BaseArticleAdapter adapter;
+    private CollectHelper helper;
 
     @Nullable
     @Override
@@ -58,9 +59,11 @@ public class KIFragment extends BaseLazyFragment<FragmentListBinding, KIViewMode
 
     @Override
     protected void initView() {
+        helper = new CollectHelper();
+        helper.setCollectCallBackListener(this);
         viewDataBinding.articleRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        articleAdapter = new BaseArticleAdapter(getContext(),new ArrayList<BaseCustomViewModel>());
-        articleAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+        adapter = new BaseArticleAdapter(getContext(),new ArrayList<BaseCustomViewModel>());
+        adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 Log.e("ItemClick","test");
@@ -70,7 +73,18 @@ public class KIFragment extends BaseLazyFragment<FragmentListBinding, KIViewMode
                 getActivity().startActivity(intent);
             }
         });
-        articleAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
+        adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                BaseCustomViewModel model = (BaseCustomViewModel)adapter.getData().get(position);
+                if(model.isCollect()){
+                    helper.unCollectArticle(model.getId(),position);
+                }else {
+                    helper.addCollectArticle(model.getId(),position);
+                }
+            }
+        });
+        adapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
             public void onLoadMoreRequested() {
                 getViewModel().tryToLoadNextPage();
@@ -82,7 +96,7 @@ public class KIFragment extends BaseLazyFragment<FragmentListBinding, KIViewMode
                 getViewModel().tryToRefresh();
             }
         });
-        viewDataBinding.articleRecyclerView.setAdapter(articleAdapter);
+        viewDataBinding.articleRecyclerView.setAdapter(adapter);
         viewDataBinding.articleRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(),DividerItemDecoration.VERTICAL));
     }
 
@@ -107,7 +121,7 @@ public class KIFragment extends BaseLazyFragment<FragmentListBinding, KIViewMode
 
     @Override
     public void onListItemInserted(ObservableArrayList<BaseCustomViewModel> sender) {
-        articleAdapter.setNewData(sender);
+        adapter.setNewData(sender);
     }
 
     @Override
@@ -128,23 +142,53 @@ public class KIFragment extends BaseLazyFragment<FragmentListBinding, KIViewMode
     }
 
     @Override
+    protected boolean isRefreshing() {
+        return viewDataBinding.mainPageRefreshLayout.isRefreshing();
+    }
+
+    @Override
     protected void loadMoreFinish() {
-        if(articleAdapter.isLoading()){
-            articleAdapter.loadMoreComplete();
+        if(adapter.isLoading()){
+            adapter.loadMoreComplete();
         }
     }
 
     @Override
     protected void loadMoreEmpty() {
-        if(articleAdapter.isLoading()){
-            articleAdapter.loadMoreEnd();
+        if(adapter.isLoading()){
+            adapter.loadMoreEnd();
         }
     }
 
     @Override
     protected void loadMoreFail() {
-        if(articleAdapter.isLoading()){
-            articleAdapter.loadMoreFail();
+        if(adapter.isLoading()){
+            adapter.loadMoreFail();
+        }
+    }
+
+    @Override
+    public void onCollectSuccess(int position) {
+        BaseCustomViewModel model = adapter.getData().get(position);
+        model.setCollect(true);
+        Toast.makeText(getContext(),"收藏成功！",Toast.LENGTH_SHORT).show();
+        adapter.setData(position,model);
+    }
+
+    @Override
+    public void onUnCollectSuccess(int position) {
+        BaseCustomViewModel model = adapter.getData().get(position);
+        model.setCollect(false);
+        Toast.makeText(getContext(),"取消收藏成功！",Toast.LENGTH_SHORT).show();
+        adapter.setData(position,model);
+    }
+
+    @Override
+    public void onFail(String message,int type) {
+        if(type == 0){
+            Toast.makeText(getContext(),"收藏失败！"+message,Toast.LENGTH_SHORT).show();
+        }else {
+            Toast.makeText(getContext(),"取消收藏失败！"+message,Toast.LENGTH_SHORT).show();
         }
     }
 

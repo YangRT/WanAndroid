@@ -226,6 +226,8 @@ public class BaseArticleInfo {
 
             private int zan;
 
+            private int originId;
+
             public void setApkLink(String apkLink){
                 this.apkLink = apkLink;
             }
@@ -399,6 +401,14 @@ public class BaseArticleInfo {
             }
             public int getZan(){
                 return this.zan;
+            }
+
+            public int getOriginId() {
+                return originId;
+            }
+
+            public void setOriginId(int originId) {
+                this.originId = originId;
             }
         }
     }

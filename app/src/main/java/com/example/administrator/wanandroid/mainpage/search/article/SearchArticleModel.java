@@ -78,6 +78,7 @@ public class SearchArticleModel extends MvvmBaseModel<List<BaseCustomViewModel>>
                                 }
                                 model.setCollect(datasBean.getCollect());
                                 model.setTime(datasBean.getNiceDate());
+                                model.setId(datasBean.getId());
                                 String title = datasBean.getTitle().replaceAll("<em class='highlight'>","");
                                 title = title.replace("</em>","");
                                 title = title.replace("&amp;","");

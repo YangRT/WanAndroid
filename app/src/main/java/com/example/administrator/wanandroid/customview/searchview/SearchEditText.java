@@ -14,6 +14,15 @@ public class SearchEditText extends AppCompatEditText {
 
     private Drawable drawableClear;
     private Drawable drawableBack;
+    private BackListener mListener;
+
+    interface BackListener{
+        void back();
+    }
+
+    public void setBackListener(BackListener listener){
+        mListener = listener;
+    }
 
     public SearchEditText(Context context) {
         super(context);
@@ -64,8 +73,13 @@ public class SearchEditText extends AppCompatEditText {
         switch (event.getAction()){
             case MotionEvent.ACTION_UP:
                 Drawable drawable = drawableClear;
+                Drawable drawable1 = drawableBack;
                 if(drawable!=null && x<= (getWidth()-getPaddingRight()) && x >=(getWidth()-getPaddingRight()-drawable.getBounds().width())){
                     setText("");
+                }else if(drawableBack != null && x >= getPaddingStart() && x <= getPaddingStart()+drawable1.getBounds().width()){
+                    if(mListener != null){
+                        mListener.back();
+                    }
                 }
                 break;
 

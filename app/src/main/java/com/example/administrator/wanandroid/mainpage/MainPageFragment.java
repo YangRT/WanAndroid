@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 
 import com.bumptech.glide.Glide;
@@ -23,6 +24,7 @@ import com.example.administrator.wanandroid.R;
 import com.example.administrator.wanandroid.base.BaseArticleAdapter;
 import com.example.administrator.wanandroid.base.BaseCustomViewModel;
 import com.example.administrator.wanandroid.base.MvvmFragment;
+import com.example.administrator.wanandroid.collect.CollectHelper;
 import com.example.administrator.wanandroid.databinding.FragmentArticleBinding;
 import com.example.administrator.wanandroid.mainpage.banner.BannerInfo;
 
@@ -32,7 +34,7 @@ import java.util.List;
 
 import cn.bingoogolapple.bgabanner.BGABanner;
 
-public class MainPageFragment extends MvvmFragment<FragmentArticleBinding, MainPageViewModel, BaseCustomViewModel>{
+public class MainPageFragment extends MvvmFragment<FragmentArticleBinding, MainPageViewModel, BaseCustomViewModel> implements CollectHelper.CollectCallBackListener {
 
     private FrameLayout headView;
     private BaseArticleAdapter adapter;
@@ -40,12 +42,15 @@ public class MainPageFragment extends MvvmFragment<FragmentArticleBinding, MainP
     private List<String> bannerTitle = new ArrayList<>();
     private List<String> bannerPath = new ArrayList<>();
     private List<String> bannerUrl = new ArrayList<>();
+    private CollectHelper helper;
 
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         viewDataBinding.articleRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        helper = new CollectHelper();
+        helper.setCollectCallBackListener(this);
         headView = (FrameLayout) LayoutInflater.from(getContext()).inflate(R.layout.banner,null);
         mBanner = headView.findViewById(R.id.banner);
         mBanner.setAdapter(new BGABanner.Adapter<ImageView,String>() {
@@ -70,6 +75,17 @@ public class MainPageFragment extends MvvmFragment<FragmentArticleBinding, MainP
                 intent.putExtra("url",((BaseCustomViewModel)adapter.getData().get(position)).getJumpUrl());
                 intent.putExtra("title",((BaseCustomViewModel)adapter.getData().get(position)).getTitle());
                 getActivity().startActivity(intent);
+            }
+        });
+        adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                BaseCustomViewModel model = (BaseCustomViewModel)adapter.getData().get(position);
+                if(model.isCollect()){
+                    helper.unCollectArticle(model.getId(),position);
+                }else {
+                    helper.addCollectArticle(model.getId(),position);
+                }
             }
         });
         adapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
@@ -146,7 +162,32 @@ public class MainPageFragment extends MvvmFragment<FragmentArticleBinding, MainP
 
     }
 
-   public void getBannerData(BannerInfo data){
+    @Override
+    public void onCollectSuccess(int position) {
+        BaseCustomViewModel model = adapter.getData().get(position);
+        model.setCollect(true);
+        Toast.makeText(getContext(),"收藏成功！",Toast.LENGTH_SHORT).show();
+        adapter.setData(position,model);
+    }
+
+    @Override
+    public void onUnCollectSuccess(int position) {
+        BaseCustomViewModel model = adapter.getData().get(position);
+        model.setCollect(false);
+        Toast.makeText(getContext(),"取消收藏成功！",Toast.LENGTH_SHORT).show();
+        adapter.setData(position,model);
+    }
+
+    @Override
+    public void onFail(String message,int type) {
+        if(type == 0){
+            Toast.makeText(getContext(),"收藏失败！"+message,Toast.LENGTH_SHORT).show();
+        }else {
+            Toast.makeText(getContext(),"取消收藏失败！"+message,Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void getBannerData(BannerInfo data){
         for(BannerInfo.Data item:data.getData()) {
             bannerTitle.add(item.getTitle());
             bannerPath.add(item.getImagePath());

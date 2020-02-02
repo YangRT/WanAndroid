@@ -14,6 +14,8 @@ public class BaseCustomViewModel implements Serializable, MultiItemEntity {
     private String path;
     private String classic;
     private String description;
+    private int originId;
+    private int id;
 
     public final static int NORMAL = 1;
     public final static int WITH_PIC = 2;
@@ -78,6 +80,22 @@ public class BaseCustomViewModel implements Serializable, MultiItemEntity {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getOriginId() {
+        return originId;
+    }
+
+    public void setOriginId(int originId) {
+        this.originId = originId;
     }
 
     @Override

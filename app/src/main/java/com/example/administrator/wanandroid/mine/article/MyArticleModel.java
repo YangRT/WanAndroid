@@ -83,6 +83,8 @@ public class MyArticleModel extends MvvmBaseModel<List<BaseCustomViewModel>> {
                                     model.setTime(dataBean.getNiceDate());
                                     model.setTitle(dataBean.getTitle());
                                     model.setClassic(dataBean.getChapterName());
+                                    model.setId(dataBean.getId());
+                                    model.setOriginId(dataBean.getOriginId());
                                     list.add(model);
                                 }
                                 boolean isEmpty = list.size() == 0;
@@ -133,6 +135,7 @@ public class MyArticleModel extends MvvmBaseModel<List<BaseCustomViewModel>> {
                                     model.setCollect(datasBean.getCollect());
                                     model.setTime(datasBean.getNiceDate());
                                     model.setTitle(datasBean.getTitle());
+                                    model.setId(datasBean.getId());
                                     model.setClassic(datasBean.getSuperChapterName()+"/"+datasBean.getChapterName());
                                     list.add(model);
                                 }

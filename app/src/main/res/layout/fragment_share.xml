@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+<android.support.constraint.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="0dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center"
+        android:theme="@style/shareCustomLineTheme"
+        app:hintTextAppearance="@style/shareHintAppearance"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.02"
+        app:layout_constraintWidth_percent=".82">
+
+        <EditText
+            android:id="@+id/share_title"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="标题"
+            android:maxWidth="300dp"
+            android:maxLines="2" />
+    </android.support.design.widget.TextInputLayout>
+    <android.support.design.widget.TextInputLayout
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintVertical_bias="0.20"
+        app:layout_constraintWidth_percent=".82"
+        android:theme="@style/shareCustomLineTheme"
+        app:hintTextAppearance="@style/shareHintAppearance"
+        android:layout_gravity="center"
+        android:layout_marginTop="30dp"
+        android:layout_width="0dp"
+        android:layout_height="100dp">
+        <EditText
+            android:id="@+id/share_link"
+            android:maxLines="2"
+            android:hint="文章链接"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </android.support.design.widget.TextInputLayout>
+    <Button
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintVertical_bias="0.40"
+        app:layout_constraintWidth_percent=".78"
+        android:id="@+id/bt_share"
+        android:text="分享"
+        android:textSize="18sp"
+        android:textColor="#ffffff"
+        android:layout_marginTop="30dp"
+        android:layout_gravity="center"
+        android:background="@color/colorTheme"
+        android:layout_width="0dp"
+        android:layout_height="40dp"/>
+    <TextView
+        android:layout_marginTop="18dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/bt_share"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintWidth_percent=".92"
+        android:textSize="15sp"
+        android:text="1. 只要是任何好文都可以分享哈，并不一定要是原创！投递的文章会进入广场 tab;
+2. CSDN，掘金，简书等官方博客站点会直接通过，不需要审核;
+3. 其他个人站点会进入审核阶段，不要投递任何无效链接，测试的请尽快删除，否则可能会对你的账号产生一定影响;
+4. 目前处于测试阶段，如果你发现500等错误，可以向我提交日志，让我们一起使网站变得更好。
+5. 由于本站只有我一个人开发与维护，会尽力保证24小时内审核，当然有可能哪天太累，会延期，请保持佛系..."
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"/>
+</android.support.constraint.ConstraintLayout>
+</layout>

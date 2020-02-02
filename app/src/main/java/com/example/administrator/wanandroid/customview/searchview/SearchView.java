@@ -28,7 +28,7 @@ import com.example.administrator.wanandroid.R;
 public class SearchView extends LinearLayout {
 
     private Context context;
-    private EditText searchEditText;
+    private SearchEditText searchEditText;
     private ImageView searchImage;
     private TextView clearHistory;
     private LinearLayout layout;
@@ -118,7 +118,14 @@ public class SearchView extends LinearLayout {
             }
         });
 
-
+        searchEditText.setBackListener(new SearchEditText.BackListener() {
+            @Override
+            public void back() {
+                if(bCallBack != null){
+                    bCallBack.backAction();
+                }
+            }
+        });
         searchEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {

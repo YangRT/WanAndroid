@@ -14,12 +14,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.example.administrator.wanandroid.R;
 import com.example.administrator.wanandroid.base.BaseArticleAdapter;
 import com.example.administrator.wanandroid.base.BaseCustomViewModel;
 import com.example.administrator.wanandroid.base.MvvmFragment;
+import com.example.administrator.wanandroid.collect.CollectHelper;
 import com.example.administrator.wanandroid.databinding.FragmentListBinding;
 import com.example.administrator.wanandroid.mainpage.ArticleActivity;
 import com.example.administrator.wanandroid.mine.article.MyArticleViewModel;
@@ -27,10 +29,11 @@ import com.example.administrator.wanandroid.viewstatus.ViewStatus;
 
 import java.util.ArrayList;
 
-public class MyArticleFragment extends MvvmFragment<FragmentListBinding, MyArticleViewModel, BaseCustomViewModel> {
+public class MyArticleFragment extends MvvmFragment<FragmentListBinding, MyArticleViewModel, BaseCustomViewModel> implements CollectHelper.CollectCallBackListener{
 
     private BaseArticleAdapter adapter;
     private String key;
+    private CollectHelper helper;
 
     @Nullable
     @Override
@@ -44,6 +47,8 @@ public class MyArticleFragment extends MvvmFragment<FragmentListBinding, MyArtic
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        helper = new CollectHelper();
+        helper.setCollectCallBackListener(this);
         viewDataBinding.articleRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new BaseArticleAdapter(getContext(),new ArrayList<BaseCustomViewModel>());
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
@@ -54,6 +59,22 @@ public class MyArticleFragment extends MvvmFragment<FragmentListBinding, MyArtic
                 intent.putExtra("url",((BaseCustomViewModel)adapter.getData().get(position)).getJumpUrl());
                 intent.putExtra("title",((BaseCustomViewModel)adapter.getData().get(position)).getTitle());
                 getActivity().startActivity(intent);
+            }
+        });
+        adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                BaseCustomViewModel model = (BaseCustomViewModel)adapter.getData().get(position);
+                if(key.equals("collect")){
+                    helper.unCollectArticle(model.getId(),model.getOriginId(),position);
+                }else {
+                    if(model.isCollect()){
+                        helper.unCollectArticle(model.getId(),position);
+                    }else {
+                        helper.addCollectArticle(model.getId(),position);
+                    }
+                }
+
             }
         });
         adapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
@@ -141,6 +162,38 @@ public class MyArticleFragment extends MvvmFragment<FragmentListBinding, MyArtic
             adapter.loadMoreFail();
         }
     }
+
+    @Override
+    public void onCollectSuccess(int position) {
+        BaseCustomViewModel model = adapter.getData().get(position);
+        model.setCollect(true);
+        Toast.makeText(getContext(),"收藏成功！",Toast.LENGTH_SHORT).show();
+        adapter.setData(position,model);
+    }
+
+    @Override
+    public void onUnCollectSuccess(int position) {
+        BaseCustomViewModel model = adapter.getData().get(position);
+        if(key.equals("collect")){
+            adapter.remove(position);
+        }else {
+            model.setCollect(false);
+            adapter.setData(position,model);
+        }
+
+        Toast.makeText(getContext(),"取消收藏成功！",Toast.LENGTH_SHORT).show();
+
+    }
+
+    @Override
+    public void onFail(String message,int type) {
+        if(type == 0){
+            Toast.makeText(getContext(),"收藏失败！"+message,Toast.LENGTH_SHORT).show();
+        }else {
+            Toast.makeText(getContext(),"取消收藏失败！"+message,Toast.LENGTH_SHORT).show();
+        }
+    }
+
 
     class MyViewModelFactory implements ViewModelProvider.Factory{
 

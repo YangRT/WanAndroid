@@ -159,7 +159,10 @@ public class HomeActivity extends AppCompatActivity {
                 startActivity(intent2);
                 break;
             case R.id.action_add:
+                Intent intent3 = new Intent(HomeActivity.this,BaseListActivity.class);
+                intent3.putExtra("type","分享文章");
                 Log.e("HomeActivity","Add");
+                startActivity(intent3);
                 break;
             case R.id.action_project:
                 Intent intent1 = new Intent(HomeActivity.this,BaseListActivity.class);
