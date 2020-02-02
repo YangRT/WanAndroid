@@ -187,16 +187,16 @@ public class SearchView extends LinearLayout {
         TypedArray typedArray = context.obtainStyledAttributes(set, R.styleable.SearchView);
 
         // 搜索框字体大小（dp）
-        textSizeSearch = typedArray.getDimension(R.styleable.SearchView_textSizeSearch, 20);
+        textSizeSearch = typedArray.getDimension(R.styleable.SearchView_textSizeSearch, 16);
         // 搜索框字体颜色（使用十六进制代码，如#333、#8e8e8e）
-        int defaultColor = Color.WHITE; // 默认颜色 = 白色
-        textColorSearch = typedArray.getColor(R.styleable.SearchView_textColorSearch, defaultColor);
+        int defaultColor = R.color.colorTheme; // 默认颜色 = 白色
+        textColorSearch = typedArray.getColor(R.styleable.SearchView_textColorSearch, Color.WHITE);
         // 搜索框提示内容（String）
         textHintSearch = typedArray.getString(R.styleable.SearchView_textHintSearch);
         // 搜索框高度
         searchBlockHeight = typedArray.getDimension(R.styleable.SearchView_searchBlockHeight, 60);
         // 搜索框颜色
-        searchBlockColor = typedArray.getColor(R.styleable.SearchView_searchBlockColor, defaultColor);
+        searchBlockColor = typedArray.getColor(R.styleable.SearchView_searchBlockColor, Color.parseColor("#FCA019"));
         // 释放资源
         typedArray.recycle();
 
@@ -208,11 +208,9 @@ public class SearchView extends LinearLayout {
         searchEditText.setTextSize(textSizeSearch);
         searchEditText.setTextColor(textColorSearch);
         searchEditText.setHint(textHintSearch);
+        searchEditText.setHintTextColor(Color.WHITE);
         layout = findViewById(R.id.search_block);
-        LayoutParams params = (LayoutParams) layout.getLayoutParams();
-        params.height = (int) searchBlockHeight;
         layout.setBackgroundColor(searchBlockColor);
-        layout.setLayoutParams(params);
         listView = findViewById(R.id.history_listview);
         clearHistory = findViewById(R.id.tv_clear);
         clearHistory.setVisibility(INVISIBLE);

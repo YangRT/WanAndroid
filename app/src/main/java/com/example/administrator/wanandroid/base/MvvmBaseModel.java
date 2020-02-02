@@ -90,6 +90,8 @@ public abstract class MvvmBaseModel<T> {
             if(mApkPreferenceData != null){
                 loadSuccess((T) GsonUtil.fromLocalJson(mApkPreferenceData,getTClass()));
             }
+        }else {
+            loadFail("没有缓存",new PagingResult(true,true,mIsPaging));
         }
         load();
     }

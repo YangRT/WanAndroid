@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.example.administrator.wanandroid.R;
 import com.example.administrator.wanandroid.databinding.ActivityListBinding;
+import com.example.administrator.wanandroid.mainpage.search.article.SearchArticleFragment;
 import com.example.administrator.wanandroid.mine.article.MyArticleFragment;
 import com.example.administrator.wanandroid.mine.gzh.GzhFragment;
 import com.example.administrator.wanandroid.mine.knowledge.KnowledgeFragment;
@@ -67,6 +68,10 @@ public class BaseListActivity extends AppCompatActivity {
         }else if(title.equals("项目分类")){
             fragment = new TabFragment();
             bundle.putString("type","classic");
+        }else if(title.equals("search")){
+            fragment = new SearchArticleFragment();
+            setTitleCenter(intent.getStringExtra("key"));
+            bundle.putString("key",intent.getStringExtra("key"));
         }else {
             fragment = new TabFragment();
             bundle.putString("type",title);
