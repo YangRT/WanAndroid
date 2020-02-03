@@ -78,6 +78,7 @@ public class MyArticleModel extends MvvmBaseModel<List<BaseCustomViewModel>> {
                                     }else {
                                         model = new BaseCustomViewModel(BaseCustomViewModel.NORMAL);
                                     }
+                                    model.setJumpUrl(dataBean.getLink());
                                     model.setAuthor(dataBean.getAuthor());
                                     model.setCollect(true);
                                     model.setTime(dataBean.getNiceDate());
@@ -136,6 +137,7 @@ public class MyArticleModel extends MvvmBaseModel<List<BaseCustomViewModel>> {
                                     model.setTime(datasBean.getNiceDate());
                                     model.setTitle(datasBean.getTitle());
                                     model.setId(datasBean.getId());
+                                    model.setJumpUrl(datasBean.getLink());
                                     model.setClassic(datasBean.getSuperChapterName()+"/"+datasBean.getChapterName());
                                     list.add(model);
                                 }

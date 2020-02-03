@@ -5,8 +5,10 @@ import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.http.SslError;
+import android.os.Build;
 import android.os.Message;
 import android.security.KeyChain;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -31,6 +33,8 @@ import com.example.administrator.wanandroid.databinding.ActivityArticleBinding;
 import com.example.administrator.wanandroid.viewstatus.LoadingCallback;
 import com.example.administrator.wanandroid.viewstatus.NetworkErrorCallback;
 import com.just.agentweb.AgentWeb;
+import com.just.agentweb.AgentWebSettingsImpl;
+import com.just.agentweb.IAgentWebSettings;
 import com.just.agentweb.WebChromeClient;
 import com.just.agentweb.WebViewClient;
 import com.kingja.loadsir.callback.Callback;
@@ -62,7 +66,7 @@ public class ArticleActivity extends AppCompatActivity implements View.OnClickLi
         isCollect = intent.getBooleanExtra("collect",false);
         originId = intent.getIntExtra("originId",-1);
         id = intent.getIntExtra("id",0);
-        Log.e("ArticleActivity",""+id+""+isCollect);
+        Log.e("ArticleActivity",""+id+" "+isCollect+" "+url);
         binding.articleTitle.setText(title);
         binding.articleBack.setOnClickListener(this);
         binding.articleCollect.setOnClickListener(this);
@@ -101,13 +105,13 @@ public class ArticleActivity extends AppCompatActivity implements View.OnClickLi
             @Override
             public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
                 super.onReceivedError(view, request, error);
-                loadService.showCallback(NetworkErrorCallback.class);
-            }
 
-            @Override
-            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-
-                return true;
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    if(error.getErrorCode() >= 400)
+                        loadService.showCallback(NetworkErrorCallback.class);
+                }else {
+                    loadService.showCallback(NetworkErrorCallback.class);
+                }
             }
 
 
@@ -128,9 +132,12 @@ public class ArticleActivity extends AppCompatActivity implements View.OnClickLi
                         .useDefaultIndicator()
                         .setWebChromeClient(webChromeClient)
                         .setWebViewClient(webViewClient)
+                        .setSecurityType(AgentWeb.SecurityType.STRICT_CHECK)
                         .createAgentWeb()
                         .ready()
                         .go(url);
+                agentWeb.getWebCreator().getWebView().getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+                agentWeb.getWebCreator().getWebView().getSettings().setJavaScriptEnabled(true);
             } catch (Exception e){
                 e.printStackTrace();
             }

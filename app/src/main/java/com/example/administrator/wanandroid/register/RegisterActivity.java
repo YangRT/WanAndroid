@@ -31,6 +31,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this,R.layout.activity_register);
+        binding.btRegister.setOnClickListener(this);
         getWindow().setStatusBarColor(Color.TRANSPARENT);
     }
 
