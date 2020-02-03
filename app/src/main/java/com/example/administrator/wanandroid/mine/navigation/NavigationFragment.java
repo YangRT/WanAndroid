@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.administrator.wanandroid.R;
+import com.example.administrator.wanandroid.base.BaseCustomViewModel;
 import com.example.administrator.wanandroid.base.MvvmFragment;
 import com.example.administrator.wanandroid.databinding.FragmentNavigationBinding;
 import com.example.administrator.wanandroid.mainpage.ArticleActivity;
@@ -31,11 +32,12 @@ public class NavigationFragment extends MvvmFragment<FragmentNavigationBinding,N
         viewDataBinding.navigationRecyclerview.setAdapter(navigationAdapter);
         navigationAdapter.setItemClickListener(new NavigationAdapter.NavigationAdapterListener() {
             @Override
-            public void onItemClick(String title, String link) {
+            public void onItemClick(String title, String link,int id) {
                 Toast.makeText(getContext(),title,Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(getActivity(), ArticleActivity.class);
                 intent.putExtra("url",link);
                 intent.putExtra("title",title);
+                intent.putExtra("id",id);
                 getActivity().startActivity(intent);
             }
         });

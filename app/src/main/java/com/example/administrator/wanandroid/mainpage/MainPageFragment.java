@@ -74,6 +74,8 @@ public class MainPageFragment extends MvvmFragment<FragmentArticleBinding, MainP
                 Intent intent = new Intent(getActivity(), ArticleActivity.class);
                 intent.putExtra("url",((BaseCustomViewModel)adapter.getData().get(position)).getJumpUrl());
                 intent.putExtra("title",((BaseCustomViewModel)adapter.getData().get(position)).getTitle());
+                intent.putExtra("id",((BaseCustomViewModel)adapter.getData().get(position)).getId());
+                intent.putExtra("collect",((BaseCustomViewModel)adapter.getData().get(position)).isCollect());
                 getActivity().startActivity(intent);
             }
         });

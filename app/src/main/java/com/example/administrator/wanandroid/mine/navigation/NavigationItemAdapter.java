@@ -23,7 +23,7 @@ public class NavigationItemAdapter extends RecyclerView.Adapter<NavigationItemAd
 
     interface NavigationItemClickListener{
 
-        void onCLick(String title,String link);
+        void onCLick(String title,String link,int id);
     }
 
     public void setNavigationItemClickListener(NavigationItemClickListener listener){
@@ -50,7 +50,7 @@ public class NavigationItemAdapter extends RecyclerView.Adapter<NavigationItemAd
             @Override
             public void onClick(View v) {
                 if(mListener != null){
-                    mListener.onCLick(list.get(position).getTitle(),list.get(position).getLink());
+                    mListener.onCLick(list.get(position).getTitle(),list.get(position).getLink(),list.get(position).getId());
                 }
             }
         });

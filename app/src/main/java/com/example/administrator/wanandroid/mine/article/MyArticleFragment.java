@@ -58,6 +58,11 @@ public class MyArticleFragment extends MvvmFragment<FragmentListBinding, MyArtic
                 Intent intent = new Intent(getActivity(), ArticleActivity.class);
                 intent.putExtra("url",((BaseCustomViewModel)adapter.getData().get(position)).getJumpUrl());
                 intent.putExtra("title",((BaseCustomViewModel)adapter.getData().get(position)).getTitle());
+                intent.putExtra("id",((BaseCustomViewModel)adapter.getData().get(position)).getId());
+                intent.putExtra("collect",((BaseCustomViewModel)adapter.getData().get(position)).isCollect());
+                if(((BaseCustomViewModel)adapter.getData().get(position)).getOriginId() != 0){
+                    intent.putExtra("originId",((BaseCustomViewModel)adapter.getData().get(position)).getOriginId());
+                }
                 getActivity().startActivity(intent);
             }
         });

@@ -2,6 +2,7 @@ package com.example.administrator.wanandroid.login;
 
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -32,6 +33,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(LoginActivity.this,R.layout.activity_login);
+        getWindow().setStatusBarColor(Color.TRANSPARENT);
         binding.btLogin.setOnClickListener(this);
         binding.tvToRegister.setOnClickListener(this);
 

@@ -1,30 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
+<layout>
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="@color/colorTheme"
     android:layout_height="match_parent"
     tools:context=".mainpage.ArticleActivity">
-
-    <android.support.design.widget.AppBarLayout
-        android:background="#2196F3"
+    <ImageView
+        android:id="@+id/article_back"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
-
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/article_toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
-    </android.support.design.widget.AppBarLayout>
-    <WebView
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintWidth_percent=".08"
+        android:layout_marginStart="5dp"
+        android:src="@drawable/left_arrow"
+        android:layout_width="0dp"
+        android:layout_height="?attr/actionBarSize"/>
+    <com.example.administrator.wanandroid.customview.scrollTextView.ScrollTextView
+        android:id="@+id/article_title"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintWidth_percent=".70"
+        app:layout_constraintStart_toStartOf="parent"
+        android:textColor="#ffffff"
+        android:textSize="18sp"
+        android:gravity="center"
+        android:singleLine="true"
+        android:ellipsize="marquee"
+        android:marqueeRepeatLimit="marquee_forever"
+        android:text="1. 只要是任何好文都可以分享哈，并不一定要是原创！投递的文章会进入广场 tab;
+2. CSDN，掘金，简书等官方博客站点会直接通过，不需要审核;
+3. 其他个人站点会进入审核阶段，不要投递任何无效链接，测试的请尽快删除，否则可能会对你的账号产生一定影响;
+4. 目前处于测试阶段，如果你发现500等错误，可以向我提交日志，让我们一起使网站变得更好。"
+        android:layout_width="0dp"
+        android:layout_height="?attr/actionBarSize"/>
+    <ImageView
+        android:id="@+id/article_collect"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintWidth_percent=".08"
+        android:layout_marginEnd="5dp"
+        android:src="@drawable/un_favorite"
+        android:layout_width="0dp"
+        android:layout_height="?attr/actionBarSize"/>
+    <FrameLayout
         android:id="@+id/article_web_view"
+        android:background="#ffffff"
         android:layout_marginTop="?attr/actionBarSize"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-    </WebView>
+    </FrameLayout>
 </android.support.constraint.ConstraintLayout>
+</layout>

@@ -18,7 +18,7 @@ public class NavigationAdapter extends BaseQuickAdapter<NavigationInfo.Data, Bas
     private NavigationAdapterListener mListener;
 
     public interface NavigationAdapterListener{
-        void onItemClick(String title,String link);
+        void onItemClick(String title,String link,int id);
     }
 
     public void setItemClickListener(NavigationAdapterListener listener){
@@ -38,9 +38,9 @@ public class NavigationAdapter extends BaseQuickAdapter<NavigationInfo.Data, Bas
         NavigationItemAdapter adapter = new NavigationItemAdapter(mContext,list);
         adapter.setNavigationItemClickListener(new NavigationItemAdapter.NavigationItemClickListener() {
             @Override
-            public void onCLick(String title, String link) {
+            public void onCLick(String title, String link,int id) {
                 if(mListener != null){
-                    mListener.onItemClick(title,link);
+                    mListener.onItemClick(title,link,id);
                 }
             }
         });
