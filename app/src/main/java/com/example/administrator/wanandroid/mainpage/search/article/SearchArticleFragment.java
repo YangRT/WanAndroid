@@ -23,9 +23,7 @@ import com.example.administrator.wanandroid.base.BaseCustomViewModel;
 import com.example.administrator.wanandroid.base.MvvmFragment;
 import com.example.administrator.wanandroid.collect.CollectHelper;
 import com.example.administrator.wanandroid.databinding.FragmentListBinding;
-import com.example.administrator.wanandroid.mainpage.ArticleActivity;
-import com.example.administrator.wanandroid.mine.article.MyArticleFragment;
-import com.example.administrator.wanandroid.mine.article.MyArticleViewModel;
+import com.example.administrator.wanandroid.ArticleActivity;
 
 import java.util.ArrayList;
 

@@ -26,6 +26,7 @@ import com.example.administrator.wanandroid.mine.rank.RankFragment;
 import com.example.administrator.wanandroid.square.share.ShareFragment;
 import com.example.administrator.wanandroid.tab.TabFragment;
 
+// 文章列表布局
 public class BaseListActivity extends AppCompatActivity {
 
     private ActivityListBinding binding;

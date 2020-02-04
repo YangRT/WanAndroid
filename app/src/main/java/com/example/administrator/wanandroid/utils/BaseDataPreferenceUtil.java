@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.example.administrator.wanandroid.MyApplication;
 
+// 缓存工具类
 public class BaseDataPreferenceUtil {
 
     private static BaseDataPreferenceUtil instance = null;

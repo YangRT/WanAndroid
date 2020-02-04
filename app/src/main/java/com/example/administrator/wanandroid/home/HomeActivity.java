@@ -19,7 +19,6 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
 import com.example.administrator.wanandroid.MyApplication;
 import com.example.administrator.wanandroid.R;
 import com.example.administrator.wanandroid.base.BaseListActivity;
@@ -47,11 +46,14 @@ public class HomeActivity extends AppCompatActivity {
     private final static String TAG = "HomeActivity";
 
     ActivityHomeBinding binding;
+    //主页4个fragment
     MineFragment mineFragment = new MineFragment();
     ProjectFragment projectFragment = new ProjectFragment();
     SquareFragment squareFragment = new SquareFragment();
     MainPageFragment mainPageFragment = new MainPageFragment();
+    //上一个fragment
     Fragment from;
+    //选中的fragment
     private int choseFragmentId = R.id.main;
     private Disposable disposable;
 
@@ -106,6 +108,7 @@ public class HomeActivity extends AppCompatActivity {
         });
     }
 
+    //页面切换
     private void switchFragment(Fragment from,Fragment to){
         if(from != to){
             FragmentManager fragmentManager = getSupportFragmentManager();
@@ -130,6 +133,13 @@ public class HomeActivity extends AppCompatActivity {
         }
     }
 
+    /**
+    * @Description:  标题居中
+    * @Param:
+    * @return:
+    * @Author: YangRT
+    * @Date: 2020/2/4
+    */
     public void setTitleCenter(String text) {
         binding.toolbar.setTitle("title");
         for (int i = 0; i < binding.toolbar.getChildCount(); i++) {
@@ -192,6 +202,7 @@ public class HomeActivity extends AppCompatActivity {
                menu.findItem(R.id.action_project).setVisible(false);
                menu.findItem(R.id.action_mine).setVisible(false);
                menu.findItem(R.id.action_exit).setVisible(false);
+               menu.findItem(R.id.action_setting).setVisible(false);
                 break;
             case R.id.square:
                 menu.findItem(R.id.action_search).setVisible(false);
@@ -199,6 +210,7 @@ public class HomeActivity extends AppCompatActivity {
                 menu.findItem(R.id.action_project).setVisible(false);
                 menu.findItem(R.id.action_mine).setVisible(false);
                 menu.findItem(R.id.action_exit).setVisible(false);
+                menu.findItem(R.id.action_setting).setVisible(false);
                 break;
             case R.id.project:
                 menu.findItem(R.id.action_search).setVisible(false);
@@ -206,11 +218,13 @@ public class HomeActivity extends AppCompatActivity {
                 menu.findItem(R.id.action_project).setVisible(true);
                 menu.findItem(R.id.action_mine).setVisible(false);
                 menu.findItem(R.id.action_exit).setVisible(false);
+                menu.findItem(R.id.action_setting).setVisible(false);
                 break;
             case R.id.mine:
                 menu.findItem(R.id.action_search).setVisible(false);
                 menu.findItem(R.id.action_add).setVisible(false);
                 menu.findItem(R.id.action_project).setVisible(false);
+                menu.findItem(R.id.action_setting).setVisible(true);
                 if(BaseDataPreferenceUtil.getInstance().getLoginStatus() != null){
                     menu.findItem(R.id.action_exit).setVisible(true);
                     menu.findItem(R.id.action_mine).setVisible(false);
@@ -223,6 +237,7 @@ public class HomeActivity extends AppCompatActivity {
         return super.onPrepareOptionsMenu(menu);
     }
 
+    //退出登录
     private void exit(){
         NetUtil.getInstance().getLoginRetrofitInstance(UrlUtil.baseUrl)
                 .create(ExitService.class)
@@ -258,35 +273,6 @@ public class HomeActivity extends AppCompatActivity {
                 });
     }
 
-    @Override
-    protected void onStart() {
-        Log.e(TAG,"onStart");
-        super.onStart();
-    }
-
-    @Override
-    protected void onRestart() {
-        Log.e(TAG,"onRestart");
-        super.onRestart();
-    }
-
-    @Override
-    protected void onResume() {
-        Log.e(TAG,"onResume");
-        super.onResume();
-    }
-
-    @Override
-    protected void onPause() {
-        Log.e(TAG,"onPause");
-        super.onPause();
-    }
-
-    @Override
-    protected void onStop() {
-        Log.e(TAG,"onStop");
-        super.onStop();
-    }
 
     @Override
     protected void onDestroy() {

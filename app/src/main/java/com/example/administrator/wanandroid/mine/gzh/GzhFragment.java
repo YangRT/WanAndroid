@@ -7,7 +7,6 @@ import android.databinding.ObservableArrayList;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -22,12 +21,9 @@ import com.example.administrator.wanandroid.R;
 import com.example.administrator.wanandroid.base.BaseArticleAdapter;
 import com.example.administrator.wanandroid.base.BaseCustomViewModel;
 import com.example.administrator.wanandroid.base.BaseLazyFragment;
-import com.example.administrator.wanandroid.base.MvvmBaseViewModel;
 import com.example.administrator.wanandroid.collect.CollectHelper;
 import com.example.administrator.wanandroid.databinding.FragmentListBinding;
-import com.example.administrator.wanandroid.mainpage.ArticleActivity;
-import com.example.administrator.wanandroid.tab.TabFragment;
-import com.example.administrator.wanandroid.tab.TabViewModel;
+import com.example.administrator.wanandroid.ArticleActivity;
 
 import java.util.ArrayList;
 

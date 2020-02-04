@@ -16,7 +16,7 @@ import android.widget.Toast;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.example.administrator.wanandroid.R;
 import com.example.administrator.wanandroid.collect.CollectHelper;
-import com.example.administrator.wanandroid.mainpage.ArticleActivity;
+import com.example.administrator.wanandroid.ArticleActivity;
 import com.example.administrator.wanandroid.base.BaseArticleAdapter;
 import com.example.administrator.wanandroid.base.BaseCustomViewModel;
 import com.example.administrator.wanandroid.base.MvvmFragment;

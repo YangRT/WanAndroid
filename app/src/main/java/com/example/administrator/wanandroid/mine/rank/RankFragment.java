@@ -1,8 +1,6 @@
 package com.example.administrator.wanandroid.mine.rank;
 
-import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.Intent;
 import android.databinding.ObservableArrayList;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -10,17 +8,12 @@ import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
-import android.util.Log;
 import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.example.administrator.wanandroid.R;
-import com.example.administrator.wanandroid.base.BaseArticleAdapter;
-import com.example.administrator.wanandroid.base.BaseCustomViewModel;
 import com.example.administrator.wanandroid.base.MvvmFragment;
 import com.example.administrator.wanandroid.databinding.FragmentListBinding;
-import com.example.administrator.wanandroid.mainpage.ArticleActivity;
-import com.example.administrator.wanandroid.project.ProjectViewModel;
 
 import java.util.ArrayList;
 

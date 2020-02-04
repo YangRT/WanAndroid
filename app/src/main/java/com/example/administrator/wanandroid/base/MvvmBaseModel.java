@@ -14,6 +14,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 import io.reactivex.disposables.CompositeDisposable;
 
+// M 层基类 实现通用功能
 public abstract class MvvmBaseModel<T> {
 
 

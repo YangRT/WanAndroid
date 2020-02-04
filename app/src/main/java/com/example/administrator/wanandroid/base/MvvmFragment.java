@@ -24,6 +24,7 @@ import com.kingja.loadsir.callback.Callback;
 import com.kingja.loadsir.core.LoadService;
 import com.kingja.loadsir.core.LoadSir;
 
+// v 层基类  实现页面状态监听，切换及观察数据
 public abstract class MvvmFragment<V extends ViewDataBinding,VM extends MvvmBaseViewModel,D> extends Fragment implements Observer {
 
     protected VM viewModel;

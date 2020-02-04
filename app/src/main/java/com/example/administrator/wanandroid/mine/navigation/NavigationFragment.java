@@ -11,10 +11,9 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.administrator.wanandroid.R;
-import com.example.administrator.wanandroid.base.BaseCustomViewModel;
 import com.example.administrator.wanandroid.base.MvvmFragment;
 import com.example.administrator.wanandroid.databinding.FragmentNavigationBinding;
-import com.example.administrator.wanandroid.mainpage.ArticleActivity;
+import com.example.administrator.wanandroid.ArticleActivity;
 import com.example.administrator.wanandroid.mine.SpaceItemDecoration;
 
 import java.util.ArrayList;

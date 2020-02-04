@@ -1,4 +1,4 @@
-package com.example.administrator.wanandroid.base;
+package com.example.administrator.wanandroid.customview.arc;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -10,6 +10,7 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
 
+// 利用贝塞尔曲线画弧线
 public class ArcView extends View {
 
     private Paint mPaint;

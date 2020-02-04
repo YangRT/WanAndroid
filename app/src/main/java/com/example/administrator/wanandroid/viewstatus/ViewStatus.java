@@ -1,5 +1,6 @@
 package com.example.administrator.wanandroid.viewstatus;
 
+// 页面状态
 public enum ViewStatus {
 
     LOADING,

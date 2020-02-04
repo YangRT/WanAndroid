@@ -1,4 +1,4 @@
-package com.example.administrator.wanandroid.mainpage;
+package com.example.administrator.wanandroid;
 
 import android.content.Intent;
 import android.databinding.DataBindingUtil;

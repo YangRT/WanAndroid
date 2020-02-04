@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 
 import java.lang.reflect.Type;
 
+// json 处理及生成
 public class GsonUtil {
 
     public static <T> String toJson(T data){

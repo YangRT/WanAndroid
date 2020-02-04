@@ -25,4 +25,10 @@
         android:id="@+id/action_exit"
         app:showAsAction="always"
         android:title="退出"/>
+
+    <item
+        android:title="设置"
+        android:id="@+id/action_setting"
+        app:showAsAction="always"
+        android:icon="@drawable/setting"/>
 </menu>

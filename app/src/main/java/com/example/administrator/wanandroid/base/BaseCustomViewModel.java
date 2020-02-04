@@ -4,6 +4,7 @@ import com.chad.library.adapter.base.entity.MultiItemEntity;
 
 import java.io.Serializable;
 
+// 文章数据类
 public class BaseCustomViewModel implements Serializable, MultiItemEntity {
     private String jumpUrl;
     private String title;

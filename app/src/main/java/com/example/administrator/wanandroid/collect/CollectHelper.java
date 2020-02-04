@@ -10,6 +10,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
+// 收藏文章工具类
 public class CollectHelper {
 
     private CollectCallBackListener mListener;

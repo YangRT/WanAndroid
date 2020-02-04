@@ -11,6 +11,7 @@ import com.example.administrator.wanandroid.viewstatus.ViewStatus;
 
 import java.util.List;
 
+// vm 层基类 实现可观察数据赋值
 public abstract class MvvmBaseViewModel<T extends MvvmBaseModel,S> extends ViewModel implements LifecycleObserver, IBaseModelListener<List<S>> {
 
     protected T model;

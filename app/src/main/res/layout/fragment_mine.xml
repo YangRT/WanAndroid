@@ -14,7 +14,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <com.example.administrator.wanandroid.base.ArcView
+    <com.example.administrator.wanandroid.customview.arc.ArcView
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintHeight_percent=".25"
         android:layout_width="match_parent"

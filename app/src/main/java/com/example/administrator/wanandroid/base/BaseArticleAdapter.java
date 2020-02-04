@@ -13,7 +13,7 @@ import com.example.administrator.wanandroid.R;
 import com.example.administrator.wanandroid.base.BaseCustomViewModel;
 
 import java.util.List;
-
+//文章列表通用适配器
 public class BaseArticleAdapter extends BaseMultiItemQuickAdapter<BaseCustomViewModel, BaseViewHolder> {
 
     private Context mContext;

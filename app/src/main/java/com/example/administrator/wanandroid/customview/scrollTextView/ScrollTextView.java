@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
+// 实现文字轮播效果，避免失去焦点而暂停轮播
 public class ScrollTextView extends android.support.v7.widget.AppCompatTextView {
 
 

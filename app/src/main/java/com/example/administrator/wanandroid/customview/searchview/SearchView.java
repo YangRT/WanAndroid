@@ -24,7 +24,7 @@ import android.widget.Toast;
 import com.example.administrator.wanandroid.R;
 
 
-//带搜索记录的搜索框
+//带搜索记录，清除按钮的搜索框
 public class SearchView extends LinearLayout {
 
     private Context context;

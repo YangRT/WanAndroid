@@ -16,6 +16,7 @@ import okhttp3.Interceptor;
 import okhttp3.Request;
 import okhttp3.Response;
 
+// 为请求加上 cookie
 public class AddCookiesInterceptor implements Interceptor {
     private static final String COOKIE_PREF = "cookies_prefs";
     @Override

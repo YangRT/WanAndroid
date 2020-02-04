@@ -5,6 +5,7 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+// 网络工具类
 public class NetUtil {
     private static NetUtil INSTANCE = null;
 
