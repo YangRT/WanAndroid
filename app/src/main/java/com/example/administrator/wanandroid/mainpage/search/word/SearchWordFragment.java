@@ -1,6 +1,7 @@
 package com.example.administrator.wanandroid.mainpage.search.word;
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Intent;
 import android.databinding.ObservableArrayList;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -8,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.view.View;
 
 import com.example.administrator.wanandroid.R;
+import com.example.administrator.wanandroid.base.BaseListActivity;
 import com.example.administrator.wanandroid.base.MvvmFragment;
 import com.example.administrator.wanandroid.databinding.FragmentSearchWordBinding;
 import com.example.administrator.wanandroid.mine.knowledge.KnowledgeViewModel;
@@ -26,6 +28,15 @@ public class SearchWordFragment extends MvvmFragment<FragmentSearchWordBinding,S
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         adapter = new SearchWordAdapter(getContext(),list);
+        adapter.setOnClickListener(new SearchWordAdapter.OnClickListener() {
+            @Override
+            public void onClick(String word) {
+                Intent intent = new Intent(getActivity(), BaseListActivity.class);
+                intent.putExtra("type","search");
+                intent.putExtra("key",word);
+                getActivity().startActivity(intent);
+            }
+        });
         viewDataBinding.searchWordRecycler.setLayoutManager(new FlexboxLayoutManager(getContext()));
         viewDataBinding.searchWordRecycler.setAdapter(adapter);
     }

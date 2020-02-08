@@ -16,9 +16,19 @@ import java.util.List;
 
 public class SearchWordAdapter extends RecyclerView.Adapter<SearchWordAdapter.ViewHolder>{
 
+
     private List<SearchWordInfo.Data> mDatas;
     private Context mContext;
     private LayoutInflater mInflater;
+    private OnClickListener listener;
+
+    public void setOnClickListener(OnClickListener listener){
+        this.listener = listener;
+    }
+
+    interface OnClickListener{
+        void onClick(String word);
+    }
 
     public SearchWordAdapter(Context context, List<SearchWordInfo.Data> datas){
         mContext = context;
@@ -34,7 +44,16 @@ public class SearchWordAdapter extends RecyclerView.Adapter<SearchWordAdapter.Vi
 
     @Override
     public void onBindViewHolder(@NonNull SearchWordAdapter.ViewHolder holder, int position) {
-        holder.tvTag.setText(mDatas.get(position).getName());
+        final String word = mDatas.get(position).getName();
+        holder.tvTag.setText(word);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(listener != null){
+                    listener.onClick(word);
+                }
+            }
+        });
     }
 
     @Override

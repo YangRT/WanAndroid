@@ -132,7 +132,7 @@ public class ArticleActivity extends AppCompatActivity implements View.OnClickLi
                         .useDefaultIndicator()
                         .setWebChromeClient(webChromeClient)
                         .setWebViewClient(webViewClient)
-                        .setSecurityType(AgentWeb.SecurityType.STRICT_CHECK)
+                        .setSecurityType(AgentWeb.SecurityType.DEFAULT_CHECK)
                         .createAgentWeb()
                         .ready()
                         .go(url);
