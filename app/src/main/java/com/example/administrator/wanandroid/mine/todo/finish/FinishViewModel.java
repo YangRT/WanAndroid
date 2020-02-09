@@ -10,10 +10,15 @@ public class FinishViewModel extends MvvmBaseViewModel<TodoModel, TodoInfo.Datas
         super();
         model = new TodoModel("finish");
         model.register(this);
-        model.getCachedDataAndLoad();
     }
+
+
 
     public void tryToLoadNextPage(){
         model.loadNextPage();
+    }
+
+    public void loadTypeInfo(int type){
+        model.getTypeInfo(type);
     }
 }

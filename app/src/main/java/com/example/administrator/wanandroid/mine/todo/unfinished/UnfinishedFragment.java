@@ -3,6 +3,7 @@ package com.example.administrator.wanandroid.mine.todo.unfinished;
 import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Intent;
 import android.databinding.ObservableArrayList;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -12,19 +13,23 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.example.administrator.wanandroid.R;
 import com.example.administrator.wanandroid.base.MvvmFragment;
 import com.example.administrator.wanandroid.databinding.FragmentTodoBinding;
+import com.example.administrator.wanandroid.mine.todo.Event;
+import com.example.administrator.wanandroid.mine.todo.TodoDetailActivity;
 import com.example.administrator.wanandroid.mine.todo.TodoHelper;
 import com.example.administrator.wanandroid.mine.todo.TodoInfo;
 import com.example.administrator.wanandroid.mine.todo.TodoListAdapter;
+import com.example.administrator.wanandroid.mine.todo.Type;
 
 import java.util.ArrayList;
 
-public class UnfinishedFragment extends MvvmFragment<FragmentTodoBinding,UnfinishedViewModel, TodoInfo.Datas> implements TodoHelper.TodoListener {
+public class UnfinishedFragment extends MvvmFragment<FragmentTodoBinding,UnfinishedViewModel, TodoInfo.Datas> implements View.OnClickListener,TodoHelper.TodoListener,AdapterView.OnItemSelectedListener {
 
     private TodoListAdapter adapter;
     private TodoHelper helper;
@@ -45,7 +50,16 @@ public class UnfinishedFragment extends MvvmFragment<FragmentTodoBinding,Unfinis
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                Toast.makeText(getContext(),"点击:"+position,Toast.LENGTH_SHORT).show();
+                TodoInfo.Datas data = (TodoInfo.Datas)(adapter.getData().get(position));
+                Event event = new Event();
+                event.setTitle(data.getTitle());
+                event.setContent(data.getContent());
+                event.setType(data.getType());
+                event.setDate(data.getDateStr());
+                Intent intent = new Intent(getActivity(), TodoDetailActivity.class);
+                intent.putExtra("status","unfinished");
+                intent.putExtra("detail",event);
+                startActivity(intent);
             }
         });
         adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
@@ -67,6 +81,10 @@ public class UnfinishedFragment extends MvvmFragment<FragmentTodoBinding,Unfinis
         });
         viewDataBinding.articleRecyclerView.setAdapter(adapter);
         viewDataBinding.articleRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(),DividerItemDecoration.VERTICAL));
+
+        viewDataBinding.listSpinner.setOnItemSelectedListener(this);
+        viewDataBinding.todoToolbarBack.setOnClickListener(this);
+        viewDataBinding.todoToolbarAdd.setOnClickListener(this);
     }
 
     @Override
@@ -155,5 +173,42 @@ public class UnfinishedFragment extends MvvmFragment<FragmentTodoBinding,Unfinis
             Toast.makeText(getContext(),"修改失败:"+msg,Toast.LENGTH_SHORT).show();
 
         }
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.todo_toolbar_back:
+                getActivity().finish();
+                break;
+            case R.id.todo_toolbar_add:
+                break;
+        }
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        switch (position){
+            case 0:
+                getViewModel().loadTypeInfo(0);
+                break;
+            case Type.LIFE:
+                getViewModel().loadTypeInfo(Type.LIFE);
+                break;
+            case Type.WORK :
+                getViewModel().loadTypeInfo(Type.WORK);
+                break;
+            case Type.LEARN:
+                getViewModel().loadTypeInfo(Type.LEARN);
+                break;
+            case Type.OTHER:
+                getViewModel().loadTypeInfo(Type.OTHER);
+                break;
+        }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
     }
 }

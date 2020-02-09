@@ -20,15 +20,15 @@ import io.reactivex.schedulers.Schedulers;
 
 public class TodoModel extends MvvmBaseModel<List<TodoInfo.Datas>> {
 
-    private Map<String,String> map = new HashMap<>();
-    private String type = "-1";
+    private Map<String,Integer> map = new HashMap<>();
+    private int type = -1;
 
     public TodoModel(String status) {
         super(true,status, null);
         if(status.equals("finish")){
-            map.put("status","1");
+            map.put("status",1);
         }else {
-            map.put("status","0");
+            map.put("status",0);
         }
         pageNum = 1;
     }
@@ -48,16 +48,16 @@ public class TodoModel extends MvvmBaseModel<List<TodoInfo.Datas>> {
         load();
     }
 
-    public void getTypeInfo(String type){
-        if(this.type.equals(type)){
+    public void getTypeInfo(int type){
+        if(this.type == type){
             return;
         }
         this.type = type;
         pageNum = 1;
-        if(Integer.parseInt(type) > 0){
-            map.put("status",type);
+        if(type > 0){
+            map.put("type",type);
         }else{
-            map.remove("status");
+            map.remove("type");
         }
         load();
     }

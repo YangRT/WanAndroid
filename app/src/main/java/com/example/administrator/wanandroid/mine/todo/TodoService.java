@@ -19,7 +19,7 @@ import retrofit2.http.QueryMap;
 public interface TodoService {
 
     @GET("lg/todo/v2/list/{path}/json")
-    Observable<TodoInfo> getTodoInfo(@Path("path")int path, @QueryMap Map<String,String> map);
+    Observable<TodoInfo> getTodoInfo(@Path("path")int path, @QueryMap Map<String,Integer> map);
 
     @POST("lg/todo/delete/{path}/json")
     Observable<BaseResponseInfo> getDeleteResponse(@Path("path")int id);

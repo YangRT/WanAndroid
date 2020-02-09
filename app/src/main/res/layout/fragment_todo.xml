@@ -6,11 +6,19 @@
     android:layout_width="match_parent"
     android:background="@color/colorTheme"
     android:layout_height="match_parent">
+    <ImageView
+        android:id="@+id/todo_toolbar_back"
+        android:layout_marginStart="10dp"
+        android:src="@drawable/left_arrow"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="?attr/actionBarSize"/>
     <Spinner
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintWidth_percent=".30"
+        app:layout_constraintWidth_percent=".40"
         android:backgroundTint="@color/white"
         android:id="@+id/list_spinner"
         android:spinnerMode="dropdown"
@@ -20,7 +28,15 @@
         android:popupBackground="@color/colorTheme"
         android:layout_width="0dp"
         android:theme="@style/common_spinner"
-        android:layout_height="50dp"/>
+        android:layout_height="?attr/actionBarSize"/>
+    <ImageView
+        android:id="@+id/todo_toolbar_add"
+        android:src="@drawable/add"
+        android:layout_marginEnd="10dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="?attr/actionBarSize"/>
     <android.support.v4.widget.SwipeRefreshLayout
         app:layout_constraintTop_toBottomOf="@id/list_spinner"
         android:id="@+id/main_page_refresh_layout"

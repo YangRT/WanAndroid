@@ -47,7 +47,7 @@ public class NavigationModel extends MvvmBaseModel<List<NavigationInfo.Data>> {
                         if(navigationInfo.getErrorCode() == 0){
                             List<NavigationInfo.Data> list = navigationInfo.getData();
                             boolean isEmpty = list.size() == 0;
-                            loadSuccess(list,null);
+                            loadSuccess(list);
                         }else {
                             loadFail(navigationInfo.getErrorMsg(),new PagingResult(true,true,false));
                         }

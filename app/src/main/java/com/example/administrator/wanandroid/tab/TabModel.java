@@ -65,7 +65,7 @@ public class TabModel extends MvvmBaseModel<List<TabTitleInfo>> {
                                 tabTitleInfo.setId(data.getId());
                                 list.add(tabTitleInfo);
                             }
-                            loadSuccess(list,null);
+                            loadSuccess(list);
                         }
                     }
 
@@ -106,7 +106,7 @@ public class TabModel extends MvvmBaseModel<List<TabTitleInfo>> {
                                 tabTitleInfo.setId(data.getId());
                                 list.add(tabTitleInfo);
                             }
-                            loadSuccess(list,null);
+                            loadSuccess(list);
                         }
                     }
 

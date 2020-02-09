@@ -36,14 +36,9 @@ public class TodoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this,R.layout.activity_todo);
-        setSupportActionBar(binding.toolbar);
-        getSupportActionBar().setTitle("未完成");
-        setTitleCenter("未完成");
-        binding.toolbar.setTitleTextAppearance(this,R.style.Toolbar_TitleText_low);
-        binding.toolbar.setBackgroundColor(Color.parseColor("#FCA019"));
+
         getWindow().setStatusBarColor(Color.parseColor("#FCA019"));
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
@@ -69,9 +64,6 @@ public class TodoActivity extends AppCompatActivity {
                     return true;
                 }
                 switchFragment(from,fragment);
-                if(getSupportActionBar() != null){
-                    setTitleCenter(item.getTitle().toString());
-                }
                 from = fragment;
                 invalidateOptionsMenu();
                 return true;
@@ -104,38 +96,7 @@ public class TodoActivity extends AppCompatActivity {
     }
 
 
-    public void setTitleCenter(String text) {
-        binding.toolbar.setTitle("title");
-        for (int i = 0; i < binding.toolbar.getChildCount(); i++) {
-            View view = binding.toolbar.getChildAt(i);
-            if (view instanceof TextView) {
-                TextView textView = (TextView) view;
-                if ("title".equals(textView.getText())) {
-                    textView.setGravity(Gravity.CENTER);
-                    Toolbar.LayoutParams params = new Toolbar.LayoutParams(Toolbar.LayoutParams.WRAP_CONTENT, Toolbar.LayoutParams.MATCH_PARENT);
-                    params.gravity = Gravity.CENTER;
-                    textView.setLayoutParams(params);
-                }
-            }
-            binding.toolbar.setTitle(text);
-        }
-    }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.todo_top,menu);
-        return true;
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
-            case R.id.todo_add:
-                break;
-            case android.R.id.home:
-                finish();
-                break;
-        }
-        return true;
-    }
+
 }

@@ -11,7 +11,10 @@ public class UnfinishedViewModel extends MvvmBaseViewModel<TodoModel, TodoInfo.D
         super();
         model = new TodoModel("unfinished");
         model.register(this);
-        model.getCachedDataAndLoad();
+    }
+
+    public void loadTypeInfo(int type){
+        model.getTypeInfo(type);
     }
 
     public void tryToLoadNextPage(){

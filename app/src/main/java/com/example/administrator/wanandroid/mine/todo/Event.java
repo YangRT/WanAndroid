@@ -1,6 +1,8 @@
 package com.example.administrator.wanandroid.mine.todo;
 
-public class Event {
+import java.io.Serializable;
+
+public class Event implements Serializable {
 
     private String title;
     private String content;
