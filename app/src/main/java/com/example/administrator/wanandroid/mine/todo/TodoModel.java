@@ -1,8 +1,7 @@
-package com.example.administrator.wanandroid.mine.rank;
+package com.example.administrator.wanandroid.mine.todo;
 
 import android.util.Log;
 
-import com.example.administrator.wanandroid.base.BaseCustomViewModel;
 import com.example.administrator.wanandroid.base.MvvmBaseModel;
 import com.example.administrator.wanandroid.base.PagingResult;
 import com.example.administrator.wanandroid.net.NetUtil;
@@ -10,19 +9,27 @@ import com.example.administrator.wanandroid.net.UrlUtil;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import io.reactivex.Observer;
-import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
-public class RankModel extends MvvmBaseModel<List<RankInfo.Datas>> {
+public class TodoModel extends MvvmBaseModel<List<TodoInfo.Datas>> {
 
-    public RankModel() {
-        super(true,"rank",null);
+    private Map<String,String> map = new HashMap<>();
+    private String type = "-1";
+
+    public TodoModel(String status) {
+        super(true,status, null);
+        if(status.equals("finish")){
+            map.put("status","1");
+        }else {
+            map.put("status","0");
+        }
         pageNum = 1;
     }
 
@@ -38,42 +45,58 @@ public class RankModel extends MvvmBaseModel<List<RankInfo.Datas>> {
             return;
         }
         isRefreshing = false;
-        Log.e("LoadNextPage","load:"+pageNum);
+        load();
+    }
+
+    public void getTypeInfo(String type){
+        if(this.type.equals(type)){
+            return;
+        }
+        this.type = type;
+        pageNum = 1;
+        if(Integer.parseInt(type) > 0){
+            map.put("status",type);
+        }else{
+            map.remove("status");
+        }
         load();
     }
 
     @Override
     protected void load() {
+        Log.e("Todo","load");
         NetUtil.getInstance().getRetrofitInstance(UrlUtil.baseUrl)
-                .create(RankService.class)
-                .getRankInfo(pageNum)
+                .create(TodoService.class)
+                .getTodoInfo(pageNum,map)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<RankInfo>() {
+                .subscribe(new Observer<TodoInfo>() {
                     @Override
                     public void onSubscribe(Disposable d) {
                         compositeDisposable.add(d);
                     }
 
                     @Override
-                    public void onNext(RankInfo rankInfo) {
-                        if(rankInfo.getErrorCode() == 0){
+                    public void onNext(TodoInfo todoInfo) {
+                        if(todoInfo.getErrorCode() == 0){
+                            Log.e("Todo","success");
                             pageNum = isRefreshing ? 2 : pageNum+1;
-                            List<RankInfo.Datas> list;
-                            list = rankInfo.getData().getDatas();
+                            List<TodoInfo.Datas> list = todoInfo.getData().getDatas();
+                            Log.e("Todo","length:"+list.size());
                             boolean isEmpty = list.size() == 0;
                             boolean isFirst = pageNum == 2;
-                            boolean hasNextPage = rankInfo.getData().getCurPage() != rankInfo.getData().getPageCount();
+                            boolean hasNextPage = todoInfo.getData().getCurPage() != todoInfo.getData().getPageCount();
                             loadSuccess(list,new PagingResult(isEmpty,isFirst,hasNextPage));
                         }else {
-                            boolean isFirst = pageNum == 0;
-                            boolean hasNextPage = rankInfo.getData().getCurPage() != rankInfo.getData().getPageCount();
-                            loadFail(rankInfo.getErrorMsg(),new PagingResult(true,isFirst,hasNextPage));
+                            boolean isFirst = pageNum == 1;
+                            boolean hasNextPage = todoInfo.getData().getCurPage() != todoInfo.getData().getPageCount();
+                            loadFail(todoInfo.getErrorMsg(),new PagingResult(true,isFirst,hasNextPage));
                         }
                     }
 
                     @Override
                     public void onError(Throwable e) {
+                        e.printStackTrace();
                         if (e.getMessage() !=null && !e.getMessage().isEmpty()){
                             boolean isFirst = pageNum == 1;
                             loadFail(e.getMessage(),new PagingResult(true,isFirst,true));
@@ -85,14 +108,14 @@ public class RankModel extends MvvmBaseModel<List<RankInfo.Datas>> {
                     @Override
                     public void onComplete() {
                         setFirst(false);
-
                     }
                 });
+
     }
 
     @Override
     protected Type getTClass() {
-        return new TypeToken<List<RankInfo.Datas>>() {
+        return new TypeToken<List<TodoInfo.Datas>>() {
         }.getType();
     }
 }

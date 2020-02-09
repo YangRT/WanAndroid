@@ -53,6 +53,7 @@ public abstract class MvvmBaseViewModel<T extends MvvmBaseModel,S> extends ViewM
                 }
                 if(results[0].isEmpty()){
                     if(results[0].isFirst()){
+                        Log.e("BaseViewModel","data empty");
                         viewStatusLiveData.setValue(ViewStatus.EMPTY);
                     }else {
                         Log.e("BaseViewModel","no more data");
@@ -102,7 +103,7 @@ public abstract class MvvmBaseViewModel<T extends MvvmBaseModel,S> extends ViewM
             viewStatusLiveData.setValue(ViewStatus.LOAD_MORE_FAILED);
         }else if(results[0].isFirst() && dataList.getValue().size() == 0){
             Log.e("MvvmBaseViewModel","fail 数据错误");
-            viewStatusLiveData.setValue(ViewStatus.REQUEST_ERROR);
+            viewStatusLiveData.setValue(ViewStatus.EMPTY);
         }else if(results[0].isFirst()){
             Log.e("MvvmBaseViewModel","fail 重新加载错误");
             viewStatusLiveData.setValue(ViewStatus.REFRESH_ERROR);

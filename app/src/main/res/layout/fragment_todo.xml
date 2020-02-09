@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:background="@color/colorTheme"
+    android:layout_height="match_parent">
+    <Spinner
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintWidth_percent=".30"
+        android:backgroundTint="@color/white"
+        android:id="@+id/list_spinner"
+        android:spinnerMode="dropdown"
+        android:overlapAnchor="false"
+        android:entries="@array/type"
+        android:gravity="center"
+        android:popupBackground="@color/colorTheme"
+        android:layout_width="0dp"
+        android:theme="@style/common_spinner"
+        android:layout_height="50dp"/>
+    <android.support.v4.widget.SwipeRefreshLayout
+        app:layout_constraintTop_toBottomOf="@id/list_spinner"
+        android:id="@+id/main_page_refresh_layout"
+        android:background="#ffffff"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/article_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        </android.support.v7.widget.RecyclerView>
+    </android.support.v4.widget.SwipeRefreshLayout>
+</android.support.constraint.ConstraintLayout>
+</layout>

@@ -32,7 +32,7 @@ public class KIModel extends MvvmBaseModel<List<BaseCustomViewModel>> {
     @Override
     public void refresh() {
         isRefreshing = true;
-        pageNum = 1;
+        pageNum = 0;
         load();
     }
 

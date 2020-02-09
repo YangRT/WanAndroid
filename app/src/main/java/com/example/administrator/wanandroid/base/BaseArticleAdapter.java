@@ -7,10 +7,8 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.example.administrator.wanandroid.R;
-import com.example.administrator.wanandroid.base.BaseCustomViewModel;
 
 import java.util.List;
 //文章列表通用适配器
@@ -35,10 +33,10 @@ public class BaseArticleAdapter extends BaseMultiItemQuickAdapter<BaseCustomView
             helper.setText(R.id.main_page_recyclerview_item_desc,item.getDescription());
         }
         helper
-                .setText(R.id.main_page_recyclerview_item_title,item.getTitle())
-                .setText(R.id.main_page_recyclerview_item_time,item.getTime())
+                .setText(R.id.todo_item_title,item.getTitle())
+                .setText(R.id.todo_item_time,item.getTime())
                 .setText(R.id.main_page_recyclerview_item_author,item.getAuthor())
-                .setText(R.id.main_page_recyclerview_item_type,item.getClassic());
+                .setText(R.id.todo_item_type,item.getClassic());
         helper.addOnClickListener(R.id.main_page_recyclerview_item_collect);
         if(item.isCollect()){
             helper.setImageResource(R.id.main_page_recyclerview_item_collect,R.drawable.like);

@@ -5,7 +5,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
     <application
         android:name=".MyApplication"
@@ -15,7 +15,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".mainpage.search.SearchActivity"></activity>
+        <activity android:name=".mine.todo.TodoActivity"></activity>
+        <activity android:name=".mainpage.search.SearchActivity" />
         <activity android:name=".base.BaseListActivity" />
         <activity android:name=".register.RegisterActivity" />
         <activity android:name=".login.LoginActivity" />

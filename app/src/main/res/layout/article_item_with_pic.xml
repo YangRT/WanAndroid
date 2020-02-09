@@ -31,7 +31,7 @@
         app:layout_constraintBottom_toBottomOf="parent"/>
     <TextView
         android:singleLine="true"
-        android:id="@+id/main_page_recyclerview_item_title"
+        android:id="@+id/todo_item_title"
         android:textSize="18sp"
         android:textColor="#e10a0808"
         android:maxWidth="260dp"
@@ -44,7 +44,7 @@
         app:layout_constraintTop_toTopOf="@id/main_page_recyclerview_item_image"
         />
     <TextView
-        android:id="@+id/main_page_recyclerview_item_time"
+        android:id="@+id/todo_item_time"
         android:textSize="16sp"
         android:textColor="#8b8383"
         android:text="2019年5月8日"
@@ -55,12 +55,12 @@
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginRight="5dp"/>
     <TextView
-        android:id="@+id/main_page_recyclerview_item_type"
+        android:id="@+id/todo_item_type"
         android:textSize="14sp"
         android:text="广场Tab/自助"
         android:textColor="#8b8383"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@id/main_page_recyclerview_item_title"
+        app:layout_constraintStart_toStartOf="@id/todo_item_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
     <ImageView

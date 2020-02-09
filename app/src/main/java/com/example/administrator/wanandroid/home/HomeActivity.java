@@ -28,7 +28,7 @@ import com.example.administrator.wanandroid.mainpage.MainPageFragment;
 import com.example.administrator.wanandroid.databinding.ActivityHomeBinding;
 import com.example.administrator.wanandroid.mainpage.search.SearchActivity;
 import com.example.administrator.wanandroid.mine.MineFragment;
-import com.example.administrator.wanandroid.mine.MineItemInfo;
+import com.example.administrator.wanandroid.mine.todo.TodoActivity;
 import com.example.administrator.wanandroid.net.NetUtil;
 import com.example.administrator.wanandroid.net.UrlUtil;
 import com.example.administrator.wanandroid.square.SquareFragment;
@@ -189,6 +189,14 @@ public class HomeActivity extends AppCompatActivity {
             case R.id.action_exit:
                 exit();
                 break;
+            case R.id.action_write:
+                if(BaseDataPreferenceUtil.getInstance().getLoginStatus() == null){
+                    Toast.makeText(this,"请先登录！",Toast.LENGTH_SHORT).show();
+                }else {
+                    Intent intent4 = new Intent(HomeActivity.this, TodoActivity.class);
+                    startActivity(intent4);
+                }
+                break;
         }
         return true;
     }
@@ -202,7 +210,7 @@ public class HomeActivity extends AppCompatActivity {
                menu.findItem(R.id.action_project).setVisible(false);
                menu.findItem(R.id.action_mine).setVisible(false);
                menu.findItem(R.id.action_exit).setVisible(false);
-               menu.findItem(R.id.action_setting).setVisible(false);
+               menu.findItem(R.id.action_write).setVisible(false);
                 break;
             case R.id.square:
                 menu.findItem(R.id.action_search).setVisible(false);
@@ -210,7 +218,7 @@ public class HomeActivity extends AppCompatActivity {
                 menu.findItem(R.id.action_project).setVisible(false);
                 menu.findItem(R.id.action_mine).setVisible(false);
                 menu.findItem(R.id.action_exit).setVisible(false);
-                menu.findItem(R.id.action_setting).setVisible(false);
+                menu.findItem(R.id.action_write).setVisible(false);
                 break;
             case R.id.project:
                 menu.findItem(R.id.action_search).setVisible(false);
@@ -218,13 +226,13 @@ public class HomeActivity extends AppCompatActivity {
                 menu.findItem(R.id.action_project).setVisible(true);
                 menu.findItem(R.id.action_mine).setVisible(false);
                 menu.findItem(R.id.action_exit).setVisible(false);
-                menu.findItem(R.id.action_setting).setVisible(false);
+                menu.findItem(R.id.action_write).setVisible(false);
                 break;
             case R.id.mine:
                 menu.findItem(R.id.action_search).setVisible(false);
                 menu.findItem(R.id.action_add).setVisible(false);
                 menu.findItem(R.id.action_project).setVisible(false);
-                menu.findItem(R.id.action_setting).setVisible(true);
+                menu.findItem(R.id.action_write).setVisible(true);
                 if(BaseDataPreferenceUtil.getInstance().getLoginStatus() != null){
                     menu.findItem(R.id.action_exit).setVisible(true);
                     menu.findItem(R.id.action_mine).setVisible(false);

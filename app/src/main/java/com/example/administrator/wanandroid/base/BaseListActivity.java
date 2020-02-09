@@ -78,7 +78,7 @@ public class BaseListActivity extends AppCompatActivity {
             bundle.putString("type","classic");
         }else if(title.equals("search")){
             fragment = new SearchArticleFragment();
-            setTitleCenter(intent.getStringExtra("key"));
+            getSupportActionBar().setTitle(intent.getStringExtra("key"));
             bundle.putString("key",intent.getStringExtra("key"));
         }else if(title.equals("分享文章")){
             setTitleCenter(title);

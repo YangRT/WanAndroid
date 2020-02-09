@@ -1,0 +1,48 @@
+<layout>
+    <FrameLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:design="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <android.support.design.widget.CoordinatorLayout
+            android:id="@+id/product_clMainView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <android.support.design.widget.AppBarLayout
+                android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+                app:elevation="0dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <android.support.v7.widget.Toolbar
+                    android:background="#ffffff"
+                    android:id="@+id/toolbar"
+                    app:titleTextAppearance="@style/Toolbar.TitleText"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    app:contentInsetStartWithNavigation="0dp"/>
+            </android.support.design.widget.AppBarLayout>
+            <FrameLayout
+                android:layout_marginTop="?attr/actionBarSize"
+                android:id="@+id/fragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+            <android.support.design.widget.BottomNavigationView
+                android:id="@+id/bottom_view"
+                android:layout_gravity="bottom"
+                app:itemTextColor="@drawable/bottom"
+                app:itemIconTint="@drawable/bottom"
+
+                android:background="@android:color/white"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                design:menu="@menu/todo_bottom"
+                app:labelVisibilityMode="labeled"
+                app:layout_behavior="android.support.design.behavior.HideBottomViewOnScrollBehavior"
+                />
+        </android.support.design.widget.CoordinatorLayout>
+
+    </FrameLayout>
+</layout>

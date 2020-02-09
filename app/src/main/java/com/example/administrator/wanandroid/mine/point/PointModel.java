@@ -57,7 +57,7 @@ public class PointModel extends MvvmBaseModel<List<PointInfo.Datas>> {
                     @Override
                     public void onNext(PointInfo pointInfo) {
                         if(pointInfo.getErrorCode() == 0){
-                            pageNum = isRefreshing ? 1 : pageNum+1;
+                            pageNum = isRefreshing ? 2 : pageNum+1;
                             List<PointInfo.Datas> list;
                             list = pointInfo.getData().getDatas();
                             boolean isEmpty = list.size() == 0;
@@ -65,7 +65,7 @@ public class PointModel extends MvvmBaseModel<List<PointInfo.Datas>> {
                             boolean hasNextPage = pointInfo.getData().getCurPage() != pointInfo.getData().getPageCount();
                             loadSuccess(list,new PagingResult(isEmpty,isFirst,hasNextPage));
                         }else {
-                            boolean isFirst = pageNum == 0;
+                            boolean isFirst = pageNum == 1;
                             boolean hasNextPage = pointInfo.getData().getCurPage() != pointInfo.getData().getPageCount();
                             loadFail(pointInfo.getErrorMsg(),new PagingResult(true,isFirst,hasNextPage));
                         }
