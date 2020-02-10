@@ -80,7 +80,13 @@ public class MineFragment extends MvvmFragment<FragmentMineBinding,MineViewModel
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view,savedInstanceState);
         setItemInfos();
-        viewDataBinding.mineRecyclerview.setLayoutManager(new LinearLayoutManager(getContext()));
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext()){
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
+        };
+        viewDataBinding.mineRecyclerview.setLayoutManager(linearLayoutManager);
         viewDataBinding.mineRecyclerview.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
         mineAdapter = new MineAdapter(R.layout.mine_item,itemInfos);
         viewDataBinding.mineRecyclerview.setAdapter(mineAdapter);

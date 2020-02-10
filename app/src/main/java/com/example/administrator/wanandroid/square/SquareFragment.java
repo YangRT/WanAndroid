@@ -21,6 +21,11 @@ import com.example.administrator.wanandroid.base.BaseArticleAdapter;
 import com.example.administrator.wanandroid.base.BaseCustomViewModel;
 import com.example.administrator.wanandroid.base.MvvmFragment;
 import com.example.administrator.wanandroid.databinding.FragmentSquareBinding;
+import com.example.administrator.wanandroid.base.BackTopEvent;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 
@@ -158,6 +163,25 @@ public class SquareFragment extends MvvmFragment<FragmentSquareBinding,SquareVie
             Toast.makeText(getContext(),"收藏失败！"+message,Toast.LENGTH_SHORT).show();
         }else {
             Toast.makeText(getContext(),"取消收藏失败！"+message,Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(BackTopEvent event) {
+        if(event.id == R.id.square){
+            viewDataBinding.articleRecyclerView.smoothScrollToPosition(0);
         }
     }
 

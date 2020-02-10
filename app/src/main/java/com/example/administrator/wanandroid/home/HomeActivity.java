@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.example.administrator.wanandroid.MyApplication;
 import com.example.administrator.wanandroid.R;
+import com.example.administrator.wanandroid.base.BackTopEvent;
 import com.example.administrator.wanandroid.base.BaseListActivity;
 import com.example.administrator.wanandroid.login.LoginActivity;
 import com.example.administrator.wanandroid.base.BaseResponseInfo;
@@ -35,6 +36,8 @@ import com.example.administrator.wanandroid.square.SquareFragment;
 import com.example.administrator.wanandroid.project.ProjectFragment;
 import com.example.administrator.wanandroid.utils.BaseDataPreferenceUtil;
 import com.example.administrator.wanandroid.utils.ClearCacheUtil;
+
+import org.greenrobot.eventbus.EventBus;
 
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -94,7 +97,9 @@ public class HomeActivity extends AppCompatActivity {
                         break;
                 }
                 if(fragment == from){
-                    Log.e("HomeActivity","same fragment");
+                    BackTopEvent backTopEvent = new BackTopEvent();
+                    backTopEvent.id = item.getItemId();
+                    EventBus.getDefault().post(backTopEvent);
                     return true;
                 }
                 switchFragment(from,fragment);
@@ -244,6 +249,7 @@ public class HomeActivity extends AppCompatActivity {
         }
         return super.onPrepareOptionsMenu(menu);
     }
+
 
     //退出登录
     private void exit(){

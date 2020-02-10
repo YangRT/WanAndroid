@@ -21,6 +21,11 @@ import com.example.administrator.wanandroid.base.BaseArticleAdapter;
 import com.example.administrator.wanandroid.base.BaseCustomViewModel;
 import com.example.administrator.wanandroid.base.MvvmFragment;
 import com.example.administrator.wanandroid.databinding.FragmentProjectBinding;
+import com.example.administrator.wanandroid.base.BackTopEvent;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 
@@ -161,6 +166,24 @@ public class ProjectFragment extends MvvmFragment<FragmentProjectBinding,Project
         }
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(BackTopEvent event) {
+        if(event.id == R.id.project){
+            viewDataBinding.articleRecyclerView.smoothScrollToPosition(0);
+        }
+    }
 
     @Override
     protected void onRetryBtnBack() {

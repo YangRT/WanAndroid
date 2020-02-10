@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.example.administrator.wanandroid.R;
+import com.example.administrator.wanandroid.base.BackTopEvent;
 import com.example.administrator.wanandroid.base.MvvmFragment;
 import com.example.administrator.wanandroid.databinding.FragmentTodoBinding;
 import com.example.administrator.wanandroid.mine.todo.Event;
@@ -26,6 +27,10 @@ import com.example.administrator.wanandroid.mine.todo.TodoHelper;
 import com.example.administrator.wanandroid.mine.todo.TodoInfo;
 import com.example.administrator.wanandroid.mine.todo.TodoListAdapter;
 import com.example.administrator.wanandroid.mine.todo.Type;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 
@@ -213,5 +218,24 @@ public class UnfinishedFragment extends MvvmFragment<FragmentTodoBinding,Unfinis
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(BackTopEvent event) {
+        if(event.id == R.id.todo_unfinished){
+            viewDataBinding.articleRecyclerView.smoothScrollToPosition(0);
+        }
     }
 }

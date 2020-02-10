@@ -18,9 +18,12 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.example.administrator.wanandroid.R;
+import com.example.administrator.wanandroid.base.BackTopEvent;
 import com.example.administrator.wanandroid.databinding.ActivityTodoBinding;
 import com.example.administrator.wanandroid.mine.todo.finish.FinishFragment;
 import com.example.administrator.wanandroid.mine.todo.unfinished.UnfinishedFragment;
+
+import org.greenrobot.eventbus.EventBus;
 
 public class TodoActivity extends AppCompatActivity {
 
@@ -59,7 +62,9 @@ public class TodoActivity extends AppCompatActivity {
                         break;
                 }
                 if(fragment == from){
-                    Log.e("HomeActivity","same fragment");
+                    BackTopEvent backTopEvent = new BackTopEvent();
+                    backTopEvent.id = item.getItemId();
+                    EventBus.getDefault().post(backTopEvent);
                     return true;
                 }
                 switchFragment(from,fragment);

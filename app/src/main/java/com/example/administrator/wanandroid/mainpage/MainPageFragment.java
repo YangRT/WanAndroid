@@ -27,8 +27,13 @@ import com.example.administrator.wanandroid.base.BaseCustomViewModel;
 import com.example.administrator.wanandroid.base.MvvmFragment;
 import com.example.administrator.wanandroid.collect.CollectHelper;
 import com.example.administrator.wanandroid.databinding.FragmentArticleBinding;
+import com.example.administrator.wanandroid.base.BackTopEvent;
 import com.example.administrator.wanandroid.mainpage.banner.BannerInfo;
 
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -216,6 +221,26 @@ public class MainPageFragment extends MvvmFragment<FragmentArticleBinding, MainP
         if(viewDataBinding.mainPageRefreshLayout.isRefreshing()){
             viewDataBinding.mainPageRefreshLayout.setRefreshing(false);
         }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(BackTopEvent event) {
+        Log.e("mainPage","event:"+event.id);
+       if(event.id == R.id.main){
+           viewDataBinding.articleRecyclerView.smoothScrollToPosition(0);
+       }
     }
 
     @Override
