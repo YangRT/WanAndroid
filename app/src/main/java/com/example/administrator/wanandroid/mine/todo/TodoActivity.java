@@ -57,7 +57,6 @@ public class TodoActivity extends AppCompatActivity {
                     case R.id.todo_finish:
                         fragment = finish;
                         break;
-
                 }
                 if(fragment == from){
                     Log.e("HomeActivity","same fragment");

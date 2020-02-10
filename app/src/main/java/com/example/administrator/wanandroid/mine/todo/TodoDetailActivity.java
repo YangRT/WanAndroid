@@ -18,6 +18,10 @@ import com.example.administrator.wanandroid.R;
 import com.example.administrator.wanandroid.databinding.ActivityTodoDetailBinding;
 import com.example.administrator.wanandroid.utils.BaseDataPreferenceUtil;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 public class TodoDetailActivity extends AppCompatActivity {
 
     private ActivityTodoDetailBinding binding;
@@ -49,7 +53,7 @@ public class TodoDetailActivity extends AppCompatActivity {
         fragment.setArguments(bundle);
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.add(R.id.fragment_container,fragment).commit();
+        transaction.add(R.id.fragment,fragment).commit();
     }
 
     public void setTitleCenter(String text) {
@@ -81,15 +85,46 @@ public class TodoDetailActivity extends AppCompatActivity {
             finish();
             return true;
         }else if(item.getItemId() == R.id.todo_edit){
+            if(item.getTitle().equals("编辑")){
+                item.setTitle("正在编辑");
+                TodoMessage message = new TodoMessage();
+                message.type = 1;
+                EventBus.getDefault().post(message);
+            }else {
+                item.setTitle("编辑");
+                TodoMessage message = new TodoMessage();
+                message.type = -1;
+                EventBus.getDefault().post(message);
+            }
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(TodoMessage message) {
+       if(message.type == 3){
+           invalidateOptionsMenu();
+       }
+    }
+
+    @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         if(status != null && status.equals("unfinished")){
             menu.findItem(R.id.todo_edit).setVisible(true);
+            menu.findItem(R.id.todo_edit).setTitle("编辑");
         }else {
             menu.findItem(R.id.todo_edit).setVisible(false);
         }

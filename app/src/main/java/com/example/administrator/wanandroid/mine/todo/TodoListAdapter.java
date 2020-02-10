@@ -19,7 +19,7 @@ public class TodoListAdapter extends BaseQuickAdapter<TodoInfo.Datas, BaseViewHo
     @Override
     protected void convert(@NonNull BaseViewHolder helper, TodoInfo.Datas item) {
         helper.setText(R.id.todo_item_title,item.getTitle());
-        helper.setText(R.id.todo_item_time,item.getDateStr());
+        helper.setText(R.id.todo_item_time,"预计完成时间:"+item.getDateStr());
         switch (item.getType()){
             case Type.LIFE:
                 helper.setText(R.id.todo_item_type,"生活");
@@ -37,7 +37,9 @@ public class TodoListAdapter extends BaseQuickAdapter<TodoInfo.Datas, BaseViewHo
         if(item.getStatus() == 1){
             helper.setText(R.id.todo_item_finish,"");
             helper.getView(R.id.todo_item_finish).setVisibility(View.GONE);
+            helper.setText(R.id.todo_item_finish_time,"完成时间:"+item.getCompleteDateStr());
         }else {
+            helper.setText(R.id.todo_item_finish_time,"");
             helper.addOnClickListener(R.id.todo_item_finish);
         }
         helper.addOnClickListener(R.id.todo_item_delete);

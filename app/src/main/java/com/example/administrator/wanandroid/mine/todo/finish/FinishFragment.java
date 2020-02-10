@@ -171,6 +171,9 @@ public class FinishFragment extends MvvmFragment<FragmentTodoBinding,FinishViewM
                 getActivity().finish();
                 break;
             case R.id.todo_toolbar_add:
+                Intent intent = new Intent(getActivity(),TodoDetailActivity.class);
+                intent.putExtra("status","add");
+                startActivity(intent);
                 break;
         }
     }
