@@ -5,7 +5,6 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:design="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <android.support.design.widget.CoordinatorLayout
@@ -20,10 +19,22 @@
                 <android.support.v7.widget.Toolbar
                     android:background="#ffffff"
                     android:id="@+id/toolbar"
+                    android:layout_gravity="center"
                     app:titleTextAppearance="@style/Toolbar.TitleText"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
-                    app:contentInsetStartWithNavigation="0dp"/>
+                    app:contentInsetStartWithNavigation="0dp">
+                    <TextView
+                        android:id="@+id/toolbar_title"
+                        android:gravity="center"
+                        android:layout_gravity="center"
+                        android:singleLine="true"
+                        android:text="首页测试长度"
+                        android:textColor="#ffffff"
+                        android:textSize="18sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                </android.support.v7.widget.Toolbar>
             </android.support.design.widget.AppBarLayout>
             <FrameLayout
                 android:layout_marginTop="?attr/actionBarSize"

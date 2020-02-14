@@ -40,7 +40,8 @@ public class BaseListActivity extends AppCompatActivity {
         Intent intent = getIntent();
         title = intent.getStringExtra("type");
         setSupportActionBar(binding.toolbar);
-        getSupportActionBar().setTitle(title);
+        getSupportActionBar().setTitle("");
+        binding.toolbarTitle.setText(title);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         binding.toolbar.setTitleTextAppearance(this,R.style.Toolbar_TitleText_low);
@@ -48,40 +49,31 @@ public class BaseListActivity extends AppCompatActivity {
         getWindow().setStatusBarColor(getResources().getColor(R.color.colorTheme));
         Bundle bundle = new Bundle();
         if(title.equals("我的收藏")){
-            setTitleCenter(title);
             fragment = new MyArticleFragment();
             bundle.putString("type","collect");
         }else if(title.equals("我的分享")){
-            setTitleCenter(title);
             fragment = new MyArticleFragment();
             bundle.putString("type","share");
         }else if(title.equals("积分排行")){
-            setTitleCenter(title);
             fragment = new RankFragment();
         }else if(title.equals("积分明细")){
-            setTitleCenter(title);
             fragment = new PointFragment();
             bundle.putString("count",intent.getStringExtra("count"));
         }else if(title.equals("知识体系")){
-            setTitleCenter(title);
             fragment = new KnowledgeFragment();
         }else if(title.equals("导航")){
-            setTitleCenter(title);
             fragment = new NavigationFragment();
         }else if(title.equals("公众号文章")){
             fragment = new TabFragment();
             bundle.putString("type","gzh");
-            setTitleCenter("公众号");
         }else if(title.equals("项目分类")){
-            setTitleCenter(title);
             fragment = new TabFragment();
             bundle.putString("type","classic");
         }else if(title.equals("search")){
             fragment = new SearchArticleFragment();
-            getSupportActionBar().setTitle(intent.getStringExtra("key"));
+            binding.toolbarTitle.setText(intent.getStringExtra("key"));
             bundle.putString("key",intent.getStringExtra("key"));
         }else if(title.equals("分享文章")){
-            setTitleCenter(title);
             fragment = new ShareFragment();
         }else {
             fragment = new TabFragment();
@@ -95,22 +87,7 @@ public class BaseListActivity extends AppCompatActivity {
         transaction.add(R.id.fragment_container,fragment).commit();
     }
 
-    public void setTitleCenter(String text) {
-        binding.toolbar.setTitle("title");
-        for (int i = 0; i < binding.toolbar.getChildCount(); i++) {
-            View view = binding.toolbar.getChildAt(i);
-            if (view instanceof TextView) {
-                TextView textView = (TextView) view;
-                if ("title".equals(textView.getText())) {
-                    textView.setGravity(Gravity.CENTER);
-                    Toolbar.LayoutParams params = new Toolbar.LayoutParams(Toolbar.LayoutParams.WRAP_CONTENT, Toolbar.LayoutParams.MATCH_PARENT);
-                    params.gravity = Gravity.CENTER;
-                    textView.setLayoutParams(params);
-                }
-            }
-            binding.toolbar.setTitle(text);
-        }
-    }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 
 import com.example.administrator.wanandroid.databinding.ActivityMainBinding;
 import com.example.administrator.wanandroid.home.HomeActivity;
@@ -19,7 +20,7 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this,R.layout.activity_main);
         getWindow().setStatusBarColor(getResources().getColor(R.color.colorTheme));
-        final ValueAnimator animator = ValueAnimator.ofFloat(0f, 1f)
+                final ValueAnimator animator = ValueAnimator.ofFloat(0f, 1f)
                 .setDuration(1600);
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
@@ -53,7 +54,7 @@ public class SplashActivity extends AppCompatActivity {
             }
         });
 
-    }
+  }
 
 
 }

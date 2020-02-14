@@ -67,11 +67,12 @@ public class HomeActivity extends AppCompatActivity {
         Log.e(TAG,"onCreate");
         binding = DataBindingUtil.setContentView(this,R.layout.activity_home);
         setSupportActionBar(binding.toolbar);
-        getSupportActionBar().setTitle("首页");
-        setTitleCenter("首页");
+        getSupportActionBar().setTitle("");
+        binding.toolbarTitle.setText("首页");
+        //setTitleCenter("首页测试长度");
         binding.toolbar.setTitleTextAppearance(this,R.style.Toolbar_TitleText_low);
         binding.toolbar.setBackgroundColor(Color.parseColor("#FCA019"));
-        getWindow().setStatusBarColor(Color.parseColor("#FCA019"));
+        getWindow().setStatusBarColor(getResources().getColor(R.color.colorTheme));
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.add(R.id.fragment, mainPageFragment).commit();
@@ -104,7 +105,8 @@ public class HomeActivity extends AppCompatActivity {
                 }
                 switchFragment(from,fragment);
                 if(getSupportActionBar() != null){
-                    setTitleCenter(item.getTitle().toString());
+                    binding.toolbarTitle.setText(item.getTitle());
+
                 }
                 from = fragment;
                 invalidateOptionsMenu();
@@ -138,29 +140,7 @@ public class HomeActivity extends AppCompatActivity {
         }
     }
 
-    /**
-    * @Description:  标题居中
-    * @Param:
-    * @return:
-    * @Author: YangRT
-    * @Date: 2020/2/4
-    */
-    public void setTitleCenter(String text) {
-        binding.toolbar.setTitle("title");
-        for (int i = 0; i < binding.toolbar.getChildCount(); i++) {
-            View view = binding.toolbar.getChildAt(i);
-            if (view instanceof TextView) {
-                TextView textView = (TextView) view;
-                if ("title".equals(textView.getText())) {
-                    textView.setGravity(Gravity.CENTER);
-                    Toolbar.LayoutParams params = new Toolbar.LayoutParams(Toolbar.LayoutParams.WRAP_CONTENT, Toolbar.LayoutParams.MATCH_PARENT);
-                    params.gravity = Gravity.CENTER;
-                    textView.setLayoutParams(params);
-                }
-            }
-            binding.toolbar.setTitle(text);
-        }
-    }
+   
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
